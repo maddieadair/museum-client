@@ -1,0 +1,16 @@
+.artworks-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+ 
+  .artwork {
+    display: flex;
+    flex-direction: column;
+  }
+ 
+  .artwork img {
+    width: 100%;
+    height: auto;
+  }
+
