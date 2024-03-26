@@ -7,26 +7,26 @@ import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot
 export default function ShopStore() {
   const [giftItems, setGiftItems] = useState([]);
 
-//   // Fetch gift items from backend when component mounts
-//   useEffect(() => {
-//     fetchGiftItems();
-//   }, []);
+  // Fetch gift items from backend when component mounts
+  useEffect(() => {
+    fetchGiftItems();
+  }, []);
  
-//   console.log('Gift items:', giftItems); // Log fetched items to verify
+  console.log('Gift items:', giftItems); // Log fetched items to verify
 
-//   // Function to fetch gift items from backend
-//   const fetchGiftItems = async () => {
-//     // Make a GET request to fetch gift items from backend
-//         // Make sure you're using the correct endpoint URL to fetch gift items
-//       axios.get("/api/gift-items")
-//           .then(response => {
-//               console.log("Response from backend:", response.data); // Log the data received from backend
-//               setGiftItems(response.data); // Set giftItems state with fetched data
-//           })
-//           .catch(error => {
-//               console.error("Error fetching gift items:", error); // Log any errors that occur
-//           });
-//     };
+  // Function to fetch gift items from backend
+  const fetchGiftItems = async () => {
+    // Make a GET request to fetch gift items from backend
+        // Make sure you're using the correct endpoint URL to fetch gift items
+      axios.get("https://museum3380-89554eee8566.herokuapp.com/gift-items")
+          .then(response => {
+              console.log("Response from backend:", response.data); // Log the data received from backend
+              setGiftItems(response.data); // Set giftItems state with fetched data
+          })
+          .catch(error => {
+              console.error("Error fetching gift items:", error); // Log any errors that occur
+          });
+    };
 
 //   // Function to update gift items
 //   const updateGiftItems = (itemId, newStock, newSold) => {

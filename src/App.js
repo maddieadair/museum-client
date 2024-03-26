@@ -35,8 +35,6 @@ import Artworks from "./pages/Artworks";
 
 
 
-
-
 function App() {
   return (
     <div className="bg-chalk min-h-screen">
