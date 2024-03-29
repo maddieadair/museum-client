@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { RiArrowRightSLine } from "react-icons/ri";
 import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
+import axios from 'axios';
 
 export default function HomeExhibitions() {
-    const arr = [
-        {
-            name: "Vertigo of Color: Matisse, Derain, and the Origins of Fauvism",
-            date: "June 23, 2023 - December 1, 2023",
-        },
-        {
-            name: "Crowning the North: Silver Treasures from Bergen, Norway",
-            date: "April 2, 2024 - Ongoing",
-        },
-        {
-            name: "Meiji Modern: Fifty Years of New Japan",
-            date: "September 5, 2024 - November 8, 2024",
-        },
-      ];
+    const [exhibitions, setExhibitions] = useState([]);
+
+    useEffect(() => {
+        fetchExhibitions();
+      }, []);
+
+    const fetchExhibitions = async () => {
+
+        axios.get("https://museum3380-89554eee8566.herokuapp.com/exhibitions-three")
+        .then(response => {
+            console.log("Response from backend:", response.data); 
+            setExhibitions(response.data)
+        })
+        .catch(error => {
+            console.error("Error fetching exhibitions:", error); 
+        });
+  };
 
   return (
     <div className="flex flex-col px-16 py-24 gap-y-16 font-inter border-b">
@@ -33,8 +37,8 @@ export default function HomeExhibitions() {
       </div>
 
       <div className="flex flex-row gap-x-6">
-      {arr.map((ex) => (
-        <div className="flex flex-col p-4 gap-y-4 bg-gray-100  border border-gray-400 w-1/3 rounded-xl hover:bg-red-100 hover:border-red-400">
+      {exhibitions.map((ex) => (
+        <div key={ex.Exhibit_Name} className="flex flex-col p-4 gap-y-4 bg-gray-100  border border-gray-400 w-1/3 rounded-xl hover:bg-red-100 hover:border-red-400">
           <div className="h-2/3">
               <img
                 className="brightness-75 rounded-xl object-cover object-right size-full"
@@ -43,8 +47,8 @@ export default function HomeExhibitions() {
               />{" "}
           </div>
           <div className="h-1/2 p-2 flex flex-col gap-y-4">
-            <h4 className="font-bold">{ex.name}</h4>
-            <p>{ex.date}</p>
+            <h4 className="font-bold">{ex.Exhibit_Name}</h4>
+            {ex.New_Open_Date} - {ex.New_End_Date === null ? "Ongoing" : `${ex.New_End_Date}`}
           </div>
         </div>
       ))}

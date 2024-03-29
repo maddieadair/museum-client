@@ -94,8 +94,8 @@ const testSubmit = async () => {
     <div className="min-h-screen">
       <UserNavbar />
 
-      <div className="flex flex-col pt-36 pb-24 px-16 gap-y-24 font-inter">
-        <div className="flex flex-col gap-y-4">
+      <div className="flex flex-col pt-36 pb-24 gap-y-24 font-inter">
+        <div className="flex flex-col gap-y-4 border-b px-16 pb-24">
           <h1 className="font-fanwoodText italic text-7xl">Buy Tickets</h1>
           <p className="text-xl">
             Explore the main campus of the Museum of Fine Arts, Houston, housing
@@ -112,14 +112,7 @@ const testSubmit = async () => {
             school groups.
           </p>
         </div>
-        <div className="flex flex-col gap-y-24">
-          <div className="h-96">
-            <img
-              className="brightness-75 rounded-xl object-cover object-top h-full w-full outline outline-offset-8 outline-gray-50"
-              src={Angelico}
-              alt=""
-            />
-          </div>
+        <div className="flex flex-col gap-y-24 px-16">
 
           <form className="flex flex-col space-y-12">
             <div className="flex flex-col space-y-20">

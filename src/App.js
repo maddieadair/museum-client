@@ -32,8 +32,8 @@ import AdminTickets from "./pages/AdminTickets";
 
 import Collections from "./pages/Collections";
 import Artworks from "./pages/Artworks";
-
-
+import Exhibitions from "./pages/Exhibitions";
+import ExhibitionDetails from "./pages/ExhibitionDetails";
 
 function App() {
   return (
@@ -45,10 +45,14 @@ function App() {
           <Route path="/about" element={<About />}></Route>
           <Route path="/donate" element={<Donate />}></Route>
           <Route path="/shop" element={<Shop />}></Route>
-          <Route path="/Collections" element={<Collections />}></Route>
-          <Route path="/Artworks"element={<Artworks />}></Route>
-          <Route path="/Tickets"element={<Ticket />}></Route>
-
+          <Route path="/collections" element={<Collections />}></Route>
+          <Route path="/artworks" element={<Artworks />}></Route>
+          <Route path="/tickets" element={<Ticket />}></Route>
+          <Route path="/exhibitions" element={<Exhibitions />}></Route>
+          <Route
+            path="/exhibitionDetails"
+            element={<ExhibitionDetails />}
+          ></Route>
 
           {/* User Routes */}
           <Route path="/user-login" element={<UserLogin />}></Route>
@@ -72,14 +76,21 @@ function App() {
           <Route path="/admin/account" element={<AdminAccount />}></Route>
           <Route path="/admin/artworks" element={<AdminArtworks />}></Route>
           <Route path="/admin/employees" element={<AdminEmployees />}></Route>
-          <Route path="/admin/departments" element={<AdminDepartments />}></Route>
-          <Route path="/admin/collections" element={<AdminCollections />}></Route>
-          <Route path="/admin/exhibitions" element={<AdminExhibitions />}></Route>
+          <Route
+            path="/admin/departments"
+            element={<AdminDepartments />}
+          ></Route>
+          <Route
+            path="/admin/collections"
+            element={<AdminCollections />}
+          ></Route>
+          <Route
+            path="/admin/exhibitions"
+            element={<AdminExhibitions />}
+          ></Route>
           <Route path="/admin/tickets" element={<AdminTickets />}></Route>
           <Route path="/admin/shop" element={<AdminShop />}></Route>
           <Route path="/admin/donations" element={<AdminDonations />}></Route>
-
-
         </Routes>
       </BrowserRouter>
     </div>
