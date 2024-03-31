@@ -1,8 +1,8 @@
 import { React, useState } from "react";
-import UserNavbar from "./UserNavbar";
-import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
+import UserNavbar from "../UserNavbar";
+import Angelico from "../../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
 import { IoArrowForwardCircleOutline } from "react-icons/io5";
-import Footer from "./Footer";
+import Footer from "../Footer";
 import { LuPencil } from "react-icons/lu";
 import { CgClose } from "react-icons/cg";
 

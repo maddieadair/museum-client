@@ -13,17 +13,22 @@ export default function Exhibitions() {
     fetchExhibitions();
   }, []);
 
-  const fetchExhibitions = async () => {
-    axios
-      .get("https://museum3380-89554eee8566.herokuapp.com/ordered-exhibitions")
-      .then((response) => {
-        console.log("Response from backend:", response.data);
-        setExhibitions(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching exhibitions:", error);
-      });
-  };
+  const fetchExhibitions = () => {
+    
+    fetch("https://museum3380-89554eee8566.herokuapp.com/ordered-exhibitions", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        setExhibitions(data);
+    });
+};
+
 
   return (
     <div className="min-h-screen">
@@ -43,8 +48,8 @@ export default function Exhibitions() {
             <div className="grid grid-cols-3 gap-x-12 gap-y-12">
               {exhibitions.map((ex, idx) => (
                 <div
-                  key={ex.Exhibit_Name}
-                  className="flex flex-col gap-y-4 shadow-lg transition-all ease-in-out duration-300"
+                  key={ex.Exhibit_ID}
+                  className="flex flex-col gap-y-4 border-[1px] border-stone-300 transition-all ease-in-out duration-300"
                 >
                   <div className="h-56">
                     <img
@@ -53,20 +58,21 @@ export default function Exhibitions() {
                       alt=""
                     />{" "}
                   </div>
-                  <div className="h-1/2 p-6 flex flex-col gap-y-4">
-                    <h1
+                  <div className="h-1/2 p-6 pb-10 flex flex-col gap-y-4">
+                    <Link
                       className="font-bold text-xl hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
                       // onClick={() => navigate(`${idx}`, {state: {...ex} })}
-                    //   to={`/exhibitions/${idx}`}
+                      to={`/exhibitions/${ex.Exhibit_ID}`}
                     //   state={ex}
-                      // {{`/exhibitions/${idx}`}}
+                    //   {{`/exhibitions/${Exhibit_ID}`}}
                     >
                       {ex.Exhibit_Name}
-                    </h1>
-                    {ex.New_Open_Date} -{" "}
+                    </Link>
+                    <p className="font-semibold">{ex.New_Open_Date} -{" "}
                     {ex.New_End_Date === null
                       ? `Ongoing`
-                      : `${ex.New_End_Date}`}
+                      : `${ex.New_End_Date}`}</p>
+                    <p className=" line-clamp-3 ">{ex.Description}</p>
                   </div>
                 </div>
               ))}

@@ -8,6 +8,10 @@ import axios from 'axios';
 
 export default function Tickets() {
   const currDate = new Date().toJSON().slice(0, 10);
+  const cur = new Date();
+  const future = new Date(cur.setMonth(cur.getMonth() + 3))
+  console.log("3 months from now:", future)
+  
   const [date, setDate] = useState(currDate);
 
   const times = [
@@ -36,30 +40,30 @@ export default function Tickets() {
     return `${hours}:${minutes}:00`;
 }
 
-const testSubmit = async () => {
-  const ticketTime24h = convertTo24HourFormat(time);
+// const testSubmit = async () => {
+//   const ticketTime24h = convertTo24HourFormat(time);
 
-  const ticketInfo = {
-      totalPrice: totalPrice,
-      ticketDate: date,
-      ticketTime: ticketTime24h, 
-      userId: 1, // Example user ID, replace with actual logic to determine user ID
-      numChild: numChild,
-      numYouth: numYouth,
-      numAdult: numAdult,
-      numSenior: numSenior,
-      selectedMuseum: chosenExhibit || 'Main Campus' // Selected exhibition or default
-  };
+//   const ticketInfo = {
+//       totalPrice: totalPrice,
+//       ticketDate: date,
+//       ticketTime: ticketTime24h, 
+//       userId: 1, // Example user ID, replace with actual logic to determine user ID
+//       numChild: numChild,
+//       numYouth: numYouth,
+//       numAdult: numAdult,
+//       numSenior: numSenior,
+//       selectedMuseum: chosenExhibit || 'Main Campus' // Selected exhibition or default
+//   };
 
-  try {
-      const response = await axios.post('http://localhost:3000/api/tickets', ticketInfo);
-      console.log(response.data);
-      // Handle success (e.g., show a success message)
-  } catch (error) {
-      console.error('Error submitting ticket:', error);
-      // Handle error (e.g., show an error message)
-  }
-};
+//   try {
+//       const response = await axios.post('http://localhost:3000/api/tickets', ticketInfo);
+//       console.log(response.data);
+//       // Handle success (e.g., show a success message)
+//   } catch (error) {
+//       console.error('Error submitting ticket:', error);
+//       // Handle error (e.g., show an error message)
+//   }
+// };
 
   const [time, setTime] = useState("10:00 AM");
 
@@ -70,12 +74,32 @@ const testSubmit = async () => {
   const [numTickets, setNumTickets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const exhibitions = ["Exhibit 1", "Exhibit 2", "Exhibit 3"];
 
   const [showExhibitions, setShowExhibitions] = useState(false);
   const [chosenExhibit, setChosenExhibit] = useState(null);
 
   const [option, setOption] = useState("Permanent Collections");
+
+  const [exhibitions, setExhibitions] = useState([]);
+
+  useEffect(() => {
+    fetchExhibitions();
+  }, []);
+
+  const fetchExhibitions = () => {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibitions", {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        setExhibitions(data);
+    });
+};
 
   useEffect(() => {
     let sum =
@@ -195,8 +219,8 @@ const testSubmit = async () => {
                   }`}
                 >
                   {exhibitions.map((ex) => (
-                    <option value={ex} key={ex}>
-                      {ex}
+                    <option value={ex.Exhibit_Name} key={ex.Exhibit_Name}>
+                      {ex.Exhibit_Name}
                     </option>
                   ))}
                 </select>
@@ -343,7 +367,7 @@ const testSubmit = async () => {
                         }`}
                       >
                         <p className="font-bold">Exhibition </p>
-                        <p>{chosenExhibit}</p>
+                        <p className="text-end w-1/2">{chosenExhibit}</p>
                       </div>
                     </div>
 
@@ -389,7 +413,7 @@ const testSubmit = async () => {
 
             <button
               type="button"
-              onClick={testSubmit}
+            //   onClick={testSubmit}
               className="bg-obsidian text-chalk rounded-md p-4 font-bold text-xl hover:bg-cinnabar transition-all duration-500 ease-in-out"
             >
               Buy Tickets 

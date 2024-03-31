@@ -9,14 +9,14 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminSignup from "./pages/AdminSignup";
 import UserLogin from "./pages/UserLogin";
 import UserSignup from "./pages/UserSignup";
-import Account from "./pages/Account";
-import AccountPurchases from "./components/AccountPurchases";
-import AccountDonations from "./components/AccountDonations";
-import AccountTickets from "./components/AccountTickets";
-import AccountProfile from "./components/AccountProfile";
-import AccountPurchaseDetails from "./components/AccountPurchaseDetails";
-import AccountDonationDetails from "./components/AccountDonationDetails";
-import AccountTicketDetails from "./components/AccountTicketDetails";
+import Account from "./pages/customer/Account";
+import AccountPurchases from "./components/customer/AccountPurchases";
+import AccountDonations from "./components/customer/AccountDonations";
+import AccountTickets from "./components/customer/AccountTickets";
+import AccountProfile from "./components/customer/AccountProfile";
+import AccountPurchaseDetails from "./components/customer/AccountPurchaseDetails";
+import AccountDonationDetails from "./components/customer/AccountDonationDetails";
+import AccountTicketDetails from "./components/customer/AccountTicketDetails";
 
 import Ticket from "./pages/Tickets";
 import AdminHome from "./pages/AdminHome";
@@ -34,6 +34,7 @@ import Collections from "./pages/Collections";
 import Artworks from "./pages/Artworks";
 import Exhibitions from "./pages/Exhibitions";
 import ExhibitionDetails from "./pages/ExhibitionDetails";
+import ArtworkDetails from "./pages/ArtworkDetails";
 
 function App() {
   return (
@@ -50,9 +51,10 @@ function App() {
           <Route path="/tickets" element={<Ticket />}></Route>
           <Route path="/exhibitions" element={<Exhibitions />}></Route>
           <Route
-            path="/exhibitionDetails"
+            path="/exhibitions/:id"
             element={<ExhibitionDetails />}
           ></Route>
+          <Route path="/artworks/:id" element={<ArtworkDetails />}></Route>
 
           {/* User Routes */}
           <Route path="/user-login" element={<UserLogin />}></Route>
