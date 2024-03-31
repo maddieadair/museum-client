@@ -18,11 +18,11 @@ export default function UserLogin() {
     var hasErrors = false;
 
     if (username.length === 0) {
-      setUsernameError("* Please enter your username.");
+      setUsernameError("* Please enter your email address.");
       hasErrors = true;
     }
     else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
-        setUsernameError("* Please enter a valid username.");
+        setUsernameError("* Please enter a valid email address.");
         hasErrors = true;
       }
 
@@ -98,7 +98,7 @@ export default function UserLogin() {
           onSubmit={handleLogin}
         >
           <div className="flex flex-col space-y-2">
-            <label className="">Username</label>
+            <label className="">Email address</label>
             <input
               type="text"
               value={username}

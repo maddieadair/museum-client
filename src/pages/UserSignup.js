@@ -33,11 +33,11 @@ export default function UserSignup() {
       hasErrors = true;
     }
     if (username.length === 0) {
-      errors.username = "* Please enter your email";
+      errors.username = "* Please enter your email address";
       hasErrors = true;
     }
     else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
-      errors.username = "* Please enter a valid email";
+      errors.username = "* Please enter a valid email address";
       hasErrors = true;
     }
 
