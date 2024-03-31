@@ -44,12 +44,12 @@ export default function ExhibitionDetails() {
       .then((data) => {
         setExhibition(data);
 
-        if (exhibition[0]) {
-          //   setExhibitionName(exhibition[0].Exhibit_Name);
-          //   setOpen(exhibition[0].Opening_Date);
-          //   setClose(exhibition[0].End_Date);
-          //   setDescription(exhibition[0].Description);\
-        }
+        // if (exhibition[0]) {
+        //   //   setExhibitionName(exhibition[0].Exhibit_Name);
+        //   //   setOpen(exhibition[0].Opening_Date);
+        //   //   setClose(exhibition[0].End_Date);
+        //   //   setDescription(exhibition[0].Description);\
+        // }
       });
   };
 
@@ -58,7 +58,7 @@ export default function ExhibitionDetails() {
       Exhibit_ID: id,
     };
     fetch(
-      "https://test-museum-de0a1661f6b3.herokuapp.com/exhibition-artworks",
+      "https://museum3380-89554eee8566.herokuapp.com/exhibition-artworks",
       {
         method: "POST",
         headers: {
@@ -121,7 +121,9 @@ export default function ExhibitionDetails() {
                       {art.Art_Name}
                     </Link>
                     <p>
-                      {art.Artist_Fname} {art.Artist_Lname}, {art.Year_Created}
+                        {art.Artist_Fname === null && art.Artist_Lname === null ? `Unknown, ${art.Year_Created}` : null }
+                        {art.Artist_Fname !== null && art.Artist_Lname === null ? `${art.Artist_Fname}, ${art.Year_Created}` : null}
+                        {art.Artist_Fname !== null && art.Artist_Lname !== null ? `${art.Artist_Fname} ${art.Artist_Lname}, ${art.Year_Created}` : null}
                     </p>
                   </div>
                 </div>

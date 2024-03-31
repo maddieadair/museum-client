@@ -3,7 +3,7 @@ import UserNavbar from "../components/UserNavbar";
 import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
 import Footer from "../components/Footer";
 import axios from "axios";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, Link } from "react-router-dom";
 
 export default function ArtworkDetails() {
   const { id } = useParams();
@@ -58,20 +58,51 @@ export default function ArtworkDetails() {
                   {artwork[0].Art_Name}
                 </h1>
                 <div className="flex flex-col gap-y-4">
-                    <p className="text-cinnabar font-bold text-lg uppercase">{artwork[0].Artist_Fname} {artwork[0].Artist_Lname}, <span className="font-normal">{artwork[0].Year_Created}</span></p>
-                    <p>{artwork[0].Descr}</p>
+                  <p className="text-cinnabar font-bold text-lg uppercase">
+                    {artwork[0].Artist_Fname === null &&
+                    artwork[0].Artist_Lname === null
+                      ? `Unknown`
+                      : null}
+                    {artwork[0].Artist_Fname !== null &&
+                    artwork[0].Artist_Lname === null
+                      ? `${artwork[0].Artist_Fname}`
+                      : null}
+                    {artwork[0].Artist_Fname !== null &&
+                    artwork[0].Artist_Lname !== null
+                      ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
+                      : null}
+                    <span className="font-normal">
+                      , {artwork[0].Year_Created}
+                    </span>
+                  </p>
+                  <p>{artwork[0].Descr}</p>
                 </div>
               </div>
               <div className="pt-10 flex flex-col gap-y-6">
                 <div>
                   <p className="font-bold">ARTIST</p>
                   <p>
-                    {artwork[0].Artist_Fname} {artwork[0].Artist_Lname}
+                    {artwork[0].Artist_Fname === null &&
+                    artwork[0].Artist_Lname === null
+                      ? `Unknown`
+                      : null}
+                    {artwork[0].Artist_Fname !== null &&
+                    artwork[0].Artist_Lname === null
+                      ? `${artwork[0].Artist_Fname}`
+                      : null}
+                    {artwork[0].Artist_Fname !== null &&
+                    artwork[0].Artist_Lname !== null
+                      ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
+                      : null}
                   </p>
                 </div>
                 <div>
                   <p className="font-bold">YEAR</p>
                   <p>{artwork[0].Year_Created}</p>
+                </div>
+                <div>
+                  <p className="font-bold">CULTURE</p>
+                  <p>{artwork[0].Culture}</p>
                 </div>
                 <div>
                   <p className="font-bold">MEDIUM</p>
@@ -84,13 +115,35 @@ export default function ArtworkDetails() {
                     {artwork[0].Height} cm
                   </p>
                 </div>
+                {artwork[0].department_name !== null ? (
+                  <div>
+                    <p className="font-bold">DEPARTMENT</p>
+                    <p>{artwork[0].department_name}</p>
+                  </div>
+                ) : null}
+                {artwork[0].collection_name !== null ? (
+                  <div>
+                    <p className="font-bold">COLLECTION</p>
+                    <p>{artwork[0].collection_name}</p>
+                  </div>
+                ) : null}
+                {artwork[0].Exhibit_Name !== null ? (
+                  <div>
+                    <p className="font-bold">EXHIBITION</p>
+                    <Link
+                      className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                      to={`/exhibitions/${artwork[0].Exhibit_ID}`}
+                    >
+                      {artwork[0].Exhibit_Name}
+                    </Link>
+                  </div>
+                ) : null}
                 <div>
-                  <p className="font-bold">DEPARTMENT</p>
-                  <p>{artwork[0].department_name}</p>
-                </div>
-                <div>
-                {artwork[0].On_View === 1 ?
-                  <p className="font-bold text-emerald-600">On View ✔</p> : <p className="font-bold text-cinnabar">Not on View ✘</p> }
+                  {artwork[0].On_View === 1 ? (
+                    <p className="font-bold text-emerald-600">On View ✔</p>
+                  ) : (
+                    <p className="font-bold text-cinnabar">Not on View ✘</p>
+                  )}
                 </div>
               </div>
             </div>
