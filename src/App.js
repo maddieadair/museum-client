@@ -36,6 +36,9 @@ import Exhibitions from "./pages/Exhibitions";
 import ExhibitionDetails from "./pages/ExhibitionDetails";
 import ArtworkDetails from "./pages/ArtworkDetails";
 
+
+import NotFound from "./pages/NotFound";
+
 function App() {
   return (
     <div className="bg-chalk min-h-screen">
@@ -93,6 +96,8 @@ function App() {
           <Route path="/admin/tickets" element={<AdminTickets />}></Route>
           <Route path="/admin/shop" element={<AdminShop />}></Route>
           <Route path="/admin/donations" element={<AdminDonations />}></Route>
+        
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </div>
