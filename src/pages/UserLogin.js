@@ -21,7 +21,7 @@ export default function UserLogin() {
       setUsernameError("* Please enter your username.");
       hasErrors = true;
     }
-    if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
+    else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
         setUsernameError("* Please enter a valid username.");
         hasErrors = true;
       }

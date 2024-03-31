@@ -36,8 +36,7 @@ export default function UserSignup() {
       errors.username = "* Please enter your email";
       hasErrors = true;
     }
-
-    if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
+    else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
       errors.username = "* Please enter a valid email";
       hasErrors = true;
     }
