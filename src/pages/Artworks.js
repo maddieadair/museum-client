@@ -176,7 +176,7 @@ export default function Artworks() {
     filters["Include_Exhibits"] = false;
 
     console.log("Filters:", filters);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/filtered-art", {
+    fetch("http://localhost:3001/filtered-art", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

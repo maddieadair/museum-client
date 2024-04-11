@@ -25,7 +25,7 @@ export default function ShopManagerHome() {
   }, []);
 
   const fetchRevenue = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/shop-revenue", {
+    fetch("http://localhost:3001/shop-revenue", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ export default function ShopManagerHome() {
   };
 
   const fetchWorstsellers = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/worstsellers", {
+    fetch("http://localhost:3001/worstsellers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export default function ShopManagerHome() {
   };
 
   const fetchSoldOut = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/sold-out", {
+    fetch("http://localhost:3001/sold-out", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default function ShopManagerHome() {
   };
 
   const fetchLowStock = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/low-stock", {
+    fetch("http://localhost:3001/low-stock", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ export default function ShopManagerHome() {
   };
 
   const fetchBestsellers = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/bestsellers", {
+    fetch("http://localhost:3001/bestsellers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

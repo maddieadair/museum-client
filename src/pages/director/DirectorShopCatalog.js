@@ -21,7 +21,7 @@ export default function DirectorShopCatalog() {
   }, []);
 
   const fetchGifts = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
+    fetch("http://localhost:3001/gifts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

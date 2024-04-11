@@ -40,7 +40,7 @@ export default function ShopManagerCatalog() {
 
     try {
       const response = await fetch(
-        "https://museum3380-89554eee8566.herokuapp.com/gifts",
+        "http://localhost:3001/gifts",
         {
           method: "POST",
           headers: {
@@ -95,7 +95,7 @@ export default function ShopManagerCatalog() {
   }, []);
 
   const fetchGifts = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
+    fetch("http://localhost:3001/gifts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +120,7 @@ export default function ShopManagerCatalog() {
 
     try {
       const response = await fetch(
-        "https://museum3380-89554eee8566.herokuapp.com/gifts",
+        "http://localhost:3001/gifts",
         {
           method: "DELETE",
           headers: {
@@ -170,7 +170,7 @@ export default function ShopManagerCatalog() {
 
     try {
       const response = await fetch(
-        "https://museum3380-89554eee8566.herokuapp.com/gifts",
+        "http://localhost:3001/gifts",
         {
           method: "PUT",
           headers: {

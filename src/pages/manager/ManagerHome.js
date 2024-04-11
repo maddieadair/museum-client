@@ -25,7 +25,7 @@ export default function ShopManagerHome() {
     const curatorInfo = {
       Exhibition_Department: currentAuthDep,
     };
-    fetch("https://museum3380-89554eee8566.herokuapp.com/dept-exhibit-rev", {
+    fetch("http://localhost:3001/dept-exhibit-rev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,7 @@ export default function ShopManagerHome() {
     const curatorInfo = {
       Exhibition_Department: currentAuthDep,
     };
-    fetch("https://museum3380-89554eee8566.herokuapp.com/dept-exhibit-stats", {
+    fetch("http://localhost:3001/dept-exhibit-stats", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

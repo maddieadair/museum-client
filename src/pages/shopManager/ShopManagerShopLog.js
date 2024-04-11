@@ -17,7 +17,7 @@ export default function ShopManagerShopLog() {
   }, []);
 
   const fetchGifts = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/gift-log", {
+    fetch("http://localhost:3001/gift-log", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

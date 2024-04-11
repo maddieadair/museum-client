@@ -27,7 +27,7 @@ export default function DepartmentDetails() {
       department_id: id,
     };
     console.log("fetch exhibit info", departmentInfo);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/department-ID", {
+    fetch("http://localhost:3001/department-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -48,7 +48,7 @@ export default function DepartmentDetails() {
       collection_departmentID: id,
     };
     fetch(
-      "https://museum3380-89554eee8566.herokuapp.com/department-collections",
+      "http://localhost:3001/department-collections",
       {
         method: "POST",
         headers: {

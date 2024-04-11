@@ -13,7 +13,7 @@ export default function Collections() {
   }, []);
 
   const fetchCollections = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/collections", {
+    fetch("http://localhost:3001/collections", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
