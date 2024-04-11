@@ -4,17 +4,21 @@ import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useParams, useLocation, Link } from "react-router-dom";
+import Loading from "../components/Loading";
 
 export default function ArtworkDetails() {
   const { id } = useParams();
   console.log("id", id);
+  const [loading, setLoading] = useState(true);
 
   //   const [Exhibit_ID, setExhibitID] = useState("");
 
   const [artwork, setArtwork] = useState([]);
 
   useEffect(() => {
-    fetchArtwork();
+    setTimeout(() => {
+        fetchArtwork();
+        }, 500);
   }, []);
 
   const fetchArtwork = async () => {
@@ -34,17 +38,20 @@ export default function ArtworkDetails() {
       })
       .then((data) => {
         setArtwork(data);
+        setLoading(false);
       });
   };
 
   console.log("Artworks", artwork);
 
   return (
+    <>
+    {!loading ?
     <div className="min-h-screen">
       <UserNavbar />
       {artwork.length > 0 ? (
         <div className="flex flex-row pt-48 py-32 gap-x-24 px-16 font-inter ">
-          <div className="flex flex-col gap-y-4 border-2 w-1/2">
+          <div className="flex flex-col gap-y-4 w-1/2">
             <img
               className="brightness-75 object-cover object-center size-full "
               src={Angelico}
@@ -71,9 +78,12 @@ export default function ArtworkDetails() {
                     artwork[0].Artist_Lname !== null
                       ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
                       : null}
-                    <span className="font-normal">
+
+                      {artwork[0].Year_Created !== null ?  <span className="font-normal">
                       , {artwork[0].Year_Created}
-                    </span>
+                    </span> :  <span className="font-normal">
+                      , Date unknown
+                    </span>}
                   </p>
                   <p>{artwork[0].Descr}</p>
                 </div>
@@ -118,13 +128,18 @@ export default function ArtworkDetails() {
                 {artwork[0].department_name !== null ? (
                   <div>
                     <p className="font-bold">DEPARTMENT</p>
-                    <p>{artwork[0].department_name}</p>
+                    <Link className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4" to={`/departments/${artwork[0].Department_ID}`}>{artwork[0].department_name}</Link>
                   </div>
                 ) : null}
                 {artwork[0].collection_name !== null ? (
                   <div>
                     <p className="font-bold">COLLECTION</p>
-                    <p>{artwork[0].collection_name}</p>
+                    <Link
+                      className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                      to={`/artworks/search?Collection_ID=${artwork[0].Collection_ID}`}
+                    >
+                      {artwork[0].collection_name}
+                    </Link>
                   </div>
                 ) : null}
                 {artwork[0].Exhibit_Name !== null ? (
@@ -152,5 +167,7 @@ export default function ArtworkDetails() {
       ) : null}
       <Footer />
     </div>
+    : <Loading/> }
+    </>
   );
 }

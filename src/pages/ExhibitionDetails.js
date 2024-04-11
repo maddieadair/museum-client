@@ -4,6 +4,8 @@ import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot
 import Footer from "../components/Footer";
 import axios from "axios";
 import { useParams, useLocation, Link } from "react-router-dom";
+import Luks from "../assets/images/Luks.png";
+import Loading from "../components/Loading";
 
 export default function ExhibitionDetails() {
   const { id } = useParams();
@@ -18,11 +20,15 @@ export default function ExhibitionDetails() {
   const [close, setClose] = useState("");
   const [description, setDescription] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
   //   const [Exhibit_ID, setExhibitID] = useState("");
 
   useEffect(() => {
-    fetchExhibition();
-    fetchArtworks();
+    setTimeout(() => {
+        fetchExhibition();
+        fetchArtworks();
+        }, 500);
   }, []);
 
   const fetchExhibition = async () => {
@@ -43,14 +49,8 @@ export default function ExhibitionDetails() {
       })
       .then((data) => {
         setExhibition(data);
-
-        // if (exhibition[0]) {
-        //   //   setExhibitionName(exhibition[0].Exhibit_Name);
-        //   //   setOpen(exhibition[0].Opening_Date);
-        //   //   setClose(exhibition[0].End_Date);
-        //   //   setDescription(exhibition[0].Description);\
-        // }
       });
+
   };
 
   const fetchArtworks = async () => {
@@ -73,21 +73,32 @@ export default function ExhibitionDetails() {
       })
       .then((data) => {
         setArtworks(data);
+        setLoading(false);
       });
   };
 
-  console.log("Exhibition", exhibition);
-  console.log("Artworks", artworks);
-  console.log("Name", exhibitionName);
-  console.log("open", open);
-  console.log("close", close);
-  console.log("Description", description);
+//   console.log("Exhibition", exhibition);
+//   console.log("Artworks", artworks);
+//   console.log("Name", exhibitionName);
+//   console.log("open", open);
+//   console.log("close", close);
+//   console.log("Description", description);
+
   return (
+    <>
+    {!loading ?
     <div className="min-h-screen">
       <UserNavbar />
       {exhibition.length > 0 ? (
-        <div className="flex flex-col pt-36 pb-24 gap-y-24 font-inter ">
-          <div className="flex flex-col gap-y-8 border-b px-16 pb-24">
+        <div className="flex flex-col pb-20 gap-y-24 font-inter">
+            <div className="w-full h-80">
+            <img
+              className="brightness-75 object-cover object-center size-full"
+              src={Luks}
+              alt=""
+            />{" "}
+          </div>
+        <div className="flex flex-col gap-y-8 border-b px-16 pb-24">
             <h1 className="font-fanwoodText italic text-7xl">
               {exhibition[0].Exhibit_Name}{" "}
             </h1>
@@ -99,16 +110,18 @@ export default function ExhibitionDetails() {
             </p>
             <p className="text-xl">{exhibition[0].Description}</p>
           </div>
-          <div className="flex flex-col gap-y-24 px-16">
+          <div className="flex flex-col gap-y-20 px-16">
+          <h1 className="text-5xl font-fanwoodText">Exhibition Objects</h1>
+
             <div className="grid grid-cols-3 gap-x-12 gap-y-12">
               {artworks.map((art, idx) => (
                 <div
                   key={art.Art_ID}
                   className="flex flex-col gap-y-4 border-[1px] border-stone-300 transition-all ease-in-out duration-300"
                 >
-                  <div className="h-56">
+                  <div className="h-56 overflow-hidden">
                     <img
-                      className="brightness-75 object-cover object-right size-full"
+                      className="brightness-75 object-cover object-center size-full hover:scale-110 transition-all duration-500"
                       src={Angelico}
                       alt=""
                     />{" "}
@@ -121,9 +134,10 @@ export default function ExhibitionDetails() {
                       {art.Art_Name}
                     </Link>
                     <p>
-                        {art.Artist_Fname === null && art.Artist_Lname === null ? `Unknown, ${art.Year_Created}` : null }
-                        {art.Artist_Fname !== null && art.Artist_Lname === null ? `${art.Artist_Fname}, ${art.Year_Created}` : null}
-                        {art.Artist_Fname !== null && art.Artist_Lname !== null ? `${art.Artist_Fname} ${art.Artist_Lname}, ${art.Year_Created}` : null}
+                        {art.Artist_Fname === null && art.Artist_Lname === null ? `Unknown, ` : null }
+                        {art.Artist_Fname !== null && art.Artist_Lname === null ? `${art.Artist_Fname}, ` : null}
+                        {art.Artist_Fname !== null && art.Artist_Lname !== null ? `${art.Artist_Fname} ${art.Artist_Lname}, ` : null}
+                        {art.Year_Created !== null ? `${art.Year_Created}` : `date unknown`}
                     </p>
                   </div>
                 </div>
@@ -135,5 +149,7 @@ export default function ExhibitionDetails() {
 
       <Footer />
     </div>
+    : <Loading />}
+    </>
   );
 }

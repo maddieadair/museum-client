@@ -5,7 +5,7 @@ import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot
 
 export default function HomeExhibitions() {
   const [exhibitions, setExhibitions] = useState([]);
-
+  
   useEffect(() => {
     fetchExhibitions();
   }, []);

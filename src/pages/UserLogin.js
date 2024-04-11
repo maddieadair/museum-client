@@ -1,15 +1,22 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
 import Logo from "../assets/images/MFAH Logo Dark.svg";
 import { Link } from "react-router-dom";
 import { MdOutlineLogin } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
+
 
 export default function UserLogin() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const { setCurrentAuthID, setCurrentAuthRole, setCurrentToken } = useContext(AuthContext);
 
   const validate = () => {
     setPasswordError("");
@@ -20,18 +27,17 @@ export default function UserLogin() {
     if (username.length === 0) {
       setUsernameError("* Please enter your email address.");
       hasErrors = true;
+    } else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
+      setUsernameError("* Please enter a valid email address.");
+      hasErrors = true;
     }
-    else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
-        setUsernameError("* Please enter a valid email address.");
-        hasErrors = true;
-      }
 
     if (password.length === 0) {
       setPasswordError("* Please enter a password");
       hasErrors = true;
     }
 
-    console.log("hasErrors:", hasErrors)
+    console.log("hasErrors:", hasErrors);
     return hasErrors;
   };
   const handleLogin = async (e) => {
@@ -49,7 +55,7 @@ export default function UserLogin() {
 
       try {
         const response = await fetch(
-          "https://test-museum-de0a1661f6b3.herokuapp.com/customer-login",
+          "http://localhost:3001/customer-login",
           {
             method: "POST",
             headers: {
@@ -67,17 +73,28 @@ export default function UserLogin() {
         console.log(data);
         if (data.message === "Invalid username or password") {
           setLoginStatus("Invalid username or password!");
+          alert("Invalid username or password!")
         } else {
-          setLoginStatus("Login was successful!");
+            const decoded = jwtDecode(data.token);
+            console.log("decoded", decoded)
+
+            setCurrentToken(data.token)
+            setCurrentAuthID(decoded.ID);
+            setCurrentAuthRole(decoded.role);
+            console.log(data);
+            alert("Successfully logged in!")
+
+            navigate('/')
+          //   setLoginStatus("Login was successful!");
         }
       } catch (error) {
         console.log("There was an error fetching:", error);
       }
     } else {
-        console.log("hasErrors", hasErrors);
-        console.log("usernameErrors", usernameError);
-        console.log("passwordError", passwordError)
-        console.log("Input is not valid")
+      console.log("hasErrors", hasErrors);
+      console.log("usernameErrors", usernameError);
+      console.log("passwordError", passwordError);
+      console.log("Input is not valid");
     }
   };
 
@@ -106,8 +123,8 @@ export default function UserLogin() {
               className="border border-obsidian rounded-md p-2"
             ></input>
             {usernameError ? (
-                  <p className="text-red-400">{usernameError}</p>
-                ) : null}
+              <p className="text-red-400">{usernameError}</p>
+            ) : null}
           </div>
           <div className="flex flex-col space-y-2">
             <label className="">Password</label>
@@ -118,8 +135,8 @@ export default function UserLogin() {
               className="border border-obsidian rounded-md p-2"
             ></input>
             {passwordError ? (
-                  <p className="text-red-400">{passwordError}</p>
-                ) : null}
+              <p className="text-red-400">{passwordError}</p>
+            ) : null}
           </div>
           <button
             className="flex flex-row space-x-4 justify-center items-center bg-obsidian p-2 rounded-md text-chalk font-bold hover:bg-cinnabar transition-colors ease-in-out duration-500"
@@ -138,7 +155,9 @@ export default function UserLogin() {
               Sign Up
             </Link>
           </p>
-          <p className={`${loginStatus === "" ? "hidden" : "self-center"}`}>{loginStatus}</p>
+          {/* <p className={`${loginStatus === "" ? "hidden" : "self-center"}`}>
+            {loginStatus}
+          </p> */}
         </form>
       </div>
     </div>

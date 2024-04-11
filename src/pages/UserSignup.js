@@ -4,8 +4,11 @@ import Logo from "../assets/images/MFAH Logo Dark.svg";
 import { Link } from "react-router-dom";
 import { MdOutlineLogin } from "react-icons/md";
 import { MdPersonAddAlt1 } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export default function UserSignup() {
+  const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -35,8 +38,7 @@ export default function UserSignup() {
     if (username.length === 0) {
       errors.username = "* Please enter your email address";
       hasErrors = true;
-    }
-    else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
+    } else if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(username)) {
       errors.username = "* Please enter a valid email address";
       hasErrors = true;
     }
@@ -93,35 +95,30 @@ export default function UserSignup() {
 
       try {
         const response = await fetch(
-          "https://test-museum-de0a1661f6b3.herokuapp.com/customer-signup",
+          "https://museum3380-89554eee8566.herokuapp.com/customer-signup",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify(customerData),
-          },
+          }
         );
 
         if (!response.ok) {
-          if (response.status === 400) {
-            // console.log(response.status)
-            // console.log("An account with this email already exists")
-            throw new Error("An account with this email already exists");
-          } else {
-            throw new Error("There was an error fetching the data");
-          }
+          throw new Error("There was an error fetching the data");
         }
 
         const data = await response.json();
         console.log(data);
 
-        // if (data.error === "An account with this email already exists") {
-        //   setSignupStatus("An account with this email already exists");
-        // } else {
-        //   setSignupStatus("Signup was successful!");
-        // }
-        setSignupStatus("Signup was successful!");
+        if (data.error === "An account with this email already exists") {
+          setSignupStatus("An account with this email already exists");
+        } else {
+          setSignupStatus("Signup was successful!");
+          alert("Successfully signed up!");
+          navigate("/user-login");
+        }
       } catch (error) {
         // console.log("There was an error fetching:", error);
         // console.log(error.message)
@@ -312,6 +309,7 @@ export default function UserSignup() {
                   onChange={(e) => setState(e.target.value)}
                   className="border border-obsidian rounded-md p-2"
                 >
+
                   {usStates.map((x, y) => (
                     <option value={x} key={y}>
                       {x}
@@ -344,7 +342,9 @@ export default function UserSignup() {
             <MdPersonAddAlt1 className="" />
             <p>Create Account</p>
           </button>
-          <p className={`${signupStatus === "" ? "hidden" : "self-center"}`}>{signupStatus}</p>
+          <p className={`${signupStatus === "" ? "hidden" : "self-center"}`}>
+            {signupStatus}
+          </p>
         </form>
       </div>
     </div>

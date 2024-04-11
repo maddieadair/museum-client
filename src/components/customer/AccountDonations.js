@@ -1,41 +1,112 @@
-import { React, useState } from "react";
-import UserNavbar from "../UserNavbar";
-import Angelico from "../../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
-import Footer from "../Footer";
-import { LuPencil } from "react-icons/lu";
-import { CgClose } from "react-icons/cg";
-import { useNavigate } from "react-router-dom";
+import { React, useState, useEffect, useContext } from "react";
+import UserNavbar from "../../components/UserNavbar";
+import Footer from "../../components/Footer";
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { IoClose } from "react-icons/io5";
 
-export default function AccountDonations() {
-    const navigate = useNavigate();
+export default function CustomerAccount() {
+    const { currentAuthID, currentAuthRole } = useContext(AuthContext);
+  const [openView, setOpenView] = useState(false);
+  const [currInput, setCurrentInput] = useState({});
+  const [donations, setDonations] = useState([]);
 
-  const donations = [
-    {
-        id: "123456",
-        amount: "250",
-        dfname: "John",
-        dlname: "Doe",
-        datetime: "2024-03-01 02:30PM",
-        dnote: "Thank you",
-    },
-    {
-        id: "654321",
-        amount: "250",
-        dfname: "John",
-        dlname: "Doe",
-        datetime: "2024-03-01 02:30PM",
-        dnote: "Thank you",
-    },
-  ];
+  useEffect(() => {
+    fetchDonations();
+  }, []);
+
+  const fetchDonations = async () => {
+    const customerInfo = {
+        Donor_ID: currentAuthID,
+    };
+    console.log("fetch customer tickets for customer", customerInfo);
+    fetch("http://localhost:3001/customer-donations", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customerInfo),
+    })
+      .then((response) => {
+        console.log("repsonse:", response);
+        return response.json();
+      })
+      .then((data) => {
+        setDonations(data);
+      });
+  };
 
   const handleClick = (donation) => {
-    console.log(donation);
-    navigate(`${donation.id}`);
+    setCurrentInput(donation);
+    setOpenView(true);    // navigate(`${donation.Donation_ID}`);
   };
 
   return (
-    <div className="pb-24 px-16">
+    <div className="min-h-screen">
+      <UserNavbar />
+
+      <div className="flex flex-col pt-36 pb-24 gap-y-20 font-inter">
+        <div className="flex flex-col px-16 gap-y-20">
+          <div className="flex flex-col gap-y-4">
+            <h1 className="font-fanwoodText italic text-7xl">Account</h1>
+            <p className="text-xl font-inter">
+              Here you can customize your profile and view previous ticket
+              transactions, store transactions, and donations.
+            </p>
+          </div>
+          <div className="flex flex-row space-x-8 w-full border-b py-2">
+            <NavLink
+              to="/account"
+              className={({ isActive }) =>
+                [
+                  "hover:underline hover:underline-offset-8",
+                  isActive ? "text-cinnabar font-bold" : "",
+                ].join(" ")
+              }
+            >
+              <p>Profile</p>
+            </NavLink>
+
+            <NavLink
+              to="/account/tickets"
+              className={({ isActive }) =>
+                [
+                  "hover:underline hover:underline-offset-8",
+                  isActive ? "text-cinnabar font-bold" : "",
+                ].join(" ")
+              }
+            >
+              <p>Tickets</p>
+            </NavLink>
+
+            <NavLink
+              to="/account/purchases"
+              className={({ isActive }) =>
+                [
+                  "hover:underline hover:underline-offset-8",
+                  isActive ? "text-cinnabar font-bold" : "",
+                ].join(" ")
+              }
+            >
+              <p>Purchases</p>
+            </NavLink>
+
+            <NavLink
+              to="/account/donations"
+              className={({ isActive }) =>
+                [
+                  "hover:underline hover:underline-offset-8",
+                  isActive ? "text-cinnabar font-bold" : "",
+                ].join(" ")
+              }
+            >
+              <p>Donations</p>
+            </NavLink>
+          </div>
+        </div>
+      </div>
+
+      <div className="pb-24 px-16">
       <div className="flex flex-col space-y-12">
         <div className="flex flex-col space-y-20">
           <div className="flex flex-col space-y-12">
@@ -43,32 +114,79 @@ export default function AccountDonations() {
               Past Donations
             </h3>
 
+            {donations.length > 0 ?
             <div className="text-obsidian bg-stone-50 border rounded-3xl h-fit flex flex-col divide-y divide">
-              <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center">
-                <p className="w-1/6 ">Donation ID</p>
-                <p className="w-1/6 ">Amount</p>
-                <p className="w-1/6 ">Datetime</p>
-                <p className="w-1/6 ">Donor First Name</p>
-                <p className="w-1/6 ">Donor Last Name</p>
-                <p className="w-1/6 ">Note</p>
+              <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-between">
+                <p className="w-1/4 ">Donation ID</p>
+                <p className="w-1/4 ">Date</p>
+                <p className="w-1/4 ">Amount</p>
+                <p className="w-1/4 ">Note</p>
               </div>
-              {donations.map((donation) => (
+              {donations.map((donation, id) => (
                 <div
-                key={donation.id}
-                onClick={() => handleClick(donation)}
-                className="flex flex-row gap-x-6 p-6 group hover:bg-rose-50 hover:text-rose-500 hover:cursor-pointer"
-              >                  <p className="w-1/6 ">#{donation.id}</p>
-                  <p className="w-1/6 ">${donation.amount}</p>
-                  <p className="w-1/6 ">{donation.datetime}</p>
-                  <p className="w-1/6 ">{donation.dfname}</p>
-                  <p className="w-1/6 ">{donation.dlname}</p>
-                  <p className="w-1/6 ">{donation.dnote}</p>
+                  key={donation.Donation_ID}
+                  onClick={() => handleClick(donation)}
+                  className="flex flex-row gap-x-6 p-6 group items-center justify-between hover:bg-rose-50 hover:text-rose-500 hover:cursor-pointer"
+                >
+                  <p className="w-1/4 ">#{donation.Donation_ID}</p>
+                  <p className="w-1/4">{donation.New_Donation_Date}</p>
+                  <p className="w-1/4 ">${donation.Amount_Donated}</p>
+                  <p className="w-1/4 line-clamp-3">{donation.Donation_Note}</p>
                 </div>
               ))}
             </div>
+            : null }
+
+{openView ? (
+              <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
+                <div className="bg-white rounded-3xl h-fit max-h-[38rem] overflow-auto w-1/2 shadow-md flex flex-col">
+                  <div className="flex flex-col">
+                    <IoClose
+                      className="self-end size-8 m-6 mb-2 hover:cursor-pointer"
+                      onClick={() => {
+                        setCurrentInput({});
+                        setOpenView(false);
+                      }}
+                    />
+                    <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Donation ID</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Donation_ID}
+                        </p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Amount</p>
+                        <p className="w-1/2 text-end">${currInput.Amount_Donated}</p>
+                      </div>
+                    
+                    {currInput.Donation_Note !== null ?
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Note</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Donation_Note}
+                        </p>
+                      </div>
+                      : null }
+
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Date</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.New_Donation_Date}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>
+    </div>
+
+      {/* <Outlet /> */}
+      <Footer />
     </div>
   );
 }

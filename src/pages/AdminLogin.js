@@ -1,15 +1,21 @@
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
 import Logo from "../assets/images/MFAH Logo Dark.svg";
 import { Link } from "react-router-dom";
 import { MdOutlineLogin } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 export default function AdminLogin() {
+    const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loginStatus, setLoginStatus] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const { setCurrentAuthID, setCurrentAuthRole, setCurrentAuthDep, setCurrentToken } = useContext(AuthContext);
 
   const validate = () => {
     setPasswordError("");
@@ -49,7 +55,7 @@ export default function AdminLogin() {
 
       try {
         const response = await fetch(
-          "https://test-museum-de0a1661f6b3.herokuapp.com/employee-login",
+          "http://localhost:3001/employee-login",
           {
             method: "POST",
             headers: {
@@ -64,12 +70,35 @@ export default function AdminLogin() {
         }
 
         const data = await response.json();
-        console.log(data);
+        console.log("data:",data);
         if (data.message === "Invalid username or password") {
           setLoginStatus("Invalid username or password!");
+          alert("Invalid username or password")
         } else {
-          setLoginStatus("Login was successful!");
+            const decoded = jwtDecode(data.token);
+            console.log("decoded", decoded)
+        //   setLoginStatus("Login was successful!");
+        setCurrentToken(data.token)
+        setCurrentAuthID(decoded.ID);
+        setCurrentAuthRole(decoded.role);
+        setCurrentAuthDep(decoded.department);
+
+        console.log(data);
+        console.log("Login was successful!")
+        alert("Successfully logged in!")
+
+        if(decoded.role === "Curator") {
+            navigate('/curator')
+        } else if (decoded.role === "Manager") {
+            navigate('/manager')
+        } else if (decoded.role === "Shop Manager") {
+            navigate('/shop-manager')
+        } else if (decoded.role === "Director") {
+            navigate('/director')
+        } else {
+            navigate('/')
         }
+    }
       } catch (error) {
         console.log("There was an error fetching:", error);
       }
@@ -88,7 +117,7 @@ export default function AdminLogin() {
           <Link to="/">
             <img src={Logo} alt="Logo" className="h-6" />
           </Link>
-          <div className="font-bold">Admin Login</div>
+          <div className="font-bold">Employee Login</div>
         </div>
       </div>
 

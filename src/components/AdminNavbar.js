@@ -13,22 +13,22 @@ import { FiGift } from "react-icons/fi";
 
 import { Link, NavLink } from "react-router-dom";
 
-// "flex flex-row gap-x-4 items-center w-full  hover:bg-red-100 hover:text-red-400 rounded-lg p-4"
 
 export default function AdminNavbar() {
   return (
-    <div className="rounded-3xl min-h-screen bg-gradient-to-r from-[#fcfcfc] to-[#f8f8fa] w-1/6 flex flex-col py-12 gap-y-12 text-slate-700 justify-between ">
+    <div className="min-h-screen bg-[#f9f9f9] w-60 flex flex-col py-12 px-2 gap-y-12 text-[#666666] justify-between font-inter text-sm border-r border-[#e7e7e7] font-medium">
       <img src={Logo} alt="Logo" className="px-6" />
 
-      <div className="flex flex-col h-full px-4 gap-y-4">
+      <div className="flex flex-col h-full gap-y-4">
         <NavLink
-          to="/admin/dashboard"
+          to="/admin"
+          end= {true}
           className={({ isActive }) =>
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -39,10 +39,10 @@ export default function AdminNavbar() {
           to="/admin/employees"
           className={({ isActive }) =>
             [
-              "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
+              "flex flex-row gap-x-4 items-center w-full rounded-md p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -56,8 +56,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -71,8 +71,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -86,8 +86,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100 "
-                : "hover:bg-gray-100 hover:text-gray-700 ",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -101,8 +101,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100 "
-                : "hover:bg-gray-100 hover:text-gray-700",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -116,8 +116,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700 ",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -132,8 +132,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700 ",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >
@@ -148,8 +148,8 @@ export default function AdminNavbar() {
             [
               "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
               isActive
-                ? "text-red-400 bg-red-100"
-                : "hover:bg-gray-100 hover:text-gray-700 ",
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
             ].join(" ")
           }
         >

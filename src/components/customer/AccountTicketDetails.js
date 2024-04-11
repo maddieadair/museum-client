@@ -1,49 +1,104 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function AccountTicketDetails() {
-    const {id} = useParams();
+  const { id } = useParams();
 
-    // id: "1111111",
-    // price: "25",
-    // level: "adult",
-    // dateFor: "2024-02-01",
-    // timeFor: "09:00PM",
-    // datetimePurchased: "2024-03-01 02:30PM",
+  const [ticket, setTicket] = useState([]);
 
+  useEffect(() => {
+    fetchTicket();
+  }, []);
+
+  const fetchTicket = async () => {
+    const customerInfo = {
+      TicketTransaction_ID: id,
+    };
+    console.log("fetch customer tickets for customer", customerInfo);
+    fetch("http://localhost:3001/ticket-ID", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(customerInfo),
+    })
+      .then((response) => {
+        console.log("repsonse:", response);
+        return response.json();
+      })
+      .then((data) => {
+        setTicket(data);
+      });
+  };
   return (
     <div className="pb-24 px-16">
-      <div className="flex flex-col space-y-12">
-        <div className="flex flex-col space-y-20">
-          <div className="flex flex-col space-y-12">
-            <h3 className="text-5xl font-fanwoodText">Ticket Purchase #{id}</h3>
-            <div className="flex flex-row space-x-12">
-              <div className="flex flex-col space-y-6 w-1/2">
-                <div className="flex flex-col space-y-2">
-                  <label className="font-bold">Price</label>
-                  <p className="">$25</p>
+      {ticket.length > 0 ? (
+        <div className="flex flex-col space-y-12">
+          <div className="flex flex-col space-y-20">
+            <div className="flex flex-col space-y-12">
+              <h3 className="text-5xl font-fanwoodText">
+                Ticket Purchase #{id}
+              </h3>
+              <div className="flex flex-row space-x-12">
+                <div className="flex flex-col space-y-4 w-1/2">
+                  <div className="flex flex-row justify-between">
+                    <p className="font-bold">Date For</p>
+                    <p className="">{ticket[0].New_Transaction_Date}</p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p className="font-bold">Time For</p>
+                    <p className="">{ticket[0].Ticket_Time}</p>
+                  </div>
+                  <div className="flex flex-row  justify-between">
+                    <p className="font-bold">Total Bill</p>
+                    <p className="">${ticket[0].Total_Bill}</p>
+                  </div>
+
+                  {ticket[0].Num_Child_Tickets !== 0 ? (
+                  <div className="flex flex-row justify-between">
+                  <p className="font-bold"># of Child Tickets</p>
+                      <p className="">{ticket[0].Num_Child_Tickets}</p>
+                    </div>
+                  ) : null}
+
+                  {ticket[0].Num_Teen_Tickets !== 0 ? (
+                  <div className="flex flex-row justify-between">
+                  <p className="font-bold"># of Teen Tickets</p>
+                      <p className="">{ticket[0].Num_Teen_Tickets}</p>
+                    </div>
+                  ) : null}
+
+                  {ticket[0].Num_Adult_Tickets !== 0 ? (
+                  <div className="flex flex-row justify-between">
+                  <p className="font-bold"># of Adult Tickets</p>
+                      <p className="">{ticket[0].Num_Adult_Tickets}</p>
+                    </div>
+                  ) : null}
+
+                  {ticket[0].Num_Senior_Tickets !== 0 ? (
+                  <div className="flex flex-row justify-between">
+                  <p className="font-bold">$ of Senior Tickets</p>
+                      <p className="">{ticket[0].Num_Senior_Tickets}</p>
+                    </div>
+                  ) : null}
+                  <div className="flex flex-row justify-between">
+                    <p className="font-bold">Total Quantity</p>
+                    <p className="">{ticket[0].Ticket_Count}</p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                    <p className="font-bold">Transaction Date</p>
+                    <p className="">{ticket[0].New_Transaction_Date}</p>
+                  </div>
+                  <div className="flex flex-row justify-between">
+                  <p className="font-bold w-1/2">For</p>
+                  {ticket[0].Exhibition_Name !== null ? <div className="text-end"><p className="font-bold text-end">Special Exhibition</p>{ticket[0].Exhibition_Name}</div> : <p className="text-end">Permanent Collections</p>}
                 </div>
-                <div className="flex flex-col space-y-2">
-                  <label className="font-bold">Level</label>
-                  <p className="">Adult</p>
-                </div>
-                <div className="flex flex-col space-y-">
-                  <label className="font-bold">Date purchased for</label>
-                  <p className="">2024-04-09</p>
-                </div>
-                <div className="flex flex-col space-y-">
-                  <label className="font-bold">Time purchased for</label>
-                  <p className="">09:30AM</p>
-                </div>
-                <div className="flex flex-col space-y-">
-                  <label className="font-bold">Datetime purchased</label>
-                  <p className="">2023-09-12 01:23AM</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : <p>There are no past ticket transactions</p>}
     </div>
   );
 }

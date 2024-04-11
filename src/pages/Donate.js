@@ -1,25 +1,82 @@
-import { React, useState } from "react";
 import UserNavbar from "../components/UserNavbar";
-import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
-import { IoArrowForwardCircleOutline } from "react-icons/io5";
 import Footer from "../components/Footer";
+import { AuthContext } from "../context/AuthContext";
+import { React, useState, useContext } from "react";
 
 export default function Donate() {
   const donationAmount = [5, 10, 25, 50, 100, 250, 500];
   const [amount, setAmount] = useState(5);
   const [donationNote, setDonationNote] = useState("");
+  const [status, setStatus] = useState("");
+  const { currentAuthID, currentAuthRole } = useContext(AuthContext);
+
+  const clearFields = () => {
+    setAmount(5);
+    setDonationNote("");
+  };
+
+  const addDonation = async (e) => {
+    e.preventDefault();
+
+    if (currentAuthID === null && currentAuthRole === null) {
+      alert("Please log in first to make a donation.");
+    } else if (currentAuthID !== null && currentAuthRole !== "Customer") {
+      alert(
+        "You are currently logged in as an Employee. To make a donation, please log out and sign back in as a Customer."
+      );
+    } else {
+        console.log("amount", amount)
+      if (amount === 0 || !amount) {
+        setStatus("* Please enter an amount of at least $1.");
+        return;
+       } else {
+
+      const donationData = {
+        Amount_Donated: amount,
+        Donation_Note: donationNote,
+        Donor_ID: currentAuthID,
+      };
+
+      console.log("donationData", donationData);
+
+      try {
+        const response = await fetch("http://localhost:3001/donations", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(donationData),
+        });
+
+        if (!response.ok) {
+          alert("Error sending donation request");
+          throw new Error("There was a network error");
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        // setStatus("Donation successfully added!");
+        alert("Donation successfully added!");
+        clearFields();
+      } catch (error) {
+        console.log("There was an error fetching:", error);
+      }
+    }
+}
+  };
 
   return (
     <div className="min-h-screen">
       <UserNavbar />
 
       <div className="flex flex-col pt-36 pb-24 gap-y-24 font-inter">
-      <div className="flex flex-col gap-y-4 border-b px-16 pb-24">
+        <div className="flex flex-col gap-y-4 border-b px-16 pb-24">
           <h1 className="font-fanwoodText italic text-7xl">Support the MFAH</h1>
           <p className="text-xl font-inter">
             Thank you for choosing to give to
             <span className="text-cinnabar font-bold">
-              The Museum of Fine Arts, Houston
+              {" "}The Museum of Fine Arts, Houston
             </span>
             . More than 30 percent of our visitors enter the Museum for free. We
             provide art education to more than 100,000 visitors and students
@@ -36,15 +93,20 @@ export default function Donate() {
           </p>
         </div>
         <div className="flex flex-col gap-y-24 font-inter px-16">
-          <form className="flex flex-col space-y-12">
+          <form className="flex flex-col space-y-12" onSubmit={addDonation}>
             <div className="flex flex-col space-y-20">
               <div className="flex flex-col space-y-10 w-fit">
                 <h2 className="font-fanwoodText text-5xl">Donation</h2>
+                <p className="font-bold">Suggested Amounts</p>
                 <div className="flex flex-row space-x-4">
                   {donationAmount.map((number, index) => (
                     <p
-                      key={index}
-                      className="rounded-full border border-obsidian text-obsidian w-fit py-2 px-6 hover:bg-obsidian hover:text-chalk"
+                      key={number}
+                      className={`rounded-full border border-obsidian w-fit py-2 px-6 hover:bg-obsidian hover:text-chalk ${
+                        number === amount
+                          ? "bg-obsidian text-chalk"
+                          : "text-obsidian"
+                      }`}
                       onClick={() => setAmount(number)}
                     >
                       ${number}
@@ -60,10 +122,16 @@ export default function Donate() {
                     onChange={(e) => setAmount(e.target.value)}
                     className="bg-white border border-obsidian rounded-md p-2"
                   ></input>
+
+                  <p className={`${status === "" ? "hidden" : "text-cinnabar"}`}>
+                    {status}
+                  </p>
                 </div>
                 <div className="flex flex-col space-y-2">
                   <label className="font-bold">Donation Note</label>
                   <textarea
+                    value={donationNote}
+                    onChange={(e) => setDonationNote(e.target.value)}
                     className="bg-white border border-obsidian rounded-md p-2"
                     rows="4"
                   ></textarea>
@@ -72,11 +140,11 @@ export default function Donate() {
             </div>
 
             <button
-          type="button"
-          className="bg-obsidian text-chalk rounded-md p-4 font-bold text-xl hover:bg-cinnabar transition-all duration-500 ease-in-out"
-        >
-          Donate ${amount} now
-        </button>
+              type="submit"
+              className="bg-obsidian text-chalk rounded-md p-4 font-bold text-xl hover:bg-cinnabar transition-all duration-500 ease-in-out"
+            >
+              Donate ${amount} now
+            </button>
           </form>
         </div>
       </div>
