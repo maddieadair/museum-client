@@ -17,7 +17,7 @@ export default function Home() {
   }, []);
 
   const fetchExhibitions = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibitions-preview", {
+    fetch("http://localhost:3001/exhibitions-preview", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -144,5 +144,6 @@ export default function Home() {
           <HomeStore />
           <Footer />
         </div>
+
   );
 }

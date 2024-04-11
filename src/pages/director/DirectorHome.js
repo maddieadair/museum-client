@@ -36,7 +36,7 @@ export default function DirectorHome() {
   }, []);
 
   const fetchTicketSum = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibit-ticket-sum", {
+    fetch("http://localhost:3001/exhibit-ticket-sum", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,7 +52,7 @@ export default function DirectorHome() {
   };
 
   const fetchDonationRev = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/donation-rev", {
+    fetch("http://localhost:3001/donation-rev", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ export default function DirectorHome() {
   };
 
   const fetchExhibitRev = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibit-revenue", {
+    fetch("http://localhost:3001/exhibit-revenue", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ export default function DirectorHome() {
   };
 
   const fetchExhibitStats = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibit-stats", {
+    fetch("http://localhost:3001/exhibit-stats", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function DirectorHome() {
   };
 
   const fetchCollectionStats = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/collection-stats", {
+    fetch("http://localhost:3001/collection-stats", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export default function DirectorHome() {
   };
 
   const fetchCollectionRevenue = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/collection-revenue", {
+    fetch("http://localhost:3001/collection-revenue", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export default function DirectorHome() {
   };
 
   const fetchGiftRevenue = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/shop-revenue", {
+    fetch("http://localhost:3001/shop-revenue", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -148,7 +148,7 @@ export default function DirectorHome() {
   };
 
   const fetchBestsellers = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/bestsellers", {
+    fetch("http://localhost:3001/bestsellers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -163,7 +163,7 @@ export default function DirectorHome() {
   };
 
   const fetchEmptyDepts = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/dept-no-mgr", {
+    fetch("http://localhost:3001/dept-no-mgr", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

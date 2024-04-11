@@ -95,7 +95,7 @@ export default function UserSignup() {
 
       try {
         const response = await fetch(
-          "https://museum3380-89554eee8566.herokuapp.com/customer-signup",
+          "http://localhost:3001/customer-signup",
           {
             method: "POST",
             headers: {

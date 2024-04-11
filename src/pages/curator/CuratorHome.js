@@ -24,7 +24,7 @@ export default function ShopManagerHome() {
     const curatorInfo = {
       Curator_ID: currentAuthID,
     };
-    fetch("https://museum3380-89554eee8566.herokuapp.com/curator-exhibit-rev", {
+    fetch("http://localhost:3001/curator-exhibit-rev", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -44,7 +44,7 @@ export default function ShopManagerHome() {
     const curatorInfo = {
       Curator_ID: currentAuthID,
     };
-    fetch("https://museum3380-89554eee8566.herokuapp.com/curator-exhibit-stats", {
+    fetch("http://localhost:3001/curator-exhibit-stats", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -175,7 +175,7 @@ export default function ManagerEmployees() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee", {
+      const response = await fetch("http://localhost:3001/employee", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -233,7 +233,7 @@ export default function ManagerEmployees() {
       supervisor_id: currentAuthID,
     };
     console.log("fetch exhibit info", employeeInfo);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/suboordinates", {
+    fetch("http://localhost:3001/suboordinates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -268,7 +268,7 @@ export default function ManagerEmployees() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee", {
+      const response = await fetch("http://localhost:3001/employee", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -316,7 +316,7 @@ export default function ManagerEmployees() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee", {
+      const response = await fetch("http://localhost:3001/employee", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

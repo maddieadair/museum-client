@@ -39,7 +39,7 @@ export default function ManagerCollections() {
       supervisor_id: currentAuthID,
     };
     console.log("fetch exhibit info", employeeInfo);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/suboordinates", {
+    fetch("http://localhost:3001/suboordinates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function ManagerCollections() {
     console.log("employeeData", collectionData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
+      const response = await fetch("http://localhost:3001/collection", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +152,7 @@ export default function ManagerCollections() {
       collection_departmentID: currentAuthDep,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/department-collections", {
+    fetch("http://localhost:3001/department-collections", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export default function ManagerCollections() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
+      const response = await fetch("http://localhost:3001/collection", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -241,7 +241,7 @@ export default function ManagerCollections() {
     console.log("collectionData", collectionData);
 
     try {
-      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
+      const response = await fetch("http://localhost:3001/collection", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

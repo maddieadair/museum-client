@@ -15,7 +15,7 @@ export default function AccountDonationDetails() {
       Donation_ID: id,
     };
     console.log("fetch customer tickets for customer", customerInfo);
-    fetch("https://museum3380-89554eee8566.herokuapp.com/donation-ID", {
+    fetch("http://localhost:3001/donation-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
