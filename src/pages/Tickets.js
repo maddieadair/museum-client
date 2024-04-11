@@ -1,16 +1,32 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext } from "react";
 import UserNavbar from "../components/UserNavbar";
 import Angelico from "../assets/images/1200px-Fra_Angelico_-_Saint_Anthony_Abbot_Shunning_the_Mass_of_Gold_-_Google_Art_Project.jpg";
 import Footer from "../components/Footer";
 import { LuPlus } from "react-icons/lu";
 import { LuMinus } from "react-icons/lu";
-import axios from 'axios';
+import { AuthContext } from "../context/AuthContext";
 
 export default function Tickets() {
+  const [frame, setFrame] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [ticketStatus, setTicketStatus] = useState("");
+  const [exhibitStatus, setExhibitStatus] = useState("");
+
+  const [showTimes, setShowTimes] = useState(false);
+
   const currDate = new Date().toJSON().slice(0, 10);
+  const cur = new Date();
+  const future = new Date(cur.setMonth(cur.getMonth() + 3));
+  const futureFormatted = future.toJSON().slice(0, 10);
+
+  const [curTime, setCurTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
+
   const [date, setDate] = useState(currDate);
 
-  const times = [
+  const { currentAuthID, currentAuthRole } = useContext(AuthContext);
+
+  const [times, setTimes] = useState([
     "10:00 AM",
     "11:00 AM",
     "12:00 PM",
@@ -19,47 +35,23 @@ export default function Tickets() {
     "3:00 PM",
     "4:00 PM",
     "5:00 PM",
-  ];
+  ]);
 
   function convertTo24HourFormat(time12h) {
-    const [time, modifier] = time12h.split(' ');
-    let [hours, minutes] = time.split(':');
+    const [time, modifier] = time12h.split(" ");
+    let [hours, minutes] = time.split(":");
 
-    if (hours === '12') {
-        hours = '00';
+    if (hours === "12") {
+      hours = "00";
     }
 
-    if (modifier === 'PM') {
-        hours = parseInt(hours, 10) + 12;
+    if (modifier === "PM") {
+      hours = parseInt(hours, 10) + 12;
     }
 
     return `${hours}:${minutes}:00`;
-}
-
-const testSubmit = async () => {
-  const ticketTime24h = convertTo24HourFormat(time);
-
-  const ticketInfo = {
-      totalPrice: totalPrice,
-      ticketDate: date,
-      ticketTime: ticketTime24h, 
-      userId: 1, // Example user ID, replace with actual logic to determine user ID
-      numChild: numChild,
-      numYouth: numYouth,
-      numAdult: numAdult,
-      numSenior: numSenior,
-      selectedMuseum: chosenExhibit || 'Main Campus' // Selected exhibition or default
-  };
-
-  try {
-      const response = await axios.post('http://localhost:3000/api/tickets', ticketInfo);
-      console.log(response.data);
-      // Handle success (e.g., show a success message)
-  } catch (error) {
-      console.error('Error submitting ticket:', error);
-      // Handle error (e.g., show an error message)
+    // setTime(convertedTime);
   }
-};
 
   const [time, setTime] = useState("10:00 AM");
 
@@ -70,12 +62,55 @@ const testSubmit = async () => {
   const [numTickets, setNumTickets] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  const exhibitions = ["Exhibit 1", "Exhibit 2", "Exhibit 3"];
+  const [exhibitObj, setExhibitObj] = useState({});
 
   const [showExhibitions, setShowExhibitions] = useState(false);
-  const [chosenExhibit, setChosenExhibit] = useState(null);
+  const [chosenExhibit, setChosenExhibit] = useState("");
 
   const [option, setOption] = useState("Permanent Collections");
+
+  const [exhibitions, setExhibitions] = useState([]);
+  const [futureExhibitions, setFutureExhibitions] = useState([]);
+
+  useEffect(() => {
+    fetchExhibitions();
+    fetchFutureExhibits();
+    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
+  }, []);
+
+  useEffect(() => {
+    filterTimes();
+    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
+  }, [date]);
+
+  const fetchExhibitions = () => {
+    fetch("http://localhost:3001/current-exhibits", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setExhibitions(data);
+      });
+  };
+  const fetchFutureExhibits = () => {
+    fetch("http://localhost:3001/month-exhibits", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setFutureExhibitions(data);
+      });
+  };
 
   useEffect(() => {
     let sum =
@@ -88,7 +123,180 @@ const testSubmit = async () => {
     setTotalPrice(bill);
   }, [numChild, numYouth, numAdult, numSenior]);
 
-  console.log("chosenExhibition", chosenExhibit);
+  const handleExhibitChange = (e) => {
+    setChosenExhibit(e.target.value);
+
+    if (frame === "Current") {
+      let obj = exhibitions.find((o) => o.Exhibit_Name === e.target.value);
+
+      let open = new Date(obj.Opening_Date)
+        .toISOString()
+        .slice(0, 10)
+        .replace("T", " ");
+      let end = new Date(obj.End_Date)
+        .toISOString()
+        .slice(0, 10)
+        .replace("T", " ");
+
+      setStartDate(open);
+      setEndDate(end);
+      setDate(currDate);
+    } else if (frame === "Future") {
+      let obj = futureExhibitions.find(
+        (o) => o.Exhibit_Name === e.target.value
+      );
+
+      let open = new Date(obj.Opening_Date)
+        .toISOString()
+        .slice(0, 10)
+        .replace("T", " ");
+      let end = new Date(obj.End_Date)
+        .toISOString()
+        .slice(0, 10)
+        .replace("T", " ");
+
+      setStartDate(open);
+      setEndDate(end);
+      setDate(open);
+    }
+  };
+
+  const validate = () => {
+    setTicketStatus("");
+    setExhibitStatus("");
+
+    var hasErrors = false;
+
+    if (numTickets === 0 && totalPrice === 0) {
+      setTicketStatus("* Please select at least 1 ticket.");
+      console.log("ticket error");
+      hasErrors = true;
+    }
+
+    if (option === "Special Exhibition" && chosenExhibit === "") {
+      setExhibitStatus("* Please select an exhibition.");
+      console.log("exhibit error");
+      hasErrors = true;
+    }
+    return hasErrors;
+  };
+
+  const addTicket = async (e) => {
+    e.preventDefault();
+
+    if (currentAuthID === null && currentAuthRole === null) {
+      alert("Please log in first to complete the transaction.");
+    } else if (currentAuthID !== null && currentAuthRole !== "Customer") {
+      alert(
+        "You are currently logged in as an Employee. To complete this transaction, please log out and sign back in as a Customer."
+      );
+    } else {
+      const hasErrors = validate();
+
+      if (!hasErrors) {
+        console.log("isvalid");
+        console.log("Date", date);
+        console.log("Time", time);
+        console.log("parsed time", convertTo24HourFormat(time));
+        console.log("chosenExhibition", chosenExhibit);
+        console.log("child", numChild);
+        console.log("teen", numYouth);
+        console.log("adult", numAdult);
+        console.log("senior", numSenior);
+        console.log("total price", totalPrice);
+        console.log("option", option);
+        console.log("chosenExhibition", chosenExhibit);
+
+        const ticketData = {
+          Customer_ID: currentAuthID,
+          Total_Bill: totalPrice,
+          Ticket_Date: date,
+          Ticket_Time: convertTo24HourFormat(time),
+          Num_Child_Tickets: numChild,
+          Num_Teen_Tickets: numYouth,
+          Num_Adult_Tickets: numAdult,
+          Num_Senior_Tickets: numSenior,
+          Exhibition_Name: chosenExhibit,
+        };
+
+        console.log("ticketData", ticketData);
+
+        try {
+          const response = await fetch("http://localhost:3001/tickets", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ticketData),
+          });
+
+          if (!response.ok) {
+            throw new Error("There was a network error");
+          }
+
+          const data = await response.json();
+          console.log(data);
+          if (data.message === "Tickets for this date and time are sold out.") {
+            // setStatus("Tickets for this date and time are sold out.");
+            alert("Tickets for this date and time are sold out.");
+          }
+          if (data.message === "Requested quantity exceeds current stock") {
+            // setStatus("Requested quantity exceeds current stock");
+            alert("Requested quantity exceeds current stock");
+          } else {
+            // setStatus("Ticket successfully purchased!");
+            alert("Ticket successfully purchased!");
+            clearFields();
+          }
+        } catch (error) {
+          console.log("There was an error fetching:", error);
+        }
+      }
+    }
+  };
+
+  const clearFields = () => {
+    setChosenExhibit("");
+    setDate(currDate);
+    setEndDate("");
+    setStartDate("");
+    setNumAdult(0);
+    setNumChild(0);
+    setNumSenior(0);
+    setNumYouth(0);
+    setExhibitObj({});
+    setFrame("");
+    setTime("10:00 AM");
+    setOption("Permanent Collections");
+    setShowExhibitions(false);
+    setExhibitStatus("");
+    setTicketStatus("");
+  };
+  
+  console.log("cur time", curTime)
+  console.log("cur date", currDate)
+  console.log("date", date)
+
+  const filterTimes = () => {
+    if (date === currDate){
+        console.log("current day")
+        const filtered = times.filter(time => time > curTime);
+        setTimes(filtered);
+        console.log(times)
+    } else {
+        const reg = [    "10:00 AM",
+        "11:00 AM",
+        "12:00 PM",
+        "1:00 PM",
+        "2:00 PM",
+        "3:00 PM",
+        "4:00 PM",
+        "5:00 PM",]
+        setTimes(reg);
+        console.log(times)
+    }
+  }
+
 
   return (
     <div className="min-h-screen">
@@ -113,47 +321,12 @@ const testSubmit = async () => {
           </p>
         </div>
         <div className="flex flex-col gap-y-24 px-16">
-
-          <form className="flex flex-col space-y-12">
+          <form className="flex flex-col space-y-12" onSubmit={addTicket}>
             <div className="flex flex-col space-y-20">
-              <div className="flex flex-col space-y-10 w-1/2">
-                <h2 className="font-fanwoodText text-5xl">1. Date</h2>
-                <input
-                  type="date"
-                  id="start"
-                  name="trip-start"
-                  value={date}
-                  defaultValue={currDate}
-                  onChange={(e) => setDate(e.target.value)}
-                  min={new Date().toJSON().slice(0, 10)}
-                  max="2024-06-30"
-                  className="border border-obsidian p-2 rounded-md w-1/2"
-                />
-              </div>
-
               <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">2. Time</h2>
-                <div className="flex flex-row space-x-4">
-                  {times.map((number, index) => (
-                    <p
-                      key={index}
-                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
-                        time === number
-                          ? "bg-obsidian text-chalk"
-                          : "hover:bg-rose-100 hover:text-obsidian"
-                      }`}
-                      onClick={() => {
-                        setTime(number);
-                      }}
-                    >
-                      {number}
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">3. Ticket(s) for...</h2>
+                <h2 className="font-fanwoodText text-5xl">
+                  1. Ticket(s) for...
+                </h2>
                 <div className="flex flex-row space-x-4">
                   <p
                     className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
@@ -164,7 +337,10 @@ const testSubmit = async () => {
                     onClick={() => {
                       setOption("Permanent Collections");
                       setShowExhibitions(false);
-                      setChosenExhibit(null);
+                      setChosenExhibit("");
+                      setFrame("");
+                      setDate(currDate);
+                      setExhibitStatus("");
                     }}
                   >
                     Permanent Collections
@@ -184,27 +360,227 @@ const testSubmit = async () => {
                   </p>
                 </div>
 
-                <select
-                  name="exhbitions"
-                  id="exbitions"
-                  onChange={(e) => setChosenExhibit(e.target.value)}
+                {exhibitions.length > 0 &&
+                futureExhibitions.length === 0 &&
+                showExhibitions ? (
+                  <div className="flex flex-row gap-x-6 items-center">
+                    <p className="font-bold">Current</p>
+                    <select
+                      name="chosenExhibit"
+                      id="exbitions"
+                      defaultValue="default"
+                      onChange={(e) => handleExhibitChange(e)}
+                      className={`${
+                        showExhibitions
+                          ? "border rounded-md border-obsidian p-2"
+                          : "hidden"
+                      }`}
+                    >
+                      <option value="default" disabled>
+                        Select an option
+                      </option>
+
+                      {exhibitions.map((ex) => (
+                        <option value={ex.Exhibit_Name} key={ex.Exhibit_Name}>
+                          {ex.Exhibit_Name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
+
+                {showExhibitions && futureExhibitions.length > 0 ? (
+                  <div className="flex flex-row gap-x-16">
+                    <div className="flex flex-row gap-x-4">
+                      <input
+                        type="radio"
+                        name="frame"
+                        value="Current"
+                        onClick={(e) => {
+                          setFrame(e.target.value);
+                          setDate(currDate);
+                        }}
+                      />
+                      <p>Current</p>
+                    </div>
+                    <div className="flex flex-row gap-x-4">
+                      <input
+                        type="radio"
+                        name="frame"
+                        value="Future"
+                        onClick={(e) => {
+                          setFrame(e.target.value);
+                          setChosenExhibit("");
+                          setDate(currDate);
+                        }}
+                      />
+                      <p>Future</p>
+                    </div>
+                  </div>
+                ) : null}
+
+                {exhibitions.length > 0 && frame === "Current" ? (
+                  <div className="flex flex-row gap-x-6 items-center">
+                    <p className="font-bold">Current</p>
+                    <select
+                      name="chosenExhibit"
+                      id="exbitions"
+                      defaultValue="default"
+                      onChange={(e) => handleExhibitChange(e)}
+                      className={`${
+                        showExhibitions
+                          ? "border rounded-md border-obsidian p-2"
+                          : "hidden"
+                      }`}
+                    >
+                      <option value="default" disabled>
+                        Select an option
+                      </option>
+
+                      {exhibitions.map((ex) => (
+                        <option value={ex.Exhibit_Name} key={ex.Exhibit_Name}>
+                          {ex.Exhibit_Name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
+
+                {futureExhibitions.length > 0 && frame === "Future" ? (
+                  <div className="flex flex-row gap-x-6 items-center">
+                    <p className="font-bold">Future</p>
+                    <select
+                      name="chosenExhibit"
+                      id="exbitions"
+                      defaultValue="default"
+                      onChange={(e) => handleExhibitChange(e)}
+                      className={`${
+                        showExhibitions
+                          ? "border rounded-md border-obsidian p-2"
+                          : "hidden"
+                      }`}
+                    >
+                      <option value="default" disabled>
+                        Select an option
+                      </option>
+
+                      {futureExhibitions.map((ex) => (
+                        <option value={ex.Exhibit_Name} key={ex.Exhibit_Name}>
+                          {ex.Exhibit_Name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
+                <p
                   className={`${
-                    showExhibitions
-                      ? "border rounded-md border-obsidian p-2"
-                      : "hidden"
+                    exhibitStatus === "" ? "hidden" : "text-cinnabar"
                   }`}
                 >
-                  {exhibitions.map((ex) => (
-                    <option value={ex} key={ex}>
-                      {ex}
-                    </option>
-                  ))}
-                </select>
+                  {exhibitStatus}
+                </p>
               </div>
+
+              {option === "Permanent Collections" ? (
+                <div className="flex flex-col space-y-10 w-1/2">
+                  <h2 className="font-fanwoodText text-5xl">2. Date</h2>
+                  <input
+                    type="date"
+                    value={date}
+                    defaultValue={currDate}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={currDate}
+                    max={futureFormatted}
+                    className="border border-obsidian p-2 rounded-md w-1/2"
+                  />
+                </div>
+              ) : null}
+
+              {option === "Special Exhibition" &&
+              frame === "Future" &&
+              chosenExhibit !== "" ? (
+                <div className="flex flex-col space-y-10 w-1/2">
+                  <h2 className="font-fanwoodText text-5xl">2. Date</h2>
+                  <input
+                    type="date"
+                    value={date}
+                    defaultValue={startDate}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={startDate}
+                    max={endDate}
+                    className="border border-obsidian p-2 rounded-md w-1/2"
+                  />
+                </div>
+              ) : null}
+
+              {option === "Special Exhibition" &&
+              frame === "Current" &&
+              chosenExhibit !== "" ? (
+                <div className="flex flex-col space-y-10 w-1/2">
+                  <h2 className="font-fanwoodText text-5xl">2. Date</h2>
+                  <input
+                    type="date"
+                    value={date}
+                    defaultValue={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    min={currDate}
+                    max={endDate}
+                    className="border border-obsidian p-2 rounded-md w-1/2"
+                  />
+                </div>
+              ) : null}
+
+              {option === "Permanent Collections" ?
+              <div className="flex flex-col space-y-10 w-fit">
+                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                <div className="flex flex-row space-x-4">
+                  {times.map((number, index) => (
+                    <p
+                      key={index}
+                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                        time === number
+                          ? "bg-obsidian text-chalk"
+                          : "hover:bg-rose-100 hover:text-obsidian"
+                      }`}
+                      onClick={() => {
+                        setTime(number);
+                      }}
+                    >
+                      {number}
+                    </p>
+                  ))}
+                </div>
+              </div> : null }
+
+{option === "Special Exhibition" &&
+              chosenExhibit !== "" ?
+              <div className="flex flex-col space-y-10 w-fit">
+                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                <div className="flex flex-row space-x-4">
+                  {times.map((number, index) => (
+                    <p
+                      key={index}
+                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                        time === number
+                          ? "bg-obsidian text-chalk"
+                          : "hover:bg-rose-100 hover:text-obsidian"
+                      }`}
+                      onClick={() => {
+                        setTime(number);
+                      }}
+                    >
+                      {number}
+                    </p>
+                  ))}
+                </div>
+              </div>
+               : null}
 
               <div className="flex flex-row gap-x-24">
                 <div className="flex flex-col space-y-10 w-1/2 ">
-                  <h2 className="font-fanwoodText text-5xl">4. Select Tickets</h2>
+                  <h2 className="font-fanwoodText text-5xl">
+                    4. Select Tickets
+                  </h2>
                   <div className="flex flex-col divide-y divide-obsidian">
                     <div className="flex flex-row py-6 justify-between items-center">
                       <div className="flex flex-col gap-y-2 w-1/3">
@@ -311,6 +687,13 @@ const testSubmit = async () => {
                       </div>
                     </div>
                   </div>
+                  <p
+                    className={`${
+                      ticketStatus === "" ? "hidden" : "text-cinnabar"
+                    }`}
+                  >
+                    {ticketStatus}
+                  </p>
                 </div>
 
                 <div className="flex flex-col space-y-10 w-1/2 ">
@@ -337,13 +720,13 @@ const testSubmit = async () => {
                       </div>
                       <div
                         className={`${
-                          chosenExhibit !== null
+                          chosenExhibit !== ""
                             ? "flex flex-row justify-between"
                             : "hidden"
                         }`}
                       >
                         <p className="font-bold">Exhibition </p>
-                        <p>{chosenExhibit}</p>
+                        <p className="text-end w-1/2">{chosenExhibit}</p>
                       </div>
                     </div>
 
@@ -354,22 +737,31 @@ const testSubmit = async () => {
                           : "flex flex-col gap-y-2 p-6"
                       }`}
                     >
-                      <div className="flex flex-row justify-between">
-                        <p className="font-bold"># of Child Tickets</p>
-                        <p>{numChild}</p>
-                      </div>
-                      <div className="flex flex-row justify-between">
-                        <p className="font-bold"># of Youth Tickets</p>
-                        <p>{numYouth}</p>
-                      </div>
-                      <div className="flex flex-row justify-between">
-                        <p className="font-bold"># of Adult Tickets</p>
-                        <p>{numAdult}</p>
-                      </div>
-                      <div className="flex flex-row justify-between">
-                        <p className="font-bold"># of Senior Tickets</p>
-                        <p>{numSenior}</p>
-                      </div>
+                      {numChild > 0 ? (
+                        <div className="flex flex-row justify-between">
+                          <p className="font-bold"># of Child Tickets</p>
+                          <p>{numChild}</p>
+                        </div>
+                      ) : null}
+
+                      {numYouth > 0 ? (
+                        <div className="flex flex-row justify-between">
+                          <p className="font-bold"># of Youth Tickets</p>
+                          <p>{numYouth}</p>
+                        </div>
+                      ) : null}
+                      {numAdult > 0 ? (
+                        <div className="flex flex-row justify-between">
+                          <p className="font-bold"># of Adult Tickets</p>
+                          <p>{numAdult}</p>
+                        </div>
+                      ) : null}
+                      {numSenior > 0 ? (
+                        <div className="flex flex-row justify-between">
+                          <p className="font-bold"># of Senior Tickets</p>
+                          <p>{numSenior}</p>
+                        </div>
+                      ) : null}
                     </div>
 
                     <div className="flex flex-col gap-y-2 p-6">
@@ -389,10 +781,10 @@ const testSubmit = async () => {
 
             <button
               type="button"
-              onClick={testSubmit}
+              onClick={addTicket}
               className="bg-obsidian text-chalk rounded-md p-4 font-bold text-xl hover:bg-cinnabar transition-all duration-500 ease-in-out"
             >
-              Buy Tickets 
+              Buy Tickets
             </button>
           </form>
         </div>
