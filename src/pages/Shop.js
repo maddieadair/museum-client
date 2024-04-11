@@ -16,9 +16,7 @@ export default function Shop() {
 
 
   useEffect(() => {
-    setTimeout(() => {
       fetchGiftItems();
-    }, 500);
   }, []);
 
   console.log("Gift items:", giftItems);
@@ -47,8 +45,7 @@ export default function Shop() {
 //   console.log("cart", cart)
 
   return (
-    <>
-      {!loading ? (
+
         <div className="min-h-screen">
           <UserNavbar />
 
@@ -113,9 +110,5 @@ export default function Shop() {
           </div>
           <Footer />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
   );
 }

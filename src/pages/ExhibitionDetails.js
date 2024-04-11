@@ -25,10 +25,8 @@ export default function ExhibitionDetails() {
   //   const [Exhibit_ID, setExhibitID] = useState("");
 
   useEffect(() => {
-    setTimeout(() => {
         fetchExhibition();
         fetchArtworks();
-        }, 500);
   }, []);
 
   const fetchExhibition = async () => {
@@ -85,8 +83,6 @@ export default function ExhibitionDetails() {
 //   console.log("Description", description);
 
   return (
-    <>
-    {!loading ?
     <div className="min-h-screen">
       <UserNavbar />
       {exhibition.length > 0 ? (
@@ -149,7 +145,5 @@ export default function ExhibitionDetails() {
 
       <Footer />
     </div>
-    : <Loading />}
-    </>
   );
 }

@@ -12,13 +12,11 @@ export default function ExhibitionsCurrent() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
       fetchExhibitions();
-    }, 500);
   }, []);
 
   const fetchExhibitions = () => {
-    fetch("http://localhost:3001/past-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/past-exhibits", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -36,8 +34,6 @@ export default function ExhibitionsCurrent() {
   console.log("future exhibits", exhibitions);
 
   return (
-    <>
-      {!loading ? (
         <div className="min-h-screen">
           <UserNavbar />
 
@@ -136,9 +132,5 @@ export default function ExhibitionsCurrent() {
 
           <Footer />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
   );
 }

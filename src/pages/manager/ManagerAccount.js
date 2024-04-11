@@ -20,7 +20,7 @@ export default function ManagerAccount() {
       employee_id: currentAuthID,
     };
     console.log("fetch exhibit info", employeeInfo);
-    fetch("http://localhost:3001/employee-ID", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/employee-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

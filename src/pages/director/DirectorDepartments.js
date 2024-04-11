@@ -69,7 +69,7 @@ export default function DirectorCollections() {
     console.log("departmentData", departmentData);
 
     try {
-      const response = await fetch("http://localhost:3001/department", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/department", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -119,7 +119,7 @@ export default function DirectorCollections() {
   };
 
   const fetchDepartments = () => {
-    fetch("http://localhost:3001/departments", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/departments", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -135,7 +135,7 @@ export default function DirectorCollections() {
   };
 
   const fetchManagers = () => {
-    fetch("http://localhost:3001/managers", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/managers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -151,7 +151,7 @@ export default function DirectorCollections() {
   };
 
   const fetchNewManagers = () => {
-    fetch("http://localhost:3001/new-managers", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/new-managers", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -195,7 +195,7 @@ export default function DirectorCollections() {
     console.log("departmentData", departmentData);
 
     try {
-      const response = await fetch("http://localhost:3001/department", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/department", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -248,7 +248,7 @@ export default function DirectorCollections() {
     console.log("employeeData", deptInfo);
 
     try {
-      const response = await fetch("http://localhost:3001/department", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/department", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

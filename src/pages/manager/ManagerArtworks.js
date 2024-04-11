@@ -107,7 +107,7 @@ export default function ManagerArtworks() {
     console.log("artData", artData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -236,7 +236,7 @@ export default function ManagerArtworks() {
       Department_ID: currentAuthDep,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("http://localhost:3001/department-artworks", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/department-artworks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -260,7 +260,7 @@ export default function ManagerArtworks() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/dept-exhibits", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/dept-exhibits", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -299,7 +299,7 @@ export default function ManagerArtworks() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/department-collections",
+        "https://museum3380-89554eee8566.herokuapp.com/department-collections",
         {
           method: "POST",
           headers: {
@@ -358,7 +358,7 @@ export default function ManagerArtworks() {
     console.log("artData", artData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -419,7 +419,7 @@ export default function ManagerArtworks() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

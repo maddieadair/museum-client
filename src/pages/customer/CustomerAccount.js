@@ -94,7 +94,7 @@ export default function CustomerAccount() {
         Customer_ID: currentAuthID,
       };
       console.log("fetch customer info", customerInfo);
-      fetch("http://localhost:3001/customer-ID", {
+      fetch("https://museum3380-89554eee8566.herokuapp.com/customer-ID", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -158,7 +158,7 @@ export default function CustomerAccount() {
   
       try {
         const response = await fetch(
-          "http://localhost:3001/customer",
+          "https://museum3380-89554eee8566.herokuapp.com/customer",
           {
             method: "PUT",
             headers: {

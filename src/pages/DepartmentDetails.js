@@ -18,10 +18,8 @@ export default function DepartmentDetails() {
   //   const [Exhibit_ID, setExhibitID] = useState("");
 
   useEffect(() => {
-    setTimeout(() => {
         fetchDepartment();
         fetchCollections();
-        }, 500);
   }, []);
 
   const fetchDepartment = async () => {
@@ -73,8 +71,6 @@ export default function DepartmentDetails() {
   console.log("Collections", collections)
 
   return (
-    <>
-    {!loading ?
     <div className="min-h-screen">
       <UserNavbar />
       {department.length > 0 ? (
@@ -143,7 +139,5 @@ export default function DepartmentDetails() {
 
       <Footer />
     </div>
-    : <Loading/>}
-    </>
   );
 }

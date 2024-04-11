@@ -16,9 +16,7 @@ export default function ArtworkDetails() {
   const [artwork, setArtwork] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
         fetchArtwork();
-        }, 500);
   }, []);
 
   const fetchArtwork = async () => {
@@ -45,8 +43,6 @@ export default function ArtworkDetails() {
   console.log("Artworks", artwork);
 
   return (
-    <>
-    {!loading ?
     <div className="min-h-screen">
       <UserNavbar />
       {artwork.length > 0 ? (
@@ -167,7 +163,5 @@ export default function ArtworkDetails() {
       ) : null}
       <Footer />
     </div>
-    : <Loading/> }
-    </>
   );
 }

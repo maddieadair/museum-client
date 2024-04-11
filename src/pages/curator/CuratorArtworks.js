@@ -91,7 +91,7 @@ export default function CuratorArtworks() {
     console.log("artData", artData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +220,7 @@ export default function CuratorArtworks() {
       Curator_ID: currentAuthID,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("http://localhost:3001/employee-art", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/employee-art", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -244,7 +244,7 @@ export default function CuratorArtworks() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/employee-exhibits", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee-exhibits", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -282,7 +282,7 @@ export default function CuratorArtworks() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/employee-cols", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee-cols", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -325,7 +325,7 @@ export default function CuratorArtworks() {
   //     console.log("employeeData", employeeData);
 
   //     try {
-  //       const response = await fetch("http://localhost:3001/archive-exhibit", {
+  //       const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/archive-exhibit", {
   //         method: "PUT",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -397,7 +397,7 @@ export default function CuratorArtworks() {
     console.log("artData", artData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -458,7 +458,7 @@ export default function CuratorArtworks() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch("http://localhost:3001/artwork", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/artwork", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",

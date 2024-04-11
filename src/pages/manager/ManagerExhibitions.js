@@ -45,7 +45,7 @@ export default function ManagerExhibitions() {
       supervisor_id: currentAuthID,
     };
     console.log("fetch exhibit info", employeeInfo);
-    fetch("http://localhost:3001/suboordinates", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/suboordinates", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function ManagerExhibitions() {
     console.log("employeeData", exhibitData);
 
     try {
-      const response = await fetch("http://localhost:3001/exhibitions", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/exhibitions", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ export default function ManagerExhibitions() {
       Exhibition_Department: currentAuthDep,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("http://localhost:3001/dept-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/dept-exhibits", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -196,7 +196,7 @@ export default function ManagerExhibitions() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/archive-exhibit", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/archive-exhibit", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -243,7 +243,7 @@ export default function ManagerExhibitions() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/exhibition", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/exhibition", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -298,7 +298,7 @@ export default function ManagerExhibitions() {
     console.log("exhibitData", exhibitData);
 
     try {
-      const response = await fetch("http://localhost:3001/exhibition", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/exhibition", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

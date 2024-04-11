@@ -12,9 +12,7 @@ export default function Departments() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
       fetchDepartments();
-    }, 500);
   }, []);
 
   const fetchDepartments = () => {
@@ -54,8 +52,6 @@ export default function Departments() {
   console.log("Departments", departments);
 
   return (
-    <>
-      {!loading ? (
         <div className="min-h-screen">
           <UserNavbar />
 
@@ -125,9 +121,5 @@ export default function Departments() {
 
           <Footer />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
   );
 }
