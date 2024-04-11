@@ -12,9 +12,7 @@ export default function Exhibitions() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTimeout(() => {
       fetchExhibitions();
-    }, 1000);
   }, []);
 
   const fetchExhibitions = () => {
@@ -34,7 +32,6 @@ export default function Exhibitions() {
   };
 
   return (
-    <> {!loading ? 
     <div className="min-h-screen">
       <UserNavbar />
 
@@ -130,7 +127,5 @@ export default function Exhibitions() {
 
       <Footer />
     </div>
-    : <Loading />}
-    </>
   );
 }

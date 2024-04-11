@@ -42,9 +42,7 @@ export default function Artworks() {
   const [artworks, setArtworks] = useState([]);
 
   useEffect(() => {
-    setTimeout(() => {
       fetchArtworks();
-    }, 500);
   }, [searchParams]);
 
   useEffect(() => {
@@ -292,8 +290,6 @@ export default function Artworks() {
   };
 
   return (
-    <>
-      {!loading ? (
         <div className="min-h-screen">
           <UserNavbar />
           <div className="flex flex-col pb-20 gap-y-24 font-inter">
@@ -555,9 +551,5 @@ export default function Artworks() {
 
           <Footer />
         </div>
-      ) : (
-        <Loading />
-      )}
-    </>
   );
 }
