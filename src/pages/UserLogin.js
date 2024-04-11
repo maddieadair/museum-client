@@ -55,7 +55,7 @@ export default function UserLogin() {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/customer-login",
+          "https://museum3380-89554eee8566.herokuapp.com/customer-login",
           {
             method: "POST",
             headers: {

@@ -15,7 +15,7 @@ export default function AccountPurchaseDetails() {
         gift_transactionID: id,
     };
     console.log("fetch customer tickets for customer", customerInfo);
-    fetch("http://localhost:3001/gift-ID", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/gift-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

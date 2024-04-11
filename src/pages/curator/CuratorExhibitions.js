@@ -51,7 +51,7 @@ export default function CuratorExhibitions() {
 //     console.log("employeeData", exhibitData);
 
 //     try {
-//       const response = await fetch("http://localhost:3001/exhibitions", {
+//       const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/exhibitions", {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export default function CuratorExhibitions() {
       Curator_ID: currentAuthID,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("http://localhost:3001/employee-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/employee-exhibits", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -142,7 +142,7 @@ export default function CuratorExhibitions() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/archive-exhibit", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/archive-exhibit", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -205,7 +205,7 @@ export default function CuratorExhibitions() {
     console.log("exhibitData", exhibitData);
 
     try {
-      const response = await fetch("http://localhost:3001/exhibition", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/exhibition", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

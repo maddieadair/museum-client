@@ -60,7 +60,7 @@ export default function ManagerEmployees() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/employee",
+        "https://museum3380-89554eee8566.herokuapp.com/employee",
         {
           method: "POST",
           headers: {
@@ -118,7 +118,7 @@ export default function ManagerEmployees() {
         department_name: currentAuthDep,
     };
     console.log("fetch exhibit info", departmentInfo);
-    fetch("http://localhost:3001/dep-artworks", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/dep-artworks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export default function ManagerEmployees() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/employee",
+        "https://museum3380-89554eee8566.herokuapp.com/employee",
         {
           method: "DELETE",
           headers: {
@@ -188,7 +188,7 @@ export default function ManagerEmployees() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/employee",
+        "https://museum3380-89554eee8566.herokuapp.com/employee",
         {
           method: "PUT",
           headers: {

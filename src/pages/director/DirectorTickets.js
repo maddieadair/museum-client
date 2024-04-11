@@ -17,7 +17,7 @@ export default function DirectorTickets() {
   }, []);
 
   const fetchTickets = () => {
-    fetch("http://localhost:3001/tickets", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/tickets", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

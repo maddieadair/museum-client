@@ -17,7 +17,7 @@ export default function DirectorDonations() {
   }, []);
 
   const fetchDonations = () => {
-    fetch("http://localhost:3001/donations", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/donations", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

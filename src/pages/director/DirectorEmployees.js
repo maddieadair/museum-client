@@ -201,7 +201,7 @@ export default function DirectorEmployees() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/employee",
+        "https://museum3380-89554eee8566.herokuapp.com/employee",
         {
           method: "POST",
           headers: {
@@ -258,7 +258,7 @@ export default function DirectorEmployees() {
   };
 
   const fetchEmployees = () => {
-    fetch("http://localhost:3001/employees", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/employees", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -274,7 +274,7 @@ export default function DirectorEmployees() {
   };
 
   const fetchEmptyDepts = () => {
-    fetch("http://localhost:3001/dept-no-mgr", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/dept-no-mgr", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -290,7 +290,7 @@ export default function DirectorEmployees() {
   };
 
   const fetchSupervisors = () => {
-    fetch("http://localhost:3001/supervisors", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/supervisors", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -306,7 +306,7 @@ export default function DirectorEmployees() {
   };
 
   const fetchDepts = () => {
-    fetch("http://localhost:3001/departments", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/departments", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -340,7 +340,7 @@ export default function DirectorEmployees() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/employee", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -387,7 +387,7 @@ export default function DirectorEmployees() {
     console.log("employeeData", employeeData);
 
     try {
-      const response = await fetch("http://localhost:3001/employee", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/employee", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

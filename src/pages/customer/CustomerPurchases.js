@@ -27,7 +27,7 @@ export default function CustomerPurchases() {
       customer_ID: currentAuthID,
     };
     console.log("fetch customer tickets for customer", customerInfo);
-    fetch("http://localhost:3001/customer-gifts", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/customer-gifts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
