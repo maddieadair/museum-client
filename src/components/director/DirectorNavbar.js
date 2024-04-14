@@ -3,7 +3,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { GoPeople } from "react-icons/go";
 import { AiOutlinePicture } from "react-icons/ai";
 import { MdOutlineCollections } from "react-icons/md";
-import { BiCollection, BiData } from "react-icons/bi";
+import { BiCollection, BiData, BiDollarCircle} from "react-icons/bi";
 import { LiaImages } from "react-icons/lia";
 import { FiLogOut } from "react-icons/fi";
 import { LuStore } from "react-icons/lu";
@@ -141,6 +141,22 @@ export default function DirectorNavbar() {
           {" "}
           <GrCatalog />
           <p>Shop Catalog</p>
+        </NavLink>
+
+        <NavLink
+          to="/director/finance-report"
+          className={({ isActive }) =>
+            [
+              "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
+              isActive
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
+            ].join(" ")
+          }
+        >
+          {" "}
+          <BiDollarCircle />
+          <p>Finance Report</p>
         </NavLink>
 
         <NavLink

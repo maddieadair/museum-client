@@ -57,6 +57,7 @@ import DirectorShopCatalog from "./pages/director/DirectorShopCatalog";
 import DirectorDonations from "./pages/director/DirectorDonations";
 import DirectorTickets from "./pages/director/DirectorTickets";
 import DirectorDeptReport from "./pages/director/DirectorDeptReport";
+import DirectorFinanceReport from "./pages/director/DirectorFinanceReport";
 
 import NotFound from "./pages/NotFound";
 import DirectorDepartments from "./pages/director/DirectorDepartments";
@@ -381,6 +382,14 @@ function App() {
               element={
                 <DirectorRoutes>
                   <DirectorDeptReport />{" "}
+                </DirectorRoutes>
+              }
+            ></Route>
+            <Route
+              path="/director/finance-report"
+              element={
+                <DirectorRoutes>
+                  <DirectorFinanceReport />{" "}
                 </DirectorRoutes>
               }
             ></Route>
