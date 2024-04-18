@@ -23,6 +23,7 @@ export default function Shop() {
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
+    setTimeout(() => {
       const savedCart = localStorage.getItem("cart");
       if (savedCart) {
         setCart(JSON.parse(JSON.parse(savedCart)));
@@ -30,6 +31,8 @@ export default function Shop() {
         setSubtotal(JSON.parse(JSON.parse(savedCart)).gift_price);
         setItemID(JSON.parse(JSON.parse(savedCart)).gift_index);
       }
+      setLoading(false);
+    }, 500);
   }, []);
 
   useEffect(() => {
@@ -90,6 +93,8 @@ export default function Shop() {
   console.log("quantity", quantity);
 
   return (
+    <>
+      {!loading ? (
         <div className="min-h-screen">
           <UserNavbar />
 
@@ -179,5 +184,9 @@ export default function Shop() {
 
           <Footer />
         </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

@@ -231,7 +231,7 @@ export default function Tickets() {
           });
 
           if (!response.ok) {
-            throw new Error("There was a network error");
+            throw new Error("There was a network ");
           }
 
           const data = await response.json();
@@ -249,6 +249,7 @@ export default function Tickets() {
             clearFields();
           }
         } catch (error) {
+            alert(error)
           console.log("There was an error fetching:", error);
         }
       }
