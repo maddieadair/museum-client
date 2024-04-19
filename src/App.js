@@ -16,7 +16,6 @@ import CustomerPurchases from "./pages/customer/CustomerPurchases";
 import CustomerTickets from "./pages/customer/CustomerTickets";
 import Checkout from "./pages/Checkout";
 
-
 import Ticket from "./pages/Tickets";
 import Artworks from "./pages/Artworks";
 import Exhibitions from "./pages/Exhibitions";
@@ -34,6 +33,7 @@ import CuratorCollections from "./pages/curator/CuratorCollections";
 import CuratorExhibitions from "./pages/curator/CuratorExhibitions";
 import CuratorArtworks from "./pages/curator/CuratorArtworks";
 import CuratorAccount from "./pages/curator/CuratorAccount";
+import CuratorReport from "./pages/curator/CuratorReport";
 
 import ManagerHome from "./pages/manager/ManagerHome";
 import ManagerCollections from "./pages/manager/ManagerCollections";
@@ -41,11 +41,14 @@ import ManagerExhibitions from "./pages/manager/ManagerExhibitions";
 import ManagerArtworks from "./pages/manager/ManagerArtworks";
 import ManagerAccount from "./pages/manager/ManagerAccount";
 import ManagerEmployees from "./pages/manager/ManagerEmployees";
+import ManagerArtReport from "./pages/manager/ManagerArtReport";
+import ManagerExhibitReport from "./pages/manager/ManagerExhibitReport";
 
 import ShopManagerHome from "./pages/shopManager/ShopManagerHome";
 import ShopManagerAccount from "./pages/shopManager/ShopManagerAccount";
 import ShopManagerCatalog from "./pages/shopManager/ShopManagerCatalog";
 import ShopManagerShopLog from "./pages/shopManager/ShopManagerShopLog";
+import ShopReport from "./pages/shopManager/ShopManagerReport";
 
 import DirectorHome from "./pages/director/DirectorHome";
 import DirectorCollections from "./pages/director/DirectorCollections";
@@ -58,6 +61,7 @@ import DirectorDonations from "./pages/director/DirectorDonations";
 import DirectorTickets from "./pages/director/DirectorTickets";
 import DirectorDeptReport from "./pages/director/DirectorDeptReport";
 import DirectorFinanceReport from "./pages/director/DirectorFinanceReport";
+import DirectorArtReport from "./pages/director/DirectorArtReport";
 
 import NotFound from "./pages/NotFound";
 import DirectorDepartments from "./pages/director/DirectorDepartments";
@@ -219,6 +223,15 @@ function App() {
               }
             ></Route>
 
+            <Route
+              path="/curator/exhibit-report"
+              element={
+                <CuratorRoutes>
+                  <CuratorReport />{" "}
+                </CuratorRoutes>
+              }
+            ></Route>
+
             {/* Manager Routes */}
             <Route
               path="/manager"
@@ -246,6 +259,14 @@ function App() {
               }
             ></Route>
             <Route
+              path="/manager/art-report"
+              element={
+                <ManagerRoutes>
+                  <ManagerArtReport />{" "}
+                </ManagerRoutes>
+              }
+            ></Route>
+            <Route
               path="/manager/artworks"
               element={
                 <ManagerRoutes>
@@ -258,6 +279,14 @@ function App() {
               element={
                 <ManagerRoutes>
                   <ManagerEmployees />{" "}
+                </ManagerRoutes>
+              }
+            ></Route>
+            <Route
+              path="/manager/exhibit-report"
+              element={
+                <ManagerRoutes>
+                  <ManagerExhibitReport />{" "}
                 </ManagerRoutes>
               }
             ></Route>
@@ -300,6 +329,15 @@ function App() {
               element={
                 <ShopManagerRoutes>
                   <ShopManagerAccount />{" "}
+                </ShopManagerRoutes>
+              }
+            ></Route>
+
+            <Route
+              path="/shop-manager/report"
+              element={
+                <ShopManagerRoutes>
+                  <ShopReport />{" "}
                 </ShopManagerRoutes>
               }
             ></Route>
@@ -394,6 +432,14 @@ function App() {
               }
             ></Route>
             <Route
+              path="/director/art-report"
+              element={
+                <DirectorRoutes>
+                  <DirectorArtReport />{" "}
+                </DirectorRoutes>
+              }
+            ></Route>
+            <Route
               path="/director/account"
               element={
                 <DirectorRoutes>
@@ -401,26 +447,6 @@ function App() {
                 </DirectorRoutes>
               }
             ></Route>
-
-            {/* <Route path="/admin" element={<AdminHome />}></Route>
-          <Route path="/admin/account" element={<AdminAccount />}></Route>
-          <Route path="/admin/artworks" element={<AdminArtworks />}></Route>
-          <Route path="/admin/employees" element={<AdminEmployees />}></Route>
-          <Route
-            path="/admin/departments"
-            element={<AdminDepartments />}
-          ></Route>
-          <Route
-            path="/admin/collections"
-            element={<AdminCollections />}
-          ></Route>
-          <Route
-            path="/admin/exhibitions"
-            element={<AdminExhibitions />}
-          ></Route>
-          <Route path="/admin/tickets" element={<AdminTickets />}></Route>
-          <Route path="/admin/shop" element={<AdminShop />}></Route>
-          <Route path="/admin/donations" element={<AdminDonations />}></Route> */}
 
             <Route path="*" element={<NotFound />} />
           </Routes>

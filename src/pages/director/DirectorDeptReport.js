@@ -48,7 +48,7 @@ export default function DirectorCollections() {
   }, []);
 
   const formatDate = (dateStr) => {
-    return dateStr ? new Date(dateStr).toLocaleDateString('en-US') : '';
+    return dateStr ? new Date(dateStr).toLocaleDateString("en-US") : "";
   };
 
   const fetchArtworks = () => {
@@ -65,7 +65,7 @@ export default function DirectorCollections() {
   };
 
   const aggregateArtworksByDept = (artworks) => {
-    const filteredArtworks = artworks.filter(art => {
+    const filteredArtworks = artworks.filter((art) => {
       const artDate = new Date(art.New_AcqDate);
       const start = new Date(startDate);
       const end = new Date(endDate);
@@ -83,35 +83,35 @@ export default function DirectorCollections() {
 
   const fetchEmployees = () => {
     fetch("https://museum3380-89554eee8566.herokuapp.com/employees", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-    .then((response) => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return response.json();
-    })
-    .then((data) => {
-      setEmployees(data);
-      aggregateEmployeesByDept(data);
-      countManagers(data);
-    })
-    .catch((error) => console.error("Failed to fetch employees:", error));
+      })
+      .then((data) => {
+        setEmployees(data);
+        aggregateEmployeesByDept(data);
+        countManagers(data);
+      })
+      .catch((error) => console.error("Failed to fetch employees:", error));
   };
 
   const countManagers = (employees) => {
-    const managers = employees.filter(emp => emp.role === "Manager");
+    const managers = employees.filter((emp) => emp.role === "Manager");
     setTotalManagers(managers.length);
   };
 
   const aggregateEmployeesByDept = (employees) => {
     const counts = employees.reduce((acc, curr) => {
-        const deptId = curr.dep_ID || "Unassigned";
-        acc[deptId] = (acc[deptId] || 0) + 1;
-       return acc;
+      const deptId = curr.dep_ID || "Unassigned";
+      acc[deptId] = (acc[deptId] || 0) + 1;
+      return acc;
     }, {});
     setEmployeeCountsByDept(counts);
     setTotalEmployees(employees.length);
@@ -145,7 +145,9 @@ export default function DirectorCollections() {
       })
       .then((data) => {
         setManagers(data);
-        const uniqueManagers = new Set(data.map(manager => manager.manager_id));
+        const uniqueManagers = new Set(
+          data.map((manager) => manager.manager_id)
+        );
         setTotalManagers(uniqueManagers.size);
       });
   };
@@ -180,21 +182,20 @@ export default function DirectorCollections() {
           <DirectorBar title="Department Report" />
 
           <div className="flex flex-col px-14 gap-y-12">
-
-          <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
-                <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
-                  <p className="w-1/4 ">Total Departments</p>
-                  <p className="w-1/4 ">Total Managers</p>
-                  <p className="w-1/4 ">Total Employees</p>
-                  <p className="w-1/4 ">Total Artworks</p>
-                </div>
-                <div className="flex flex-row gap-x-6 p-6 group">
+            <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
+                <p className="w-1/4 ">Total Departments</p>
+                <p className="w-1/4 ">Total Managers</p>
+                <p className="w-1/4 ">Total Employees</p>
+                <p className="w-1/4 ">Total Artworks</p>
+              </div>
+              <div className="flex flex-row gap-x-6 p-6 group">
                 <p className="w-1/4 ">{totalDepartments}</p>
                 <p className="w-1/4 ">{totalManagers}</p>
                 <p className="w-1/4 ">{totalEmployees}</p>
                 <p className="w-1/4 ">{totalArtworks}</p>
-                </div>
-          </div>
+              </div>
+            </div>
 
             <div className="flex flex-row justify-between">
               <button
@@ -209,9 +210,9 @@ export default function DirectorCollections() {
                 <p>Filter</p>
               </button>
               {filterApplied && startDate && endDate && (
-               <div className="text-[#34383f] flex items-center text-black font-bold">
-                {`${formatDate(startDate)} - ${formatDate(endDate)}`}
-               </div>
+                <div className="text-[#34383f] flex items-center text-black font-bold">
+                  {`${formatDate(startDate)} - ${formatDate(endDate)}`}
+                </div>
               )}
             </div>
 
@@ -236,8 +237,12 @@ export default function DirectorCollections() {
                     ) : (
                       <p className="w-1/4 ">N/A</p>
                     )}
-                    <p className="w-1/4 ">{employeeCountsByDept[item.department_id] || 0}</p>
-                    <p className="w-1/4 ">{artCountsByDept[item.department_id] || 0}</p>
+                    <p className="w-1/4 ">
+                      {employeeCountsByDept[item.department_id] || 0}
+                    </p>
+                    <p className="w-1/4 ">
+                      {artCountsByDept[item.department_id] || 0}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -250,7 +255,10 @@ export default function DirectorCollections() {
         <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
           <form
             className="bg-white rounded-3xl h-fit max-h-[38rem] overflow-auto w-1/2 shadow-md flex flex-col"
-            onSubmit={(e) => { e.preventDefault(); handleFilter(); }}  // Handle form submit to apply the filter
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleFilter();
+            }} // Handle form submit to apply the filter
           >
             <div className="flex flex-col">
               <IoClose
@@ -258,14 +266,17 @@ export default function DirectorCollections() {
                 onClick={() => setOpenFilter(false)}
               />
               <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
-              <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">See the number of artworks created between two dates</p>
-                </div>
-              <div className="flex flex-row justify-between items-center p-4">
+                <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold">
-                    Start Date <span className="text-cinnabar font-normal">*</span>
+                    See the number of artworks created between two dates
                   </p>
-                  <input 
+                </div>
+                <div className="flex flex-row justify-between items-center p-4">
+                  <p className="font-bold">
+                    Start Date{" "}
+                    <span className="text-cinnabar font-normal">*</span>
+                  </p>
+                  <input
                     type="date"
                     name="startDate"
                     value={startDate}
@@ -279,7 +290,9 @@ export default function DirectorCollections() {
                     type="date"
                     name="endDate"
                     value={endDate} // Replace with the state variable for the end date
-                    onChange={(e) => {setEndDate(e.target.value)}}
+                    onChange={(e) => {
+                      setEndDate(e.target.value);
+                    }}
                     className="shadow-inner border border-slate-200 rounded-md px-2 py-1 w-1/2"
                   />
                 </div>

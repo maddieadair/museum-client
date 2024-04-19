@@ -12,6 +12,7 @@ import { IoTicketOutline } from "react-icons/io5";
 import { FiGift } from "react-icons/fi";
 import { GrCatalog } from "react-icons/gr";
 import { BsShop } from "react-icons/bs";
+import { TbReportAnalytics } from "react-icons/tb";
 
 import { Link, NavLink } from "react-router-dom";
 
@@ -68,6 +69,22 @@ export default function ShopManagerNavbar() {
           {" "}
           <BsShop />
           <p>Transaction Log</p>
+        </NavLink>
+
+        <NavLink
+          to="/shop-manager/report"
+          className={({ isActive }) =>
+            [
+              "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
+              isActive
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
+            ].join(" ")
+          }
+        >
+          {" "}
+          <TbReportAnalytics />
+          <p>Report</p>
         </NavLink>
 
       </div>

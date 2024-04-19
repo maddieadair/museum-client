@@ -11,6 +11,7 @@ import { LuDot } from "react-icons/lu";
 import { IoTicketOutline } from "react-icons/io5";
 import { FiGift } from "react-icons/fi";
 import { GrCatalog } from "react-icons/gr";
+import { TbReportAnalytics } from "react-icons/tb";
 
 import { Link, NavLink } from "react-router-dom";
 
@@ -125,6 +126,22 @@ export default function DirectorNavbar() {
           {" "}
           <AiOutlinePicture />
           <p>Artworks</p>
+        </NavLink>
+
+        <NavLink
+          to="/director/art-report"
+          className={({ isActive }) =>
+            [
+              "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
+              isActive
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
+            ].join(" ")
+          }
+        >
+          {" "}
+          <TbReportAnalytics />
+          <p>Art Report</p>
         </NavLink>
 
         <NavLink
