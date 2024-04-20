@@ -10,6 +10,7 @@ import { LuStore } from "react-icons/lu";
 import { LuDot } from "react-icons/lu";
 import { IoTicketOutline } from "react-icons/io5";
 import { FiGift } from "react-icons/fi";
+import { TbReportMoney } from "react-icons/tb";
 
 import { Link, NavLink } from "react-router-dom";
 
@@ -79,6 +80,22 @@ export default function CuratorNavbar() {
           {" "}
           <AiOutlinePicture />
           <p>Artworks</p>
+        </NavLink>
+
+        <NavLink
+          to="/curator/exhibit-report"
+          className={({ isActive }) =>
+            [
+              "flex flex-row gap-x-4 items-center w-full rounded-lg p-2 px-4",
+              isActive
+              ? "bg-[#ededed] text-[#34383f] font-bold"
+              : "text-[#666666]",
+            ].join(" ")
+          }
+        >
+          {" "}
+          <TbReportMoney />
+          <p>Exhibition Report</p>
         </NavLink>
       </div>
     </div>

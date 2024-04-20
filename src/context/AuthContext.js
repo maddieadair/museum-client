@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { PiGitlabLogoSimpleLight } from "react-icons/pi";
 
 export const AuthContext = createContext();
 
@@ -40,6 +41,21 @@ const getCart = () => {
     return cart ? JSON.parse(cart) : null;
 }
 
+const getPrice = () => {
+    const price = localStorage.getItem("price");
+    return price ? JSON.parse(price) : null;
+}
+
+const getDiscount = () => {
+    const discount = localStorage.getItem("discount");
+    return discount ? JSON.parse(discount) : null;
+}
+
+const getTotal = () => {
+    const total = localStorage.getItem("total");
+    return total ? JSON.parse(total) : null;
+}
+
 // const getToken = () => {
 //   const Token = localStorage.getItem("Token");
 //   return Token ? Token : null;
@@ -53,6 +69,9 @@ export const AuthProvider = ({ children }) => {
   const [currentAuthDep, setCurrentAuthDep] = useState(getAuthDep);
   const [currentToken, setCurrentToken] = useState(getToken);
   const [currentCart, setCurrentCart] = useState(getCart);
+  const [currentPrice, setCurrentPrice] = useState(getPrice);
+  const [currentDiscount, setCurrentDiscount] = useState(getDiscount);
+  const [currentTotal, setCurrentTotal] = useState(getTotal);
 
   const navigate = useNavigate();
 
@@ -62,7 +81,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("AuthDep", JSON.stringify(currentAuthDep));
     // localStorage.setItem("token", JSON.stringify(currentToken));
     localStorage.setItem("cart", JSON.stringify(currentCart));
-  }, [currentAuthID, currentAuthRole, currentToken, currentAuthDep, currentCart]);
+    localStorage.setItem("price", JSON.stringify(currentPrice));
+    localStorage.setItem("discount", JSON.stringify(currentDiscount));
+    localStorage.setItem("total", JSON.stringify(currentTotal));
+
+  }, [currentAuthID, currentAuthRole, currentToken, currentAuthDep, currentCart, currentPrice, currentDiscount, currentTotal]);
 
   const logout = () => {
     setCurrentAuthID(null);
@@ -70,6 +93,10 @@ export const AuthProvider = ({ children }) => {
     setCurrentToken(null);
     setCurrentAuthDep(null);
     setCurrentCart(null);
+    setCurrentPrice(null);
+    setCurrentDiscount(null);
+    setCurrentTotal(null);
+
     alert("Successfully logged out!")
     navigate("/");
   };
@@ -87,6 +114,12 @@ export const AuthProvider = ({ children }) => {
         setCurrentAuthDep,
         currentCart,
         setCurrentCart,
+        currentPrice,
+        setCurrentPrice,
+        currentTotal,
+        setCurrentTotal,
+        setCurrentDiscount,
+        currentDiscount,
         logout,
       }}
     >

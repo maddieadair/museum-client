@@ -15,12 +15,14 @@ export default function Tickets() {
 
   const [showTimes, setShowTimes] = useState(false);
 
-  const currDate = new Date().toJSON().slice(0, 10);
+  let currDate = new Date();
+  const offset = currDate.getTimezoneOffset();
+  currDate = new Date(currDate.getTime() - offset * 60 * 1000);
+  currDate = currDate.toISOString().split("T")[0];
+
   const cur = new Date();
   const future = new Date(cur.setMonth(cur.getMonth() + 3));
   const futureFormatted = future.toJSON().slice(0, 10);
-
-  const [curTime, setCurTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
 
   const [date, setDate] = useState(currDate);
 
@@ -50,7 +52,6 @@ export default function Tickets() {
     }
 
     return `${hours}:${minutes}:00`;
-    // setTime(convertedTime);
   }
 
   const [time, setTime] = useState("10:00 AM");
@@ -75,13 +76,7 @@ export default function Tickets() {
   useEffect(() => {
     fetchExhibitions();
     fetchFutureExhibits();
-    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
   }, []);
-
-  useEffect(() => {
-    filterTimes();
-    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
-  }, [date]);
 
   const fetchExhibitions = () => {
     fetch("https://museum3380-89554eee8566.herokuapp.com/current-exhibits", {
@@ -169,13 +164,11 @@ export default function Tickets() {
 
     if (numTickets === 0 && totalPrice === 0) {
       setTicketStatus("* Please select at least 1 ticket.");
-      console.log("ticket error");
       hasErrors = true;
     }
 
     if (option === "Special Exhibition" && chosenExhibit === "") {
       setExhibitStatus("* Please select an exhibition.");
-      console.log("exhibit error");
       hasErrors = true;
     }
     return hasErrors;
@@ -194,18 +187,6 @@ export default function Tickets() {
       const hasErrors = validate();
 
       if (!hasErrors) {
-        console.log("isvalid");
-        console.log("Date", date);
-        console.log("Time", time);
-        console.log("parsed time", convertTo24HourFormat(time));
-        console.log("chosenExhibition", chosenExhibit);
-        console.log("child", numChild);
-        console.log("teen", numYouth);
-        console.log("adult", numAdult);
-        console.log("senior", numSenior);
-        console.log("total price", totalPrice);
-        console.log("option", option);
-        console.log("chosenExhibition", chosenExhibit);
 
         const ticketData = {
           Customer_ID: currentAuthID,
@@ -219,8 +200,6 @@ export default function Tickets() {
           Exhibition_Name: chosenExhibit,
         };
 
-        console.log("ticketData", ticketData);
-
         try {
           const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/tickets", {
             method: "POST",
@@ -231,24 +210,22 @@ export default function Tickets() {
           });
 
           if (!response.ok) {
-            throw new Error("There was a network error");
+            throw new Error("There was a network ");
           }
 
           const data = await response.json();
           console.log(data);
           if (data.message === "Tickets for this date and time are sold out.") {
-            // setStatus("Tickets for this date and time are sold out.");
             alert("Tickets for this date and time are sold out.");
           }
           if (data.message === "Requested quantity exceeds current stock") {
-            // setStatus("Requested quantity exceeds current stock");
             alert("Requested quantity exceeds current stock");
           } else {
-            // setStatus("Ticket successfully purchased!");
             alert("Ticket successfully purchased!");
             clearFields();
           }
         } catch (error) {
+          alert(error);
           console.log("There was an error fetching:", error);
         }
       }
@@ -272,31 +249,6 @@ export default function Tickets() {
     setExhibitStatus("");
     setTicketStatus("");
   };
-  
-  console.log("cur time", curTime)
-  console.log("cur date", currDate)
-  console.log("date", date)
-
-  const filterTimes = () => {
-    if (date === currDate){
-        console.log("current day")
-        const filtered = times.filter(time => time > curTime);
-        setTimes(filtered);
-        console.log(times)
-    } else {
-        const reg = [    "10:00 AM",
-        "11:00 AM",
-        "12:00 PM",
-        "1:00 PM",
-        "2:00 PM",
-        "3:00 PM",
-        "4:00 PM",
-        "5:00 PM",]
-        setTimes(reg);
-        console.log(times)
-    }
-  }
-
 
   return (
     <div className="min-h-screen">
@@ -504,7 +456,6 @@ export default function Tickets() {
                   <input
                     type="date"
                     value={date}
-                    defaultValue={startDate}
                     onChange={(e) => setDate(e.target.value)}
                     min={startDate}
                     max={endDate}
@@ -521,7 +472,6 @@ export default function Tickets() {
                   <input
                     type="date"
                     value={date}
-                    defaultValue={date}
                     onChange={(e) => setDate(e.target.value)}
                     min={currDate}
                     max={endDate}
@@ -530,51 +480,51 @@ export default function Tickets() {
                 </div>
               ) : null}
 
-              {option === "Permanent Collections" ?
-              <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
-                <div className="flex flex-row space-x-4">
-                  {times.map((number, index) => (
-                    <p
-                      key={index}
-                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
-                        time === number
-                          ? "bg-obsidian text-chalk"
-                          : "hover:bg-rose-100 hover:text-obsidian"
-                      }`}
-                      onClick={() => {
-                        setTime(number);
-                      }}
-                    >
-                      {number}
-                    </p>
-                  ))}
+              {option === "Permanent Collections" ? (
+                <div className="flex flex-col space-y-10 w-fit">
+                  <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                  <div className="flex flex-row space-x-4">
+                    {times.map((number, index) => (
+                      <p
+                        key={index}
+                        className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                          time === number
+                            ? "bg-obsidian text-chalk"
+                            : "hover:bg-rose-100 hover:text-obsidian"
+                        }`}
+                        onClick={() => {
+                          setTime(number);
+                        }}
+                      >
+                        {number}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div> : null }
+              ) : null}
 
-{option === "Special Exhibition" &&
-              chosenExhibit !== "" ?
-              <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
-                <div className="flex flex-row space-x-4">
-                  {times.map((number, index) => (
-                    <p
-                      key={index}
-                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
-                        time === number
-                          ? "bg-obsidian text-chalk"
-                          : "hover:bg-rose-100 hover:text-obsidian"
-                      }`}
-                      onClick={() => {
-                        setTime(number);
-                      }}
-                    >
-                      {number}
-                    </p>
-                  ))}
+              {option === "Special Exhibition" && chosenExhibit !== "" ? (
+                <div className="flex flex-col space-y-10 w-fit">
+                  <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                  <div className="flex flex-row space-x-4">
+                    {times.map((number, index) => (
+                      <p
+                        key={index}
+                        className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                          time === number
+                            ? "bg-obsidian text-chalk"
+                            : "hover:bg-rose-100 hover:text-obsidian"
+                        }`}
+                        onClick={() => {
+                          setTime(number);
+                        }}
+                      >
+                        {number}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
-               : null}
+              ) : null}
 
               <div className="flex flex-row gap-x-24">
                 <div className="flex flex-col space-y-10 w-1/2 ">

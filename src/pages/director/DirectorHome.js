@@ -10,6 +10,7 @@ import { IoClose } from "react-icons/io5";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function DirectorHome() {
+  const [totalRevenue, setTotalRevenue] = useState([]);
   const [exhibitRevenue, setExhibitRevenue] = useState([]);
   const [exhibitStats, setExhibitStats] = useState([]);
   const [collectionStats, setCollectionStats] = useState([]);
@@ -17,7 +18,6 @@ export default function DirectorHome() {
   const [donationRev, setDonationRev] = useState([]);
   const [giftRev, setGiftRev] = useState([]);
   const [ticketSum, setTicketSum] = useState([]);
-  const [bestsellers, setBestsellers] = useState([]);
   const [noManagers, setNoManagers] = useState([]);
 
   const { currentAuthID, currentAuthRole, logout, currentAuthDep } =
@@ -31,8 +31,8 @@ export default function DirectorHome() {
     fetchGiftRevenue();
     fetchDonationRev();
     fetchTicketSum();
-    fetchBestsellers();
     fetchEmptyDepts();
+    fetchTotalRevenue();
   }, []);
 
   const fetchTicketSum = () => {
@@ -147,21 +147,6 @@ export default function DirectorHome() {
       });
   };
 
-  const fetchBestsellers = () => {
-    fetch("https://museum3380-89554eee8566.herokuapp.com/bestsellers", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        setBestsellers(data);
-      });
-  };
-
   const fetchEmptyDepts = () => {
     fetch("https://museum3380-89554eee8566.herokuapp.com/dept-no-mgr", {
       method: "GET",
@@ -175,6 +160,22 @@ export default function DirectorHome() {
       .then((data) => {
         setNoManagers(data);
         console.log("no managers", data);
+      });
+  };
+
+  const fetchTotalRevenue = () => {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/total-rev", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setTotalRevenue(data);
+        console.log("total rev", data);
       });
   };
 
@@ -197,16 +198,16 @@ export default function DirectorHome() {
           giftRev.length > 0 &&
           donationRev.length > 0 &&
           ticketSum.length > 0 &&
-          bestsellers.length > 0 && noManagers.length > 0 ? (
+          noManagers.length > 0 ? (
             <div className="flex flex-row px-14 gap-x-6 text-md">
               <div className="flex flex-col gap-y-6 w-1/2">
-
-              {noManagers.length > 0 ? (
+                {noManagers.length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-4 h-fit">
-                    <h1 className="font-bold text-xl text-cinnabar">
-                      Urgent!
-                    </h1>
-                    <p>These departments currently do not have any assigned managers.</p>
+                    <h1 className="font-bold text-xl text-cinnabar">Urgent!</h1>
+                    <p>
+                      These departments currently do not have any assigned
+                      managers.
+                    </p>
                     <div className="flex flex-col gap-y-2">
                       {noManagers.map((item, id) => (
                         <div
@@ -220,25 +221,36 @@ export default function DirectorHome() {
                   </div>
                 ) : null}
 
-                {exhibitRevenue.length > 0 ? (
+                {exhibitRevenue.length > 0 &&
+                collectionRev.length > 0 &&
+                donationRev.length > 0 &&
+                giftRev.length > 0 &&
+                totalRevenue.length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-4 h-fit">
-                    <h1 className="font-bold text-xl">
-                      Total Exhibition Revenue
-                    </h1>
-                    <h4 className="text-xl">
-                      ${exhibitRevenue[0].Total_Revenue}
-                    </h4>
-                  </div>
-                ) : null}
-
-                {collectionRev.length > 0 ? (
-                  <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
-                    <p className="font-bold text-xl">
-                      Ticket Revenue for Permanent Collections
-                    </p>
-
-                    <div className="flex flex-col gap-y-4 text-xl">
-                      ${collectionRev[0].Total_Rev}
+                    <h1 className="font-bold text-xl">Revenue Breakdown</h1>
+                    <div className="flex flex-col gap-y-4 divide-y-2">
+                      <div className="flex flex-col gap-y-4">
+                      <div className="flex flex-roww justify-between">
+                            <p>Exhibitions</p>
+                            <p>${exhibitRevenue[0].Total_Revenue}</p>
+                        </div>
+                        <div className="flex flex-roww justify-between">
+                            <p>Permanent Collections</p>
+                            <p>${collectionRev[0].Total_Rev}</p>
+                        </div>
+                        <div className="flex flex-roww justify-between">
+                            <p>Donations</p>
+                            <p>${donationRev[0].Donation_Sum}</p>
+                        </div>
+                        <div className="flex flex-roww justify-between">
+                            <p>Gift Shop</p>
+                            <p>${parseFloat(giftRev[0].total_revenue).toFixed(2)}</p>
+                        </div>
+                      </div>
+                      <div className="pt-4 flex flex-roww justify-between">
+                        <p>Total Revenue</p>
+                        <p>${parseFloat(totalRevenue[0].Total_Revenue).toFixed(2)}</p>
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -255,48 +267,6 @@ export default function DirectorHome() {
                     </div>
                     <div className="flex flex-col gap-y-2">
                       <p>{ticketSum[0].Total_Sum} Exhibition tickets sold</p>
-                    </div>
-                  </div>
-                ) : null}
-
-                {donationRev.length > 0 ? (
-                  <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
-                    <p className="font-bold text-xl">Donation Revenue</p>
-
-                    <div className="flex flex-col gap-y-4">
-                      ${donationRev[0].Donation_Sum}
-                    </div>
-                  </div>
-                ) : null}
-
-                {giftRev.length > 0 ? (
-                  <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
-                    <p className="font-bold text-xl">Gift Shop Revenue</p>
-
-                    <div className="flex flex-col gap-y-4">
-                      ${giftRev[0].total_revenue}
-                    </div>
-                  </div>
-                ) : null}
-
-                {bestsellers.length > 0 ? (
-                  <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
-                    <p className="font-bold text-xl">Shop Bestsellers</p>
-                    <div className="flex flex-row justify-between">
-                      <p className="font-bold underline">Item</p>
-                      <p className="font-bold underline"># sold</p>
-                    </div>
-
-                    <div className="flex flex-col gap-y-2">
-                      {bestsellers.map((item, id) => (
-                        <div
-                          key={item.gift_index}
-                          className="flex flex-row justify-between"
-                        >
-                          <p className="">{item.gift_name}</p>
-                          <p className="">{item.gift_numSold}</p>
-                        </div>
-                      ))}
                     </div>
                   </div>
                 ) : null}
@@ -330,29 +300,6 @@ export default function DirectorHome() {
                   </div>
                 ) : null}
 
-                {exhibitStats.length > 0 ? (
-                  <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
-                    <p className="font-bold text-xl">
-                      Ticket Stats per Exhibition
-                    </p>
-                    <div className="flex flex-row justify-between">
-                      <p className="font-bold underline">Exhibition</p>
-                      <p className="font-bold underline"># of tickets sold</p>
-                    </div>
-
-                    <div className="flex flex-col gap-y-2">
-                      {exhibitStats.map((item, id) => (
-                        <div
-                          key={item.Exhibit_ID}
-                          className="flex flex-row justify-between"
-                        >
-                          <p className="w-1/2">- {item.Exhibit_Name}</p>
-                          <p className="">{item.Tickets_Sold}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : null}
               </div>
             </div>
           ) : null}

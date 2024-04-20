@@ -76,7 +76,7 @@ export default function DirectorArtworks() {
                 </div>
                 {donations.map((item, id) => (
                   <div
-                    key={item.Donation_ID}
+                    key={item.id}
                     className="flex flex-row gap-x-6 p-6 group"
                   >
                     {currInput === item ? (

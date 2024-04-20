@@ -10,13 +10,21 @@ import { AuthContext } from "../context/AuthContext";
 export default function Shop() {
   const [giftItems, setGiftItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { currentAuthID, currentAuthRole, setCurrentCart, currentCart } =  useContext(AuthContext);
-
+  const {
+    currentAuthID,
+    currentAuthRole,
+    setCurrentCart,
+    currentCart,
+    setCurrentPrice,
+    setCurrentDiscount,
+    setCurrentTotal,
+  } = useContext(AuthContext);
   const [cart, setCart] = useState([]);
 
-
   useEffect(() => {
+    setTimeout(() => {
       fetchGiftItems();
+    }, 500);
   }, []);
 
   console.log("Gift items:", giftItems);
@@ -39,13 +47,18 @@ export default function Shop() {
 
   const addToCart = (item) => {
     setCurrentCart(JSON.stringify(item));
-    // setCart(prevArray => [...prevArray, item])
-  }
+    setCurrentPrice(JSON.stringify(item.gift_price));
+    setCurrentTotal(item.gift_price);
+    if (item.gift_price > 100) {
+      setCurrentDiscount(item.gift_price * 0.15);
+    }
+  };
 
-//   console.log("cart", cart)
+  //   console.log("cart", cart)
 
   return (
-
+    <>
+      {!loading ? (
         <div className="min-h-screen">
           <UserNavbar />
 
@@ -90,17 +103,24 @@ export default function Shop() {
                         {item.gift_name}
                       </h4>
                       <p className="text-lg">${item.gift_price}</p>
-                      {item.soldout_status === 1 ?
-                      <p className="font-bold text-cinnabar">Sold Out</p>
-                      : null}
+                      {item.soldout_status === 1 ? (
+                        <p className="font-bold text-cinnabar">Sold Out</p>
+                      ) : null}
 
-                      {currentAuthID !== null && currentAuthRole === "Customer" && item.soldout_status !== 1 && currentCart === null ?
-                    <div className="invisible group-hover:visible flex flex-row items-center justify-center hover:cursor-pointer">
-                        <p className="bg-obsidian text-chalk rounded-md p-4 hover:bg-cinnabar transition-all duration-300 ease-in-out" onClick={() => addToCart(item)}>Add to Cart </p>
+                      {currentAuthID !== null &&
+                      currentAuthRole === "Customer" &&
+                      item.soldout_status !== 1 &&
+                      currentCart === null ? (
+                        <div className="invisible group-hover:visible flex flex-row items-center justify-center hover:cursor-pointer">
+                          <p
+                            className="bg-obsidian text-chalk rounded-md p-4 hover:bg-cinnabar transition-all duration-300 ease-in-out"
+                            onClick={() => addToCart(item)}
+                          >
+                            Add to Cart{" "}
+                          </p>
+                        </div>
+                      ) : null}
                     </div>
-                    : null }
-                    </div>
-                    
                   </div>
                 ))}
               </div>
@@ -110,5 +130,9 @@ export default function Shop() {
           </div>
           <Footer />
         </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

@@ -16,7 +16,9 @@ export default function ArtworkDetails() {
   const [artwork, setArtwork] = useState([]);
 
   useEffect(() => {
-        fetchArtwork();
+    setTimeout(() => {
+      fetchArtwork();
+    }, 500);
   }, []);
 
   const fetchArtwork = async () => {
@@ -43,125 +45,138 @@ export default function ArtworkDetails() {
   console.log("Artworks", artwork);
 
   return (
-    <div className="min-h-screen">
-      <UserNavbar />
-      {artwork.length > 0 ? (
-        <div className="flex flex-row pt-48 py-32 gap-x-24 px-16 font-inter ">
-          <div className="flex flex-col gap-y-4 w-1/2">
-            <img
-              className="brightness-75 object-cover object-center size-full "
-              src={Angelico}
-              alt=""
-            />{" "}
-          </div>
-          <div className="flex flex-col gap-y-16 w-1/2">
-            <div>
-              <div className="flex flex-col gap-y-14 border-b pb-10">
-                <h1 className="font-fanwoodText italic text-7xl">
-                  {artwork[0].Art_Name}
-                </h1>
-                <div className="flex flex-col gap-y-4">
-                  <p className="text-cinnabar font-bold text-lg uppercase">
-                    {artwork[0].Artist_Fname === null &&
-                    artwork[0].Artist_Lname === null
-                      ? `Unknown`
-                      : null}
-                    {artwork[0].Artist_Fname !== null &&
-                    artwork[0].Artist_Lname === null
-                      ? `${artwork[0].Artist_Fname}`
-                      : null}
-                    {artwork[0].Artist_Fname !== null &&
-                    artwork[0].Artist_Lname !== null
-                      ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
-                      : null}
-
-                      {artwork[0].Year_Created !== null ?  <span className="font-normal">
-                      , {artwork[0].Year_Created}
-                    </span> :  <span className="font-normal">
-                      , Date unknown
-                    </span>}
-                  </p>
-                  <p>{artwork[0].Descr}</p>
-                </div>
+    <>
+      {!loading ? (
+        <div className="min-h-screen">
+          <UserNavbar />
+          {artwork.length > 0 ? (
+            <div className="flex flex-row pt-48 py-32 gap-x-24 px-16 font-inter ">
+              <div className="flex flex-col gap-y-4 w-1/2">
+                <img
+                  className="brightness-75 object-cover object-center size-full "
+                  src={Angelico}
+                  alt=""
+                />{" "}
               </div>
-              <div className="pt-10 flex flex-col gap-y-6">
+              <div className="flex flex-col gap-y-16 w-1/2">
                 <div>
-                  <p className="font-bold">ARTIST</p>
-                  <p>
-                    {artwork[0].Artist_Fname === null &&
-                    artwork[0].Artist_Lname === null
-                      ? `Unknown`
-                      : null}
-                    {artwork[0].Artist_Fname !== null &&
-                    artwork[0].Artist_Lname === null
-                      ? `${artwork[0].Artist_Fname}`
-                      : null}
-                    {artwork[0].Artist_Fname !== null &&
-                    artwork[0].Artist_Lname !== null
-                      ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
-                      : null}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-bold">YEAR</p>
-                  <p>{artwork[0].Year_Created}</p>
-                </div>
-                <div>
-                  <p className="font-bold">CULTURE</p>
-                  <p>{artwork[0].Culture}</p>
-                </div>
-                <div>
-                  <p className="font-bold">MEDIUM</p>
-                  <p>{artwork[0].Medium}</p>
-                </div>
-                <div>
-                  <p className="font-bold">DIMENSIONS</p>
-                  <p>
-                    {artwork[0].Length} x {artwork[0].Width} x{" "}
-                    {artwork[0].Height} cm
-                  </p>
-                </div>
-                {artwork[0].department_name !== null ? (
-                  <div>
-                    <p className="font-bold">DEPARTMENT</p>
-                    <Link className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4" to={`/departments/${artwork[0].Department_ID}`}>{artwork[0].department_name}</Link>
+                  <div className="flex flex-col gap-y-14 border-b pb-10">
+                    <h1 className="font-fanwoodText italic text-7xl">
+                      {artwork[0].Art_Name}
+                    </h1>
+                    <div className="flex flex-col gap-y-4">
+                      <p className="text-cinnabar font-bold text-lg uppercase">
+                        {artwork[0].Artist_Fname === null &&
+                        artwork[0].Artist_Lname === null
+                          ? `Unknown`
+                          : null}
+                        {artwork[0].Artist_Fname !== null &&
+                        artwork[0].Artist_Lname === null
+                          ? `${artwork[0].Artist_Fname}`
+                          : null}
+                        {artwork[0].Artist_Fname !== null &&
+                        artwork[0].Artist_Lname !== null
+                          ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
+                          : null}
+
+                        {artwork[0].Year_Created !== null ? (
+                          <span className="font-normal">
+                            , {artwork[0].Year_Created}
+                          </span>
+                        ) : (
+                          <span className="font-normal">, Date unknown</span>
+                        )}
+                      </p>
+                      <p>{artwork[0].Descr}</p>
+                    </div>
                   </div>
-                ) : null}
-                {artwork[0].collection_name !== null ? (
-                  <div>
-                    <p className="font-bold">COLLECTION</p>
-                    <Link
-                      className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
-                      to={`/artworks/search?Collection_ID=${artwork[0].Collection_ID}`}
-                    >
-                      {artwork[0].collection_name}
-                    </Link>
+                  <div className="pt-10 flex flex-col gap-y-6">
+                    <div>
+                      <p className="font-bold">ARTIST</p>
+                      <p>
+                        {artwork[0].Artist_Fname === null &&
+                        artwork[0].Artist_Lname === null
+                          ? `Unknown`
+                          : null}
+                        {artwork[0].Artist_Fname !== null &&
+                        artwork[0].Artist_Lname === null
+                          ? `${artwork[0].Artist_Fname}`
+                          : null}
+                        {artwork[0].Artist_Fname !== null &&
+                        artwork[0].Artist_Lname !== null
+                          ? `${artwork[0].Artist_Fname} ${artwork[0].Artist_Lname}`
+                          : null}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-bold">YEAR</p>
+                      <p>{artwork[0].Year_Created}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold">CULTURE</p>
+                      <p>{artwork[0].Culture}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold">MEDIUM</p>
+                      <p>{artwork[0].Medium}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold">DIMENSIONS</p>
+                      <p>
+                        {artwork[0].Length} x {artwork[0].Width} x{" "}
+                        {artwork[0].Height} cm
+                      </p>
+                    </div>
+                    {artwork[0].department_name !== null ? (
+                      <div>
+                        <p className="font-bold">DEPARTMENT</p>
+                        <Link
+                          className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                          to={`/departments/${artwork[0].Department_ID}`}
+                        >
+                          {artwork[0].department_name}
+                        </Link>
+                      </div>
+                    ) : null}
+                    {artwork[0].collection_name !== null ? (
+                      <div>
+                        <p className="font-bold">COLLECTION</p>
+                        <Link
+                          className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                          to={`/artworks/search?Collection_ID=${artwork[0].Collection_ID}`}
+                        >
+                          {artwork[0].collection_name}
+                        </Link>
+                      </div>
+                    ) : null}
+                    {artwork[0].Exhibit_Name !== null ? (
+                      <div>
+                        <p className="font-bold">EXHIBITION</p>
+                        <Link
+                          className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                          to={`/exhibitions/${artwork[0].Exhibit_ID}`}
+                        >
+                          {artwork[0].Exhibit_Name}
+                        </Link>
+                      </div>
+                    ) : null}
+                    <div>
+                      {artwork[0].On_View === 1 ? (
+                        <p className="font-bold text-emerald-600">On View ✔</p>
+                      ) : (
+                        <p className="font-bold text-cinnabar">Not on View ✘</p>
+                      )}
+                    </div>
                   </div>
-                ) : null}
-                {artwork[0].Exhibit_Name !== null ? (
-                  <div>
-                    <p className="font-bold">EXHIBITION</p>
-                    <Link
-                      className="hover:text-cinnabar hover:underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
-                      to={`/exhibitions/${artwork[0].Exhibit_ID}`}
-                    >
-                      {artwork[0].Exhibit_Name}
-                    </Link>
-                  </div>
-                ) : null}
-                <div>
-                  {artwork[0].On_View === 1 ? (
-                    <p className="font-bold text-emerald-600">On View ✔</p>
-                  ) : (
-                    <p className="font-bold text-cinnabar">Not on View ✘</p>
-                  )}
                 </div>
               </div>
             </div>
-          </div>
+          ) : null}
+          <Footer />
         </div>
-      ) : null}
-      <Footer />
-    </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

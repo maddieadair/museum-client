@@ -299,7 +299,7 @@ export default function ManagerCollections() {
                 className="bg-[#3d7b51] w-fit p-2 px-4 text-chalk rounded-md flex flex-row gap-x-2 justify-between items-center"
               >
                 <IoIosAdd className="size-6" />
-                <p>Add New Exhibition</p>
+                <p>Add New Collection</p>
               </button>
 
               <div
