@@ -1,70 +1,66 @@
-# Getting Started with Create React App
+# TEAM 1 - Museum Database
+Museum database project for COSC 3380, Dr. Uma Ramamurthy's course.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## File Description
+Using the MySQL DBMS, NodeJS for backend, and React for frontend work.
 
-In the project directory, you can run:
 
-### `npm start`
+Installations:
+[\](https://nodejs.org/en/download/)](NodeJS)
+[\](https://react.dev/learn/installation)] (React)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Backend:
+[\](https://github.com/maddieadair/museum-server)](https://github.com/maddieadair/museum-server)
+Commands to run backend:
+Open terminal and run "npm start"
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Frontend:
+[\](https://github.com/maddieadair/museum-client)] https://github.com/maddieadair/museum-client
+*Make sure you are running backend first*
+Commands to run frontend:
+Open terminal and run "npm run start"
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## User Roles:
+Director - Access to
+1. Username: MRoss@mfah.org
+2. Password: M68L04Ross01
+Manager
+1. Username: SYoon@mfah.org
+2. Password: S97!07Yoon28
+Shop Manager
+1. Username: ABoehm@mfah.org
+2. Password: A87!05Boehm08
+Curator
+1. Username: ICarlsen@mfah.org
+2. Password: I90L04Carlsen03
+Customer
+1. Username: mikhailkovalev@mail.com
+2. Password: mikhailkovalevpw
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Triggers
+15% discount applied to shopping cart after hitting $100
+Alert for when stock levels are low
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Data Reports
+1. Exhibition Sales during a certain time period
+2. Financial Reports during a certain time period
+3. Artworks and Artists that were added during a certain time period
+4. Department Reports during a specific time period
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Authors
+Adair, Madeline X
+Engineer, Zeel
+Nguyen, Kenny
+Cotton, Chase E
+Mohammad, Shafinuddin J
