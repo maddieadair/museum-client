@@ -37,6 +37,10 @@ This is the frotnend for our web application which utilizes [museum-server](http
 
 ## Installation/Startup
 
+### `npm install`
+
+To install all necessary packages.
+
 ### `npm start`
 
 Runs the app in the development mode.\
