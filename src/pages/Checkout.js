@@ -72,7 +72,11 @@ export default function Shop() {
 
       const data = await response.json();
       console.log(data);
-      alert("Order successfully placed!");
+      if(totalPrice > 100) {
+        alert("Order successfully placed! Discount Applied.");
+      } else {
+        alert("Order successfully placed!");
+      }
       setCart({});
       setCurrentCart(null)
       setQuantity(1)
@@ -98,6 +102,9 @@ export default function Shop() {
               <h1 className="font-fanwoodText italic text-7xl">Checkout</h1>
               <p className="text-xl font-inter">
                 Review and edit your order before proceeding to check out.
+                <p className="text-xl font-inter text-cinnabar">
+                  Spend Over $100 to get 15 percent off purchase 
+                </p>
               </p>
             </div>
             <div className="flex flex-col gap-y-24 font-inter px-16">
@@ -161,9 +168,15 @@ export default function Shop() {
                       <p className="font-bold">Subtotal</p>
                       <p>${subtotal}</p>
                     </div>
+                    {totalPrice > 100 ? (
+                      <div className="flex flex-row justify-between">
+                        <p className="font-bold">Discount Applied</p>
+                        <p>- ${(subtotal * 0.15).toFixed(0)}</p>
+                      </div>
+                    ) : null}
                     <div className="flex flex-row justify-between border-t pt-6">
                       <p className="font-bold">Total</p>
-                      <p>${totalPrice}</p>
+                      <p>${totalPrice > 100 ? (totalPrice - subtotal * 0.15).toFixed(0) : totalPrice}</p>
                     </div>
                   </div>
                   <button

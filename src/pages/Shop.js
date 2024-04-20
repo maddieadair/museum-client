@@ -68,6 +68,9 @@ export default function Shop() {
                 offering a memorable way to commemorate your visit and delve
                 deeper into the stories behind our exhibitions.
               </p>
+              <p className="text-xl font-inter text-cinnabar">
+                  Spend Over $100 to get 15 percent off purchase 
+              </p>
             </div>
           </div>
           <div className="flex flex-col px-16 pb-24 gap-y-16 font-inter border-b">
