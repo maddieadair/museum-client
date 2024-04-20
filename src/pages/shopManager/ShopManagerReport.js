@@ -64,7 +64,7 @@ export default function ShopManagerReport() {
     console.log("filterData", filterData);
 
     try {
-      const response = await fetch("http://localhost:3001/shop-report", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/shop-report", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function ShopManagerReport() {
       setShopLog(data);
 
       try {
-        const response = await fetch("http://localhost:3001/shop-count", {
+        const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/shop-count", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -99,7 +99,7 @@ export default function ShopManagerReport() {
 
         try {
           const response = await fetch(
-            "http://localhost:3001/shop-report-total",
+            "https://museum3380-89554eee8566.herokuapp.com/shop-report-total",
             {
               method: "POST",
               headers: {

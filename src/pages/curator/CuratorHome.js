@@ -18,8 +18,8 @@ export default function ShopManagerHome() {
       Curator_ID: currentAuthID,
     };
     const urls = [
-      "http://localhost:3001/curator-exhibit-rev",
-      "http://localhost:3001/curator-exhibit-stats",
+      "https://museum3380-89554eee8566.herokuapp.com/curator-exhibit-rev",
+      "https://museum3380-89554eee8566.herokuapp.com/curator-exhibit-stats",
     ];
 
     Promise.all(

@@ -40,7 +40,7 @@ export default function Donate() {
       console.log("donationData", donationData);
 
       try {
-        const response = await fetch("http://localhost:3001/donations", {
+        const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/donations", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

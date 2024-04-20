@@ -26,7 +26,7 @@ export default function DirectorExhibitions() {
 
 
   const fetchExhibits = () => {
-    fetch("http://localhost:3001/exhibitions", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibitions", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

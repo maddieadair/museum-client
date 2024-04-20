@@ -169,7 +169,7 @@ export default function DirectorFinanceReport() {
     console.log("filterData", filterData);
 
     try {
-      const response = await fetch("http://localhost:3001/rev-dates", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/rev-dates", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

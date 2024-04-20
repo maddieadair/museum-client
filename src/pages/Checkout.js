@@ -98,7 +98,7 @@ export default function Shop() {
     console.log("purchaseData", purchaseData);
 
     try {
-      const response = await fetch("http://localhost:3001/gift-log", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/gift-log", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

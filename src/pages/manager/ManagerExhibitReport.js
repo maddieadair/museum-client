@@ -64,9 +64,9 @@ export default function ManagerExhibitReport() {
       Department_ID: currentAuthDep
     };
     const urls = [
-      "http://localhost:3001/dept-ex-report",
-      "http://localhost:3001/dept-ex-tickets",
-      "http://localhost:3001/dept-ex-sum",
+      "https://museum3380-89554eee8566.herokuapp.com/dept-ex-report",
+      "https://museum3380-89554eee8566.herokuapp.com/dept-ex-tickets",
+      "https://museum3380-89554eee8566.herokuapp.com/dept-ex-sum",
     ];
 
     Promise.all(

@@ -64,9 +64,9 @@ export default function CuratorExhibitReport() {
       Curator_ID: currentAuthID,
     };
     const urls = [
-      "http://localhost:3001/curator-ex-report",
-      "http://localhost:3001/curator-ex-tickets",
-      "http://localhost:3001/curator-ex-sum",
+      "https://museum3380-89554eee8566.herokuapp.com/curator-ex-report",
+      "https://museum3380-89554eee8566.herokuapp.com/curator-ex-tickets",
+      "https://museum3380-89554eee8566.herokuapp.com/curator-ex-sum",
     ];
 
     Promise.all(
@@ -107,7 +107,7 @@ export default function CuratorExhibitReport() {
     console.log("filterData", filterData);
 
     try {
-      const response = await fetch("http://localhost:3001/curator-ex-report", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/curator-ex-report", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,7 +125,7 @@ export default function CuratorExhibitReport() {
 
       try {
         const response = await fetch(
-          "http://localhost:3001/curator-ex-tickets",
+          "https://museum3380-89554eee8566.herokuapp.com/curator-ex-tickets",
           {
             method: "POST",
             headers: {

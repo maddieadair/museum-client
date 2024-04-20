@@ -18,7 +18,7 @@ export default function Departments() {
   }, []);
 
   const fetchDepartments = () => {
-    fetch("http://localhost:3001/departments", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/departments", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

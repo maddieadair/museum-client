@@ -39,7 +39,7 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch("http://localhost:3001/gifts", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ export default function ShopManagerCatalog() {
   }, []);
 
   const fetchGifts = () => {
-    fetch("http://localhost:3001/gifts", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch("http://localhost:3001/gifts", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -163,7 +163,7 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch("http://localhost:3001/gifts", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

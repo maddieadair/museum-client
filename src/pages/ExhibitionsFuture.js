@@ -18,7 +18,7 @@ export default function ExhibitionsFuture() {
   }, []);
 
   const fetchExhibitions = () => {
-    fetch("http://localhost:3001/future-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/future-exhibits", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

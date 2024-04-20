@@ -29,7 +29,7 @@ export default function DepartmentDetails() {
       department_id: id,
     };
     console.log("fetch exhibit info", departmentInfo);
-    fetch("http://localhost:3001/department-ID", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/department-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export default function DepartmentDetails() {
     const collDepInfo = {
       collection_departmentID: id,
     };
-    fetch("http://localhost:3001/department-collections", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/department-collections", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

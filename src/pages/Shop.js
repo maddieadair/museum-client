@@ -30,7 +30,7 @@ export default function Shop() {
   console.log("Gift items:", giftItems);
 
   const fetchGiftItems = () => {
-    fetch("http://localhost:3001/gifts", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

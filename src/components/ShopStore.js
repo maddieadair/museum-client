@@ -16,7 +16,7 @@ export default function ShopStore() {
 
   // Function to fetch gift items from backend
   const fetchGiftItems = () => {
-    fetch("http://localhost:3001/gifts", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/gifts", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

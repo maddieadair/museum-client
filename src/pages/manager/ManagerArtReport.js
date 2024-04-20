@@ -62,7 +62,7 @@ export default function ManagerArtReport() {
     console.log("filterData", filterData);
 
     try {
-      const response = await fetch("http://localhost:3001/dept-new-artists", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/dept-new-artists", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -79,7 +79,7 @@ export default function ManagerArtReport() {
       setArtists(data);
 
       try {
-        const response = await fetch("http://localhost:3001/dept-new-art", {
+        const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/dept-new-art", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

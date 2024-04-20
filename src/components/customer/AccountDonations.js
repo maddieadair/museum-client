@@ -20,7 +20,7 @@ export default function CustomerAccount() {
         Donor_ID: currentAuthID,
     };
     console.log("fetch customer tickets for customer", customerInfo);
-    fetch("http://localhost:3001/customer-donations", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/customer-donations", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

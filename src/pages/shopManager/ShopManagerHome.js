@@ -14,11 +14,11 @@ export default function ShopManagerHome() {
 
   const fetchData = () => {
     const urls = [
-      "http://localhost:3001/shop-revenue",
-      "http://localhost:3001/worstsellers",
-      "http://localhost:3001/bestsellers",
-      "http://localhost:3001/low-stock",
-      "http://localhost:3001/sold-out",
+      "https://museum3380-89554eee8566.herokuapp.com/shop-revenue",
+      "https://museum3380-89554eee8566.herokuapp.com/worstsellers",
+      "https://museum3380-89554eee8566.herokuapp.com/bestsellers",
+      "https://museum3380-89554eee8566.herokuapp.com/low-stock",
+      "https://museum3380-89554eee8566.herokuapp.com/sold-out",
     ];
 
     Promise.all(

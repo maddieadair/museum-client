@@ -36,7 +36,7 @@ export default function ExhibitionDetails() {
       Exhibit_ID: id,
     };
     console.log("fetch exhibit info", exhibitInfo);
-    fetch("http://localhost:3001/exhibition-ID", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibition-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export default function ExhibitionDetails() {
     const exhibitInfo = {
       Exhibit_ID: id,
     };
-    fetch("http://localhost:3001/exhibition-artworks", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/exhibition-artworks", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

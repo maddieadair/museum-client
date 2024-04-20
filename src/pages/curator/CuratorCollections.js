@@ -41,7 +41,7 @@ export default function CuratorCollections() {
   //     console.log("collectionData", collectionData);
 
   //     try {
-  //       const response = await fetch("http://localhost:3001/collection", {
+  //       const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
   //         method: "POST",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export default function CuratorCollections() {
       collection_curator_ID: currentAuthID,
     };
     console.log("fetch exhibit info", curatorInfo);
-    fetch("http://localhost:3001/employee-cols", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/employee-cols", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -117,7 +117,7 @@ export default function CuratorCollections() {
   //     console.log("collectionData", collectionData);
 
   //     try {
-  //       const response = await fetch("http://localhost:3001/collection", {
+  //       const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
   //         method: "DELETE",
   //         headers: {
   //           "Content-Type": "application/json",
@@ -166,7 +166,7 @@ export default function CuratorCollections() {
     console.log("collectionData", collectionData);
 
     try {
-      const response = await fetch("http://localhost:3001/collection", {
+      const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/collection", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

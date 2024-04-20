@@ -79,7 +79,7 @@ export default function Tickets() {
   }, []);
 
   const fetchExhibitions = () => {
-    fetch("http://localhost:3001/current-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/current-exhibits", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ export default function Tickets() {
       });
   };
   const fetchFutureExhibits = () => {
-    fetch("http://localhost:3001/month-exhibits", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/month-exhibits", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -201,7 +201,7 @@ export default function Tickets() {
         };
 
         try {
-          const response = await fetch("http://localhost:3001/tickets", {
+          const response = await fetch("https://museum3380-89554eee8566.herokuapp.com/tickets", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

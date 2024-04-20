@@ -25,7 +25,7 @@ export default function ArtworkDetails() {
     const artInfo = {
       Art_ID: id,
     };
-    fetch("http://localhost:3001/artwork-ID", {
+    fetch("https://museum3380-89554eee8566.herokuapp.com/artwork-ID", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
