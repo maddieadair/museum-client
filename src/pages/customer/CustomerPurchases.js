@@ -88,7 +88,7 @@ export default function CustomerPurchases() {
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold w-1/2">Total Bill</p>
-                  <p className="w-1/2 text-end">${currInput.total_bill}</p>
+                  <p className="w-1/2 text-end">${parseFloat(currInput.total_bill).toFixed(2)}</p>
                 </div>
               </div>
             </div>
@@ -182,7 +182,7 @@ export default function CustomerPurchases() {
                       <p className="w-1/5 ">#{purchase.gift_transactionID}</p>
                       <p className="w-1/5 ">{purchase.gift_name}</p>
                       <p className="w-1/5 ">{purchase.transaction_quantity}</p>
-                      <p className="w-1/5 ">${purchase.total_bill}</p>
+                      <p className="w-1/5 ">${parseFloat(purchase.total_bill).toFixed(2)}</p>
                       <p className="w-1/5 ">{purchase.New_Date}</p>
                     </div>
                   ))}

@@ -9,6 +9,7 @@ import { AuthContext } from "../context/AuthContext";
 import { LuPlus } from "react-icons/lu";
 import { LuMinus } from "react-icons/lu";
 import { MdDelete } from "react-icons/md";
+import { TbDiscountCheckFilled } from "react-icons/tb";
 
 export default function Shop() {
   const [loading, setLoading] = useState(true);
@@ -16,19 +17,48 @@ export default function Shop() {
   const [totalPrice, setTotalPrice] = useState(1);
   const [subtotal, setSubtotal] = useState("");
   const [itemID, setItemID] = useState("");
+  const [discount, setDiscount] = useState("");
+  const [itemPrice, setItemPrice] = useState("");
+  const [discountedPrice, setDiscountedPrice] = useState("");
 
-  const { currentAuthID, currentAuthRole, setCurrentCart, currentCart } =
-    useContext(AuthContext);
+  const {
+    currentAuthID,
+    currentAuthRole,
+    setCurrentCart,
+    currentCart,
+    currentPrice,
+    setCurrentPrice,
+    currentTotal, 
+    setCurrentTotal,
+    currentDiscount,
+    setCurrentDiscount
+  } = useContext(AuthContext);
 
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
     setTimeout(() => {
       const savedCart = localStorage.getItem("cart");
+      const savedPrice = localStorage.getItem("price");
+      const savedTotal = localStorage.getItem("total");
+      const savedDiscount = localStorage.getItem("discount");
+
+      console.log("Saved price", savedPrice)
+      console.log("Saved total", savedTotal)
+      console.log("Saved discount", savedDiscount)
+
       if (savedCart) {
         setCart(JSON.parse(JSON.parse(savedCart)));
-        setTotalPrice(JSON.parse(JSON.parse(savedCart)).gift_price);
-        setSubtotal(JSON.parse(JSON.parse(savedCart)).gift_price);
+        setItemPrice(JSON.parse(JSON.parse(savedPrice)));
+        setTotalPrice(JSON.parse(JSON.parse(savedTotal)));
+        setSubtotal(JSON.parse(JSON.parse(savedPrice)));
+        setDiscount(JSON.parse(JSON.parse(savedDiscount)));
+
+        if (savedDiscount !== null) {
+            setDiscountedPrice(JSON.parse(JSON.parse(savedTotal * 0.85)))
+        }
+        // setTotalPrice(JSON.parse(JSON.parse(savedCart)).gift_price);
+        // setSubtotal(JSON.parse(JSON.parse(savedCart)).gift_price);
         setItemID(JSON.parse(JSON.parse(savedCart)).gift_index);
       }
       setLoading(false);
@@ -39,6 +69,10 @@ export default function Shop() {
     let bill = parseInt(quantity) * cart.gift_price;
     setTotalPrice(bill);
     setSubtotal(bill);
+    if (bill > 100) {
+      setDiscount(bill * 0.15);
+      setDiscountedPrice(bill * 0.85);
+    }
   }, [quantity]);
 
   const deleteItem = () => {
@@ -46,6 +80,9 @@ export default function Shop() {
     setQuantity(0);
     setTotalPrice(0);
     setCurrentCart(null);
+    setCurrentPrice(null);
+    setCurrentTotal(null);
+    setCurrentDiscount(null);
   };
 
   const submitPurchase = async (e) => {
@@ -77,19 +114,25 @@ export default function Shop() {
       console.log(data);
       alert("Order successfully placed!");
       setCart({});
-      setCurrentCart(null)
-      setQuantity(1)
-      setTotalPrice(1)
-      setSubtotal(1)
+      setCurrentCart(null);
+      setCurrentPrice(null);
+      setCurrentDiscount(null);
+      setCurrentTotal(null);
+      setQuantity(1);
+      setTotalPrice(1);
+      setSubtotal(1);
+      setDiscount("");
+      setItemPrice("");
+      setDiscountedPrice("");
     } catch (error) {
       alert(error);
-      
+
       console.log("There was an error fetching:", error);
     }
   };
 
   console.log("cart", cart);
-  console.log("item id", itemID)
+  console.log("item id", itemID);
   console.log("quantity", quantity);
 
   return (
@@ -105,6 +148,17 @@ export default function Shop() {
                 Review and edit your order before proceeding to check out.
               </p>
             </div>
+
+            {subtotal > 100 ? (
+              <div className="font-bold text-cinnabar text-center border border-cinnabar bg-red-50 rounded-md p-4 w-1/2 items-center self-center gap-x-6 flex flex-row">
+                <TbDiscountCheckFilled size={20} />
+                <p>
+                  Congrats! You got a 15% off discount off your order for
+                  spending over $100!
+                </p>
+              </div>
+            ) : null}
+
             <div className="flex flex-col gap-y-24 font-inter px-16">
               <form
                 className="flex flex-row space-x-20"
@@ -145,7 +199,7 @@ export default function Shop() {
                       </div>
                     </div>
                     <div className="font-bold w-1/3 items-center justify-center flex">
-                      <p>${totalPrice}</p>
+                      <p>${subtotal}</p>
                     </div>
                     <div className="flex items-center">
                       <MdDelete
@@ -164,13 +218,28 @@ export default function Shop() {
                     </div>
                     <div className="flex flex-row justify-between">
                       <p className="font-bold">Subtotal</p>
-                      <p>${subtotal}</p>
+                      <p>${parseFloat(subtotal).toFixed(2)}</p>
                     </div>
-                    <div className="flex flex-row justify-between border-t pt-6">
-                      <p className="font-bold">Total</p>
-                      <p>${totalPrice}</p>
-                    </div>
+                    {subtotal > 100 ? (
+                      <div className="flex flex-row justify-between">
+                        <p className="font-bold">Discount</p>
+                        <p>- ${parseFloat(discount).toFixed(2)}</p>
+                      </div>
+                    ) : null}
+
+                    {subtotal > 100 ? (
+                      <div className="flex flex-row justify-between border-t pt-6">
+                        <p className="font-bold">Total</p>
+                        <p>${parseFloat(discountedPrice).toFixed(2)}</p>
+                      </div>
+                    ) : (
+                      <div className="flex flex-row justify-between border-t pt-6">
+                        <p className="font-bold">Total</p>
+                        <p>${parseFloat(totalPrice).toFixed(2)}</p>
+                      </div>
+                    )}
                   </div>
+
                   <button
                     type="submit"
                     className="bg-obsidian text-chalk rounded-md p-4 hover:bg-cinnabar duration-500 transition-all ease-in-out font-bold"

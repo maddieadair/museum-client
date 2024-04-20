@@ -91,7 +91,7 @@ export default function ShopManagerShopLog() {
                     <p className="w-1/6 ">{item.gift_name}</p>
                     <p className="w-1/6 ">{item.customer_ID}</p>
                     <p className="w-1/6 ">{item.transaction_quantity}</p>
-                    <p className="w-1/6 ">${item.total_bill}</p>
+                    <p className="w-1/6 ">${parseFloat(item.total_bill).toFixed(2)}</p>
                     <p className="w-1/6 ">{item.New_Date}</p>
                   </div>
                 ))}
@@ -135,7 +135,7 @@ export default function ShopManagerShopLog() {
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold">Total Bill</p>
-                  <p className="">${currInput.total_bill}</p>
+                  <p className="">${parseFloat(currInput.total_bill).toFixed(2)}</p>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold">Transaction Date</p>

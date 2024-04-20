@@ -10,7 +10,7 @@ import { AuthContext } from "../context/AuthContext";
 export default function Shop() {
   const [giftItems, setGiftItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { currentAuthID, currentAuthRole, setCurrentCart, currentCart } =  useContext(AuthContext);
+  const { currentAuthID, currentAuthRole, setCurrentCart, currentCart, setCurrentPrice, setCurrentDiscount, setCurrentTotal } =  useContext(AuthContext);
 
   const [cart, setCart] = useState([]);
 
@@ -39,7 +39,13 @@ export default function Shop() {
 
   const addToCart = (item) => {
     setCurrentCart(JSON.stringify(item));
-    // setCart(prevArray => [...prevArray, item])
+    setCurrentPrice(JSON.stringify(item.gift_price))
+    setCurrentTotal(item.gift_price)
+    if (item.gift_price > 100) {
+        setCurrentDiscount(item.gift_price * 0.15)
+    }
+
+
   }
 
 //   console.log("cart", cart)

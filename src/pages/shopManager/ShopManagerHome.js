@@ -127,7 +127,7 @@ export default function ShopManagerHome() {
                 {revenue !== null ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-4 h-fit">
                     <h1 className="font-bold text-xl">Total Shop Revenue</h1>
-                    <h4 className="text-xl">${revenue}</h4>
+                    <h4 className="text-xl">${parseFloat(revenue).toFixed(2)}</h4>
                   </div>
                 ) : null}
 

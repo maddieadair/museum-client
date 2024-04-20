@@ -244,12 +244,12 @@ export default function DirectorHome() {
                         </div>
                         <div className="flex flex-roww justify-between">
                             <p>Gift Shop</p>
-                            <p>${giftRev[0].total_revenue}</p>
+                            <p>${parseFloat(giftRev[0].total_revenue).toFixed(2)}</p>
                         </div>
                       </div>
                       <div className="pt-4 flex flex-roww justify-between">
                         <p>Total Revenue</p>
-                        <p>${totalRevenue[0].Total_Revenue}</p>
+                        <p>${parseFloat(totalRevenue[0].Total_Revenue).toFixed(2)}</p>
                       </div>
                     </div>
                   </div>

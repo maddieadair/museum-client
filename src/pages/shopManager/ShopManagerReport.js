@@ -15,6 +15,7 @@ export default function ShopManagerReport() {
 
   const [shopLog, setShopLog] = useState([]);
   const [shopCount, setShopCount] = useState([]);
+  const [total, setTotal] = useState([]);
 
   const validate = () => {
     let hasErrors = false;
@@ -29,6 +30,9 @@ export default function ShopManagerReport() {
   const clearFields = () => {
     setStartDate("");
     setEndDate("");
+    setShopLog([]);
+    setShopCount([]);
+    setTotal([]);
     setCurrentInput({});
   };
 
@@ -91,7 +95,29 @@ export default function ShopManagerReport() {
         const data = await response.json();
         console.log("shop count", data);
         setShopCount(data);
-        setOpenFilter(false);
+
+        try {
+            const response = await fetch("http://localhost:3001/shop-report-total", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(filterData),
+            });
+    
+            if (!response.ok) {
+              throw new Error("There was a network error");
+            }
+    
+            const data = await response.json();
+            console.log("shop report total", data);
+            setTotal(data);
+            setOpenFilter(false);
+          } catch (error) {
+            alert(error);
+            console.log("There was an error fetching2:", error);
+          }
+
       } catch (error) {
         alert(error);
         console.log("There was an error fetching2:", error);
@@ -134,6 +160,10 @@ export default function ShopManagerReport() {
                 )}
               </div>
             </div>
+
+            {total.length > 0 && total[0].Revenue !== null ? (
+              <p>${parseFloat(total[0].Revenue).toFixed(2)} generated in shop revenue </p>
+            ) : null}
 
             {shopCount.length > 0 ? (
               <p>{shopCount.length} different types of items sold.</p>
@@ -182,7 +212,7 @@ export default function ShopManagerReport() {
                     <p className="w-1/6 ">{item.gift_name}</p>
                     <p className="w-1/6 ">{item.customer_ID}</p>
                     <p className="w-1/6 ">{item.transaction_quantity}</p>
-                    <p className="w-1/6 ">${item.total_bill}</p>
+                    <p className="w-1/6 ">${parseFloat(item.total_bill).toFixed(2)}</p>
                     <p className="w-1/6 ">{item.New_Date}</p>
                   </div>
                 ))}
