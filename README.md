@@ -14,7 +14,7 @@ Madeline Adair, Zeel Engineer, Kenny Nguyen, Chase Cotton, Shafnuddin Mohammad
 
 <br />
 
-This is the frotnend for our web application which utilizes [museum-server](https://github.com/maddieadair/museum-server).
+This is the frontend for our web application which utilizes [museum-server](https://github.com/maddieadair/museum-server).
 <br />
 <br />
 
@@ -25,7 +25,6 @@ This is the frotnend for our web application which utilizes [museum-server](http
 - Data entry forms – to add new data, modify existing data, and ‘delete’ data.
 - Triggers – At least 2.
 - Data queries – At least 3.
-
 
 ## Technologies
 - Frontend: `React` and `TailwindCSS`
