@@ -7,7 +7,6 @@ import { AuthContext } from "../../context/AuthContext";
 
 export default function ShopManagerAccount() {
   const { currentAuthID, currentAuthRole, logout } = useContext(AuthContext);
-
   const [info, setInfo] = useState([]);
   const [password, setPassword] = useState("******");
 
@@ -28,7 +27,6 @@ export default function ShopManagerAccount() {
       body: JSON.stringify(employeeInfo),
     })
       .then((response) => {
-        // console.log("repsonse:", response);
         return response.json();
       })
       .then((data) => {
@@ -65,7 +63,7 @@ export default function ShopManagerAccount() {
                       <p className="text-lg">{info[0].role}</p>
                       {info[0].department_name !== null ? (
                         <p>Department: {info[0].department_name}</p>
-                        ) : null}
+                      ) : null}
                     </div>
                     <div className="flex flex-row justify-between">
                       <div className="flex flex-row items-center gap-x-4">
@@ -99,9 +97,7 @@ export default function ShopManagerAccount() {
                       onMouseEnter={() =>
                         setPassword(info[0].employee_password)
                       }
-                      onMouseLeave={() =>
-                        setPassword("*******")
-                      }
+                      onMouseLeave={() => setPassword("*******")}
                     >
                       {password}
                     </p>

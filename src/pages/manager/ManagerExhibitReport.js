@@ -9,7 +9,7 @@ import { MdOutlineCheckBox } from "react-icons/md";
 import { IoIosMore } from "react-icons/io";
 
 export default function ManagerExhibitReport() {
-    const { currentAuthID, currentAuthRole, logout, currentAuthDep } =
+  const { currentAuthID, currentAuthDep } =
     useContext(AuthContext);
 
   const [startDate, setStartDate] = useState("");
@@ -21,6 +21,7 @@ export default function ManagerExhibitReport() {
 
   const [total, setTotal] = useState([]);
   const [tickets, setTickets] = useState([]);
+  const [data, setData] = useState([]);
 
   const validate = () => {
     let hasErrors = false;
@@ -47,7 +48,7 @@ export default function ManagerExhibitReport() {
     return dateStr ? new Date(dateStr).toLocaleDateString("en-US") : "";
   };
 
-  const filterTickets = async (e) => {
+  const fetchData = (e) => {
     e.preventDefault();
 
     const hasErrors = validate();
@@ -62,51 +63,29 @@ export default function ManagerExhibitReport() {
       End_Date: endDate,
       Department_ID: currentAuthDep
     };
+    const urls = [
+      "http://localhost:3001/dept-ex-report",
+      "http://localhost:3001/dept-ex-tickets",
+      "http://localhost:3001/dept-ex-sum",
+    ];
 
-    console.log("filterData", filterData);
-
-    try {
-      const response = await fetch("http://localhost:3001/dept-ex-report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(filterData),
-      });
-
-      if (!response.ok) {
-        throw new Error("There was a network error");
-      }
-
-      const data = await response.json();
-      console.log("total exhibits", data);
-      setTotal(data);
-
-      try {
-        const response = await fetch("http://localhost:3001/dept-ex-tickets", {
+    Promise.all(
+      urls.map((url) =>
+        fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(filterData),
-        });
-
-        if (!response.ok) {
-          throw new Error("There was a network error");
-        }
-
-        const data = await response.json();
-        console.log("exhibit ticket details", data);
-        setTickets(data);
+        }).then((response) => response.json())
+      )
+    )
+      .then((data) => {
+        console.log("data", data);
+        setData(data);
         setOpenFilter(false);
-      } catch (error) {
-        alert(error);
-        console.log("There was an error fetching2:", error);
-      }
-    } catch (error) {
-      alert(error);
-      console.log("There was an error fetching:", error);
-    }
+      })
+      .catch((error) => console.error("An error occurred:", error));
   };
 
   return (
@@ -120,32 +99,32 @@ export default function ManagerExhibitReport() {
             <div className="flex flex-row justify-start">
               <div className="flex flex-row justify-between w-full">
                 <div className="flex flex-row gap-x-4">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        clearFields();
-                        setOpenFilter(true);
-                        setCurrentInput({});
-                        setTotal([]);
-                        setTickets([]);
-                      }}
-                      className="bg-[#3d7b51] text-chalk w-fit p-2 px-4 rounded-md flex flex-row items-center gap-x-2"
-                    >
-                      <IoFilter className="size-6" />
-                      <p>Filter</p>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setOpenView(true)}
-                      className={`${
-                        Object.keys(currInput).length !== 0
-                          ? "bg-[#bcb6b4] w-fit p-2 px-4 text-chalk rounded-md flex flex-row gap-x-2 justify-between items-center"
-                          : "hidden"
-                      }`}
-                    >
-                      <p>View More Details</p>
-                      <IoIosMore className="size-4" />
-                    </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      clearFields();
+                      setOpenFilter(true);
+                      setCurrentInput({});
+                      setTotal([]);
+                      setTickets([]);
+                    }}
+                    className="bg-[#3d7b51] text-chalk w-fit p-2 px-4 rounded-md flex flex-row items-center gap-x-2"
+                  >
+                    <IoFilter className="size-6" />
+                    <p>Filter</p>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setOpenView(true)}
+                    className={`${
+                      Object.keys(currInput).length !== 0
+                        ? "bg-[#bcb6b4] w-fit p-2 px-4 text-chalk rounded-md flex flex-row gap-x-2 justify-between items-center"
+                        : "hidden"
+                    }`}
+                  >
+                    <p>View More Details</p>
+                    <IoIosMore className="size-4" />
+                  </button>
                 </div>
                 {startDate !== "" && endDate !== null && (
                   <div className="text-[#34383f] flex items-center font-bold">
@@ -157,8 +136,41 @@ export default function ManagerExhibitReport() {
               </div>
             </div>
 
-            {total.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+            {data.length > 0 && data[2].length > 0 && data[2][0].Total_Tickets !== null ? (
+              <h1 className="text-xl font-bold">Overall Exhibition Sales</h1>
+            ) : null}
+
+            {data.length > 0 && data[2].length > 0 && data[2][0].Total_Tickets !== null ? (
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
+                <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
+                  <p className="w-1/2"># Tickets Sold</p>
+                  <p className="w-1/2"># Child Tickets Sold</p>
+                  <p className="w-1/2"># Teen Tickets Sold</p>
+                  <p className="w-1/2"># Adult Tickets Sold</p>
+                  <p className="w-1/2"># Senior Tickets Sold</p>
+                  <p className="w-1/2">Revenue</p>
+                </div>
+                {data[2].map((item, id) => (
+                  <div
+                    key={item.Exhibit_ID}
+                    className="flex flex-row gap-x-6 p-6 group"
+                  >
+                    <p className="w-1/2">{item.Total_Tickets}</p>
+                    <p className="w-1/2">{item.Child_Tix}</p>
+                    <p className="w-1/2">{item.Teen_Tix}</p>
+                    <p className="w-1/2">{item.Adult_Tix}</p>
+                    <p className="w-1/2">{item.Senior_Tix}</p>
+                    <p className="w-1/2">${item.Total_Revenue}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+
+            {data.length > 0 && data[0].length > 0 ? (
+              <h1 className="text-xl font-bold">Sales per Exhibition</h1>
+            ) : null}
+            {data.length > 0 && data[0].length > 0 ? (
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-1/2">Exhibition Name</p>
                   <p className="w-1/2"># Tickets Sold</p>
@@ -167,77 +179,78 @@ export default function ManagerExhibitReport() {
                   <p className="w-1/2"># Adult Tickets Sold</p>
                   <p className="w-1/2"># Senior Tickets Sold</p>
                   <p className="w-1/2">Revenue</p>
-
                 </div>
-                {total.map((item, id) => (
-                  <div key={item.Exhibit_ID} className="flex flex-row gap-x-6 p-6 group">
-                    <p className="w-1/2">
-                      {item.Exhibit_Name}
-                    </p>
-                    <p className="w-1/2">{item.Tickets_Sold}</p>
+                {data[0].map((item, id) => (
+                  <div
+                    key={item.Exhibit_ID}
+                    className="flex flex-row gap-x-6 p-6 group"
+                  >
+                    <p className="w-1/2">{item.Exhibit_Name}</p>
+                    <p className="w-1/2">{item.Total_Tickets}</p>
                     <p className="w-1/2">{item.Child_Tix}</p>
                     <p className="w-1/2">{item.Teen_Tix}</p>
                     <p className="w-1/2">{item.Adult_Tix}</p>
                     <p className="w-1/2">{item.Senior_Tix}</p>
                     <p className="w-1/2">${item.Total_Revenue}</p>
-
                   </div>
                 ))}
               </div>
-            ) : (
-              null
-            )}
-
-            {tickets.length > 0 ? (
-              <p>{tickets.length} tickets purchased</p>
             ) : null}
-            {tickets.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
-              <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
-                <MdOutlineCheckBoxOutlineBlank className="size-6" />
-                <p className="w-1/6 ">Transaction ID</p>
-                <p className="w-1/6 ">Customer ID</p>
-                <p className="w-1/6 ">Exhibition</p>
-                <p className="w-1/6 ">Total Bill</p>
-                <p className="w-1/6 ">Ticket Date</p>
-                <p className="w-1/6 ">Ticket Time</p>
-                <p className="w-1/6 ">Transaction Date</p>
+
+            {data.length > 0 && data[1].length > 0 ? (
+              <div className="flex flex-col gap-y-2">
+                <h1 className="text-xl font-bold">Ticket sales</h1>
+                <p className="">
+                  <span className="font-bold">- {data[1].length}</span> exhibition ticket
+                  purchases added
+                </p>
               </div>
-              {tickets.map((item, id) => (
-                <div
-                  key={item.Donation_ID}
-                  className="flex flex-row gap-x-6 p-6 group"
-                >
-                  {currInput === item ? (
-                    <MdOutlineCheckBox
-                      className="size-6 text-rose-400"
-                      onClick={() => setCurrentInput({})}
-                    />
-                  ) : (
-                    <MdOutlineCheckBoxOutlineBlank
-                      className="size-6 group-hover:visible invisible"
-                      onClick={() => setCurrentInput(item)}
-                    />
-                  )}{" "}
-                  <p className="w-1/6 ">{item.TicketTransaction_ID}</p>
-                  <p className="w-1/6 ">{item.Customer_ID}</p>
-                  <p className="w-1/6 ">{item.Exhibition_Name}</p>
-                  <p className="w-1/6 ">${item.Total_Bill}</p>
-                  <p className="w-1/6 ">{item.New_Date}</p>
-                  <p className="w-1/6 ">{item.Ticket_Time}</p>
-                  <p className="w-1/6 ">{item.New_Transaction_Date}</p>
+            ) : null}
+            {data.length > 0 && data[1].length > 0 ? (
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
+                <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
+                  <MdOutlineCheckBoxOutlineBlank className="size-6" />
+                  <p className="w-1/6 ">Transaction ID</p>
+                  <p className="w-1/6 ">Customer ID</p>
+                  <p className="w-1/6 ">Exhibition</p>
+                  <p className="w-1/6 ">Total Bill</p>
+                  <p className="w-1/6 ">Ticket Date</p>
+                  <p className="w-1/6 ">Ticket Time</p>
+                  <p className="w-1/6 ">Transaction Date</p>
                 </div>
-              ))}
-            </div>
-            ) : (
-             null
-            )}
+                {data[1].map((item, id) => (
+                  <div
+                    key={item.Donation_ID}
+                    className="flex flex-row gap-x-6 p-6 group"
+                  >
+                    {currInput === item ? (
+                      <MdOutlineCheckBox
+                        className="size-6 text-rose-400"
+                        onClick={() => setCurrentInput({})}
+                      />
+                    ) : (
+                      <MdOutlineCheckBoxOutlineBlank
+                        className="size-6 group-hover:visible invisible"
+                        onClick={() => setCurrentInput(item)}
+                      />
+                    )}{" "}
+                    <p className="w-1/6 ">{item.TicketTransaction_ID}</p>
+                    <p className="w-1/6 ">{item.Customer_ID}</p>
+                    <p className="w-1/6 ">{item.Exhibition_Name}</p>
+                    <p className="w-1/6 ">${item.Total_Bill}</p>
+                    <p className="w-1/6 ">{item.New_Date}</p>
+                    <p className="w-1/6 ">{item.Ticket_Time}</p>
+                    <p className="w-1/6 ">{item.New_Transaction_Date}</p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
 
             {openFilter && (
               <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
                 <form
                   className="bg-white rounded-3xl h-fit max-h-[38rem] overflow-auto w-1/2 shadow-md flex flex-col"
-                  onSubmit={(e) => filterTickets(e)}
+                  onSubmit={(e) => fetchData(e)}
                 >
                   <div className="flex flex-col">
                     <IoClose
@@ -247,7 +260,8 @@ export default function ManagerExhibitReport() {
                     <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
                       <div className="flex flex-row justify-between items-center p-4">
                         <p className="font-bold">
-                          Get all exhibition ticket sales within a certain period.
+                          Get all exhibition ticket sales within a certain
+                          period.
                         </p>
                       </div>
                       <div className="flex flex-row justify-between items-center p-4">
@@ -287,104 +301,119 @@ export default function ManagerExhibitReport() {
               </div>
             )}
 
-{openView ? (
-        <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
-          <div className="bg-white rounded-3xl h-[38rem] overflow-auto w-1/2 shadow-md flex flex-col">
-            <div className="flex flex-col">
-              <IoClose
-                className="self-end size-8 m-6 mb-2 hover:cursor-pointer"
-                onClick={() => {
-                  setCurrentInput({});
-                  setOpenView(false);
-                }}
-              />
-              <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Transaction ID</p>
-                  <p className="w-1/2 text-end">
-                    {currInput.TicketTransaction_ID}
-                  </p>
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Customer ID</p>
-                  <p className="w-1/2 text-end">{currInput.Customer_ID}</p>
-                </div>
-                {currInput.Num_Child_Tickets !== 0 ? (
-                  <div className="flex flex-row justify-between items-center p-4">
-                    <p className="font-bold w-1/2"># of Child Tickets</p>
-                    <p className="w-1/2 text-end">
-                      {currInput.Num_Child_Tickets}
-                    </p>
+            {openView ? (
+              <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
+                <div className="bg-white rounded-3xl h-[38rem] overflow-auto w-1/2 shadow-md flex flex-col">
+                  <div className="flex flex-col">
+                    <IoClose
+                      className="self-end size-8 m-6 mb-2 hover:cursor-pointer"
+                      onClick={() => {
+                        setCurrentInput({});
+                        setOpenView(false);
+                      }}
+                    />
+                    <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Transaction ID</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.TicketTransaction_ID}
+                        </p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Customer ID</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Customer_ID}
+                        </p>
+                      </div>
+                      {currInput.Num_Child_Tickets !== 0 ? (
+                        <div className="flex flex-row justify-between items-center p-4">
+                          <p className="font-bold w-1/2"># of Child Tickets</p>
+                          <p className="w-1/2 text-end">
+                            {currInput.Num_Child_Tickets}
+                          </p>
+                        </div>
+                      ) : null}
+
+                      {currInput.Num_Teen_Tickets !== 0 ? (
+                        <div className="flex flex-row justify-between items-center p-4">
+                          <p className="font-bold w-1/2"># of Teen Tickets</p>
+                          <p className="w-1/2 text-end">
+                            {currInput.Num_Teen_Tickets}
+                          </p>
+                        </div>
+                      ) : null}
+
+                      {currInput.Num_Adult_Tickets !== 0 ? (
+                        <div className="flex flex-row justify-between items-center p-4">
+                          <p className="font-bold w-1/2"># of Adult Tickets</p>
+                          <p className="w-1/2 text-end">
+                            {currInput.Num_Adult_Tickets}
+                          </p>
+                        </div>
+                      ) : null}
+
+                      {currInput.Num_Senior_Tickets !== 0 ? (
+                        <div className="flex flex-row justify-between items-center p-4">
+                          <p className="font-bold w-1/2"># of Senior Tickets</p>
+                          <p className="w-1/2 text-end">
+                            {currInput.Num_Senior_Tickets}
+                          </p>
+                        </div>
+                      ) : null}
+
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Quantity</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Ticket_Count}
+                        </p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Total Bill</p>
+                        <p className="w-1/2 text-end">
+                          ${currInput.Total_Bill}
+                        </p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Name</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Customer_Fname} {currInput.Customer_Lname}
+                        </p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Ticket Date</p>
+                        <p className="w-1/2 text-end">{currInput.New_Date}</p>
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Ticket Time</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.Ticket_Time}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">For</p>
+                        {currInput.Exhibition_Name !== null ? (
+                          <div className="w-1/2 text-end">
+                            <p className="font-bold">Special Exhibition</p>
+                            {currInput.Exhibition_Name}
+                          </div>
+                        ) : (
+                          <p className="w-1/2 text-end">
+                            Permanent Collections
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex flex-row justify-between items-center p-4">
+                        <p className="font-bold w-1/2">Transaction Date</p>
+                        <p className="w-1/2 text-end">
+                          {currInput.New_Transaction_Date}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                ) : null}
-
-                {currInput.Num_Teen_Tickets !== 0 ? (
-                  <div className="flex flex-row justify-between items-center p-4">
-                    <p className="font-bold w-1/2"># of Teen Tickets</p>
-                    <p className="w-1/2 text-end">
-                      {currInput.Num_Teen_Tickets}
-                    </p>
-                  </div>
-                ) : null}
-
-                {currInput.Num_Adult_Tickets !== 0 ? (
-                  <div className="flex flex-row justify-between items-center p-4">
-                    <p className="font-bold w-1/2"># of Adult Tickets</p>
-                    <p className="w-1/2 text-end">
-                      {currInput.Num_Adult_Tickets}
-                    </p>
-                  </div>
-                ) : null}
-
-                {currInput.Num_Senior_Tickets !== 0 ? (
-                  <div className="flex flex-row justify-between items-center p-4">
-                    <p className="font-bold w-1/2"># of Senior Tickets</p>
-                    <p className="w-1/2 text-end">
-                      {currInput.Num_Senior_Tickets}
-                    </p>
-                  </div>
-                ) : null}
-
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Quantity</p>
-                  <p className="w-1/2 text-end">{currInput.Ticket_Count}</p>
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Total Bill</p>
-                  <p className="w-1/2 text-end">${currInput.Total_Bill}</p>
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Name</p>
-                  <p className="w-1/2 text-end">
-                    {currInput.Customer_Fname} {currInput.Customer_Lname}
-                  </p>
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Ticket Date</p>
-                  <p className="w-1/2 text-end">{currInput.New_Date}</p>
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Ticket Time</p>
-                  <p className="w-1/2 text-end">{currInput.Ticket_Time}</p>
-                </div>
-
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">For</p>
-                  {currInput.Exhibition_Name !== null ? <div className="w-1/2 text-end"><p className="font-bold">Special Exhibition</p>{currInput.Exhibition_Name}</div> : <p className="w-1/2 text-end">Permanent Collections</p>}
-                </div>
-                <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold w-1/2">Transaction Date</p>
-                  <p className="w-1/2 text-end">
-                    {currInput.New_Transaction_Date}
-                  </p>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        
-      ) : null}
-
+            ) : null}
           </div>
         </div>
       </div>

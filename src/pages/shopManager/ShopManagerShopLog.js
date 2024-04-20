@@ -46,7 +46,10 @@ export default function ShopManagerShopLog() {
                 type="button"
                 onClick={() => setOpenView(true)}
                 className={`${
-                    Object.keys(currInput).length !== 0 ? "bg-[#bcb6b4] w-fit p-2 px-4 text-chalk rounded-md flex flex-row gap-x-2 justify-between items-center" : "hidden"}`}
+                  Object.keys(currInput).length !== 0
+                    ? "bg-[#bcb6b4] w-fit p-2 px-4 text-chalk rounded-md flex flex-row gap-x-2 justify-between items-center"
+                    : "hidden"
+                }`}
               >
                 <p>View More Details</p>
                 <IoIosMore className="size-4" />
@@ -91,7 +94,9 @@ export default function ShopManagerShopLog() {
                     <p className="w-1/6 ">{item.gift_name}</p>
                     <p className="w-1/6 ">{item.customer_ID}</p>
                     <p className="w-1/6 ">{item.transaction_quantity}</p>
-                    <p className="w-1/6 ">${parseFloat(item.total_bill).toFixed(2)}</p>
+                    <p className="w-1/6 ">
+                      ${parseFloat(item.total_bill).toFixed(2)}
+                    </p>
                     <p className="w-1/6 ">{item.New_Date}</p>
                   </div>
                 ))}
@@ -135,7 +140,9 @@ export default function ShopManagerShopLog() {
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold">Total Bill</p>
-                  <p className="">${parseFloat(currInput.total_bill).toFixed(2)}</p>
+                  <p className="">
+                    ${parseFloat(currInput.total_bill).toFixed(2)}
+                  </p>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
                   <p className="font-bold">Transaction Date</p>

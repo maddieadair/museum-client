@@ -1,25 +1,51 @@
 import ManagerNavbar from "../../components/manager/ManagerNavbar";
 import ManagerBar from "../../components/manager/ManagerBar";
-import { LuPencil } from "react-icons/lu";
 import { React, useState, useEffect, useContext } from "react";
-import { IoIosAdd } from "react-icons/io";
-import { MdOutlineCheckBoxOutlineBlank } from "react-icons/md";
-import { MdOutlineDelete } from "react-icons/md";
-import { MdOutlineCheckBox } from "react-icons/md";
-import { IoClose } from "react-icons/io5";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function ShopManagerHome() {
   const [revenue, setRevenue] = useState([]);
   const [exhibitStats, setExhibitStats] = useState([]);
+  const [data, setData] = useState([]);
 
-  const { currentAuthID, currentAuthRole, logout, currentAuthDep } =
+  const { currentAuthDep } =
     useContext(AuthContext);
 
+//   useEffect(() => {
+//     fetchRevenue();
+//     fetchExhibitStats();
+//   }, []);
+
   useEffect(() => {
-    fetchRevenue();
-    fetchExhibitStats();
+    fetchData();
   }, []);
+
+  const fetchData = () => {
+    const curatorInfo = {
+        Exhibition_Department: currentAuthDep,
+      };
+    const urls = [
+      "http://localhost:3001/dept-exhibit-rev",
+      "http://localhost:3001/dept-exhibit-stats",
+    ];
+
+    Promise.all(
+      urls.map((url) =>
+        fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(curatorInfo),
+        }).then((response) => response.json())
+      )
+    )
+      .then((data) => {
+        console.log("data", data);
+        setData(data);
+      })
+      .catch((error) => console.error("An error occurred:", error));
+  };
 
   const fetchRevenue = async () => {
     const curatorInfo = {
@@ -61,12 +87,6 @@ export default function ShopManagerHome() {
       });
   };
 
-  //   console.log("revenue", revenue);
-  //   console.log("items sold", itemsSold);
-  //   console.log("soldout", soldOut);
-  //   console.log("lowstock", lowStock);
-  //   console.log("bestsellers", bestsellers);
-
   return (
     <div className="bg-white min-h-screen text-[#34383f] font-inter">
       <div className="flex flex-row">
@@ -74,26 +94,26 @@ export default function ShopManagerHome() {
         <div className="flex flex-col gap-y-8 w-full h-full pb-14">
           <ManagerBar title="Dashboard" />
 
-          {revenue.length > 0 && exhibitStats.length > 0 ? (
+          {data.length > 0  ? (
             <div className="flex flex-row px-14 gap-x-6 text-md">
               <div className="flex flex-col gap-y-6 w-1/2">
-                {revenue.length > 0 ? (
+                {data[0].length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-4 h-fit">
                     <h1 className="font-bold text-xl">
                       Total Exhibition Revenue
                     </h1>
-                    <h4 className="text-xl">${revenue[0].Total_Revenue}</h4>
+                    <h4 className="text-xl">${data[0][0].Total_Revenue}</h4>
                   </div>
                 ) : null}
 
-                {exhibitStats.length > 0 ? (
+                {data[1].length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
                     <p className="font-bold text-xl">
                       Age Distribution per Exhibition
                     </p>
 
                     <div className="flex flex-col gap-y-4">
-                      {exhibitStats.map((item, id) => (
+                      {data[1].map((item, id) => (
                         <div
                           key={item.Exhibit_ID}
                           className="flex flex-col justify-between"
@@ -125,7 +145,7 @@ export default function ShopManagerHome() {
               </div>
 
               <div className="flex flex-col gap-y-6 w-1/2">
-                {exhibitStats.length > 0 ? (
+                {data[1].length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
                     <p className="font-bold text-xl">Revenue per Exhibition</p>
                     <div className="flex flex-row justify-between">
@@ -134,7 +154,7 @@ export default function ShopManagerHome() {
                     </div>
 
                     <div className="flex flex-col gap-y-2">
-                      {exhibitStats.map((item, id) => (
+                      {data[1].map((item, id) => (
                         <div
                           key={item.Exhibit_ID}
                           className="flex flex-row justify-between"
@@ -147,7 +167,7 @@ export default function ShopManagerHome() {
                   </div>
                 ) : null}
 
-                {exhibitStats.length > 0 ? (
+                {data[1].length > 0 ? (
                   <div className="border rounded-md p-6 flex flex-col gap-y-6 h-fit">
                     <p className="font-bold text-xl">
                       Ticket Stats per Exhibition
@@ -158,7 +178,7 @@ export default function ShopManagerHome() {
                     </div>
 
                     <div className="flex flex-col gap-y-2">
-                      {exhibitStats.map((item, id) => (
+                      {data[1].map((item, id) => (
                         <div
                           key={item.Exhibit_ID}
                           className="flex flex-row justify-between"

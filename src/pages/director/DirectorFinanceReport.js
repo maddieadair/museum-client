@@ -249,9 +249,11 @@ export default function DirectorFinanceReport() {
                   <IoFilter className="size-6" />
                   <p>Filter</p>
                 </button>
-                {selectedPeriod === "Filter" && startDate && endDate && (
+                {selectedPeriod === "Filter" && startDate !== "" && endDate !== null && (
                   <div className="text-[#34383f] flex items-center font-bold">
-                    {`${formatDate(startDate)} - ${formatDate(endDate)}`}
+                    {`${formatDate(startDate)} - ${
+                      endDate !== "" ? formatDate(endDate) : "Today"
+                    }`}
                   </div>
                 )}
               </div>

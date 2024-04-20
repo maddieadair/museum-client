@@ -44,6 +44,7 @@ export default function ShopManagerReport() {
   const formatDate = (dateStr) => {
     return dateStr ? new Date(dateStr).toLocaleDateString("en-US") : "";
   };
+  
 
   const filterShop = async (e) => {
     e.preventDefault();
@@ -97,27 +98,29 @@ export default function ShopManagerReport() {
         setShopCount(data);
 
         try {
-            const response = await fetch("http://localhost:3001/shop-report-total", {
+          const response = await fetch(
+            "http://localhost:3001/shop-report-total",
+            {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify(filterData),
-            });
-    
-            if (!response.ok) {
-              throw new Error("There was a network error");
             }
-    
-            const data = await response.json();
-            console.log("shop report total", data);
-            setTotal(data);
-            setOpenFilter(false);
-          } catch (error) {
-            alert(error);
-            console.log("There was an error fetching2:", error);
+          );
+
+          if (!response.ok) {
+            throw new Error("There was a network error");
           }
 
+          const data = await response.json();
+          console.log("shop report total", data);
+          setTotal(data);
+          setOpenFilter(false);
+        } catch (error) {
+          alert(error);
+          console.log("There was an error fetching2:", error);
+        }
       } catch (error) {
         alert(error);
         console.log("There was an error fetching2:", error);
@@ -161,15 +164,32 @@ export default function ShopManagerReport() {
               </div>
             </div>
 
-            {total.length > 0 && total[0].Revenue !== null ? (
-              <p>${parseFloat(total[0].Revenue).toFixed(2)} generated in shop revenue </p>
+            {(total.length > 0 && total[0].Revenue !== null) ||
+            shopCount.length > 0 ? (
+              <ul>
+                <li className="list-disc">
+                  {total.length > 0 && total[0].Revenue !== null ? (
+                    <p className="text-xl">
+                      <span className="font-bold">
+                        ${parseFloat(total[0].Revenue).toFixed(2)}
+                      </span>{" "}
+                      generated in shop revenue{" "}
+                    </p>
+                  ) : null}
+                </li>
+                <li className="list-disc">
+                  {shopCount.length > 0 ? (
+                    <p className="text-xl">
+                      <span className="font-bold">{shopCount.length}</span>{" "}
+                      different types of items sold
+                    </p>
+                  ) : null}
+                </li>
+              </ul>
             ) : null}
 
             {shopCount.length > 0 ? (
-              <p>{shopCount.length} different types of items sold.</p>
-            ) : null}
-            {shopCount.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl flex flex-col divide-y-2 divide-slate-100 border h-fit max-h-96 overflow-y-auto">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-1/3 ">Item ID</p>
                   <p className="w-1/2 ">Item Name</p>
@@ -189,10 +209,13 @@ export default function ShopManagerReport() {
             ) : null}
 
             {shopLog.length > 0 ? (
-              <p>{shopLog.length} transactions added.</p>
+              <p className="text-xl">
+                <span className="font-bold">{shopLog.length}</span> transactions
+                added
+              </p>
             ) : null}
             {shopLog.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl flex flex-col divide-y-2 divide-slate-100 border h-fit max-h-96 overflow-y-auto">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-24 ">Transaction ID</p>
                   <p className="w-1/6 ">Item ID</p>
@@ -212,7 +235,9 @@ export default function ShopManagerReport() {
                     <p className="w-1/6 ">{item.gift_name}</p>
                     <p className="w-1/6 ">{item.customer_ID}</p>
                     <p className="w-1/6 ">{item.transaction_quantity}</p>
-                    <p className="w-1/6 ">${parseFloat(item.total_bill).toFixed(2)}</p>
+                    <p className="w-1/6 ">
+                      ${parseFloat(item.total_bill).toFixed(2)}
+                    </p>
                     <p className="w-1/6 ">{item.New_Date}</p>
                   </div>
                 ))}

@@ -140,11 +140,11 @@ export default function ManagerArtReport() {
             </div>
 
             {artists.length > 0 ? (
-              <p>{artists.length} new artists added</p>
+              <p><span className="font-bold">{artists.length}</span> new artists added</p>
             ) : null}
 
             {artists.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-1/2">Artist Name</p>
                   <p className="w-1/2">Date Added</p>
@@ -163,10 +163,10 @@ export default function ManagerArtReport() {
             )}
 
             {artworks.length > 0 ? (
-              <p>{artworks.length} new artworks added</p>
+              <p><span className="font-bold">{artworks.length}</span> new artworks added</p>
             ) : null}
             {artworks.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-24">Art ID</p>
                   <p className="w-1/3">Name</p>

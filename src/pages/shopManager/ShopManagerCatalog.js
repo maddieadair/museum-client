@@ -25,9 +25,9 @@ export default function ShopManagerCatalog() {
 
     const hasErrors = validate();
 
-    if (hasErrors){
-        alert("Please fill in all required fields.")
-        return;
+    if (hasErrors) {
+      alert("Please fill in all required fields.");
+      return;
     }
 
     const giftData = {
@@ -39,16 +39,13 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/gifts",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(giftData),
-        }
-      );
+      const response = await fetch("http://localhost:3001/gifts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(giftData),
+      });
 
       if (!response.ok) {
         throw new Error("There was a network error");
@@ -119,16 +116,13 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/gifts",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(giftData),
-        }
-      );
+      const response = await fetch("http://localhost:3001/gifts", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(giftData),
+      });
 
       if (!response.ok) {
         throw new Error("There was a network error");
@@ -154,9 +148,9 @@ export default function ShopManagerCatalog() {
 
     const hasErrors = validate();
 
-    if (hasErrors){
-        alert("Please fill in all required fields.")
-        return;
+    if (hasErrors) {
+      alert("Please fill in all required fields.");
+      return;
     }
 
     const giftData = {
@@ -169,16 +163,13 @@ export default function ShopManagerCatalog() {
     console.log("giftData", giftData);
 
     try {
-      const response = await fetch(
-        "http://localhost:3001/gifts",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(giftData),
-        }
-      );
+      const response = await fetch("http://localhost:3001/gifts", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(giftData),
+      });
 
       if (!response.ok) {
         throw new Error("There was a network error");
@@ -205,17 +196,17 @@ export default function ShopManagerCatalog() {
     let hasErrors = false;
 
     if (giftName === "" || giftName === null) {
-        hasErrors = true;
+      hasErrors = true;
     }
     if (giftPrice === "" || giftPrice === null) {
-        hasErrors = true;
+      hasErrors = true;
     }
     if (giftStock === "" || giftStock === null) {
-        hasErrors = true;
+      hasErrors = true;
     }
 
     return hasErrors;
-  }
+  };
 
   console.log("currentInput", currInput);
 
@@ -330,7 +321,9 @@ export default function ShopManagerCatalog() {
               />
               <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Name <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Name <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftName"
@@ -340,7 +333,9 @@ export default function ShopManagerCatalog() {
                   ></input>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Price <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Price <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftPrice"
@@ -350,7 +345,9 @@ export default function ShopManagerCatalog() {
                   ></input>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Stock <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Stock <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftStock"
@@ -387,7 +384,9 @@ export default function ShopManagerCatalog() {
               />
               <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Name <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Name <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftName"
@@ -397,7 +396,9 @@ export default function ShopManagerCatalog() {
                   ></input>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Price <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Price <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftPrice"
@@ -407,7 +408,10 @@ export default function ShopManagerCatalog() {
                   ></input>
                 </div>
                 <div className="flex flex-row justify-between items-center p-4">
-                  <p className="font-bold">Current Stock <span className="text-cinnabar font-normal">*</span></p>
+                  <p className="font-bold">
+                    Current Stock{" "}
+                    <span className="text-cinnabar font-normal">*</span>
+                  </p>
                   <input
                     type="text"
                     name="giftStock"

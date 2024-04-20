@@ -136,11 +136,14 @@ export default function DirectorArtReport() {
             </div>
 
             {artists.length > 0 ? (
-              <p>{artists.length} new artists added</p>
+              <p>
+                <span className="font-bold">{artists.length}</span> new artists
+                added
+              </p>
             ) : null}
 
             {artists.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-1/2">Artist Name</p>
                   <p className="w-1/2">Date Added</p>
@@ -154,15 +157,16 @@ export default function DirectorArtReport() {
                   </div>
                 ))}
               </div>
-            ) : (
-              null
-            )}
+            ) : null}
 
             {artworks.length > 0 ? (
-              <p>{artworks.length} new artworks added</p>
+              <p>
+                <span className="font-bold">{artworks.length}</span> new
+                artworks added
+              </p>
             ) : null}
             {artworks.length > 0 ? (
-              <div className="bg-white rounded-3xl h-fit flex flex-col divide-y-2 divide-slate-100 border">
+              <div className="bg-white rounded-3xl h-fit max-h-96 overflow-y-auto flex flex-col divide-y-2 divide-slate-100 border">
                 <div className="flex flex-row gap-x-6 font-bold p-6 items-center justify-center bg-[#f4f4f4] rounded-t-3xl">
                   <p className="w-24">Art ID</p>
                   <p className="w-1/3">Name</p>
@@ -183,9 +187,7 @@ export default function DirectorArtReport() {
                   </div>
                 ))}
               </div>
-            ) : (
-             null
-            )}
+            ) : null}
 
             {openFilter && (
               <div className="bg-black fixed h-screen w-screen z-30 top-0 left-0 bg-opacity-45 justify-center items-center flex overflow-hidden">
@@ -201,8 +203,8 @@ export default function DirectorArtReport() {
                     <div className="flex flex-col divide-y-2 divide-slate-100 px-6 pb-6">
                       <div className="flex flex-row justify-between items-center p-4">
                         <p className="font-bold">
-                          Get all new artists and artworks that were added to the museum
-                          within a certain period.
+                          Get all new artists and artworks that were added to
+                          the museum within a certain period.
                         </p>
                       </div>
                       <div className="flex flex-row justify-between items-center p-4">
@@ -241,7 +243,6 @@ export default function DirectorArtReport() {
                 </form>
               </div>
             )}
-
           </div>
         </div>
       </div>

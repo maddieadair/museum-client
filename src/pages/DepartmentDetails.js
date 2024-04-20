@@ -18,8 +18,10 @@ export default function DepartmentDetails() {
   //   const [Exhibit_ID, setExhibitID] = useState("");
 
   useEffect(() => {
-        fetchDepartment();
-        fetchCollections();
+    setTimeout(() => {
+      fetchDepartment();
+      fetchCollections();
+    }, 500);
   }, []);
 
   const fetchDepartment = async () => {
@@ -47,16 +49,13 @@ export default function DepartmentDetails() {
     const collDepInfo = {
       collection_departmentID: id,
     };
-    fetch(
-      "http://localhost:3001/department-collections",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(collDepInfo),
-      }
-    )
+    fetch("http://localhost:3001/department-collections", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(collDepInfo),
+    })
       .then((response) => {
         console.log("repsonse:", response);
         return response.json();
@@ -67,77 +66,85 @@ export default function DepartmentDetails() {
       });
   };
 
-  console.log("Department:", department)
-  console.log("Collections", collections)
+  console.log("Department:", department);
+  console.log("Collections", collections);
 
   return (
-    <div className="min-h-screen">
-      <UserNavbar />
-      {department.length > 0 ? (
-        <div className="flex flex-col pb-20 gap-y-24 font-inter">
-          <div className="w-full h-80">
-            <img
-              className="brightness-75 object-cover object-center size-full"
-              src={Luks}
-              alt=""
-            />{" "}
-          </div>
-          <div className="flex flex-col gap-y-8 border-b px-16 pb-24">
-            <h1 className="font-fanwoodText italic text-7xl">
-              {department[0].department_name}{" "}
-            </h1>
-            <p className="text-xl">{department[0].Department_Description}</p>
-
-            <Link
-              to={`/artworks/search?Department_ID=${department[0].department_id}`}
-              className="font-bold text-xl hover:text-cinnabar underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
-            >
-              Browse the {department[0].department_name} department
-            </Link>
-          </div>
-
-          {collections.length > 0 ? (
-            <div className="flex flex-col gap-y-16 px-16">
-              <h1 className="text-5xl font-fanwoodText">Collections</h1>
-              <div className="flex flex-col gap-y-12">
-                {collections.map((col, idx) => (
-                  <div
-                    key={col.Art_ID}
-                    className="flex flex-row gap-x-16 transition-all ease-in-out duration-300"
-                  >
-                    <div className="w-1/3">
-                      <img
-                        className="brightness-75 object-cover object-center size-full"
-                        src={Angelico}
-                        alt=""
-                      />{" "}
-                    </div>
-                    <div className="w-2/3 p-6 flex flex-col gap-y-4">
-                      <h1 className="font-bold text-xl">
-                        {col.collection_name}
-                      </h1>
-                      <p className="">{col.collection_description}</p>
-                      <Link
-                      to={`/artworks/search?Collection_ID=${col.collection_id}`}
-                      className="font-bold hover:text-cinnabar underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
-                    >
-                      Browse the {col.collection_name} collection
-                    </Link>
-                    </div>
-                  </div>
-                ))}
+    <>
+      {!loading ? (
+        <div className="min-h-screen">
+          <UserNavbar />
+          {department.length > 0 ? (
+            <div className="flex flex-col pb-20 gap-y-24 font-inter">
+              <div className="w-full h-80">
+                <img
+                  className="brightness-75 object-cover object-center size-full"
+                  src={Luks}
+                  alt=""
+                />{" "}
               </div>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-y-12 px-16">
-              <h1 className="text-5xl font-fanwoodText">Collections</h1>
-              <p className="font-xl">No collections available yet!</p>
-            </div>
-          )}
-        </div>
-      ) : null}
+              <div className="flex flex-col gap-y-8 border-b px-16 pb-24">
+                <h1 className="font-fanwoodText italic text-7xl">
+                  {department[0].department_name}{" "}
+                </h1>
+                <p className="text-xl">
+                  {department[0].Department_Description}
+                </p>
 
-      <Footer />
-    </div>
+                <Link
+                  to={`/artworks/search?Department_ID=${department[0].department_id}`}
+                  className="font-bold text-xl hover:text-cinnabar underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                >
+                  Browse the {department[0].department_name} department
+                </Link>
+              </div>
+
+              {collections.length > 0 ? (
+                <div className="flex flex-col gap-y-16 px-16">
+                  <h1 className="text-5xl font-fanwoodText">Collections</h1>
+                  <div className="flex flex-col gap-y-12">
+                    {collections.map((col, idx) => (
+                      <div
+                        key={col.Art_ID}
+                        className="flex flex-row gap-x-16 transition-all ease-in-out duration-300"
+                      >
+                        <div className="w-1/3">
+                          <img
+                            className="brightness-75 object-cover object-center size-full"
+                            src={Angelico}
+                            alt=""
+                          />{" "}
+                        </div>
+                        <div className="w-2/3 p-6 flex flex-col gap-y-4">
+                          <h1 className="font-bold text-xl">
+                            {col.collection_name}
+                          </h1>
+                          <p className="">{col.collection_description}</p>
+                          <Link
+                            to={`/artworks/search?Collection_ID=${col.collection_id}`}
+                            className="font-bold hover:text-cinnabar underline duration-500 ease-in-out transition-all decoration-1 underline-offset-4"
+                          >
+                            Browse the {col.collection_name} collection
+                          </Link>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-y-12 px-16">
+                  <h1 className="text-5xl font-fanwoodText">Collections</h1>
+                  <p className="font-xl">No collections available yet!</p>
+                </div>
+              )}
+            </div>
+          ) : null}
+
+          <Footer />
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

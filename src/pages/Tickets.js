@@ -17,18 +17,13 @@ export default function Tickets() {
 
   let currDate = new Date();
   const offset = currDate.getTimezoneOffset();
-  currDate = new Date(currDate.getTime() - (offset*60*1000))
-currDate = currDate.toISOString().split('T')[0]
-  console.log("currDate", currDate)
+  currDate = new Date(currDate.getTime() - offset * 60 * 1000);
+  currDate = currDate.toISOString().split("T")[0];
 
   const cur = new Date();
-  console.log("CURRRR", cur)
   const future = new Date(cur.setMonth(cur.getMonth() + 3));
   const futureFormatted = future.toJSON().slice(0, 10);
 
-  const [curTime, setCurTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
-
-  console.log("curTime", curTime)
   const [date, setDate] = useState(currDate);
 
   const { currentAuthID, currentAuthRole } = useContext(AuthContext);
@@ -37,11 +32,11 @@ currDate = currDate.toISOString().split('T')[0]
     "10:00 AM",
     "11:00 AM",
     "12:00 PM",
-    "01:00 PM",
-    "02:00 PM",
-    "03:00 PM",
-    "04:00 PM",
-    "05:00 PM",
+    "1:00 PM",
+    "2:00 PM",
+    "3:00 PM",
+    "4:00 PM",
+    "5:00 PM",
   ]);
 
   function convertTo24HourFormat(time12h) {
@@ -57,7 +52,6 @@ currDate = currDate.toISOString().split('T')[0]
     }
 
     return `${hours}:${minutes}:00`;
-    // setTime(convertedTime);
   }
 
   const [time, setTime] = useState("10:00 AM");
@@ -83,10 +77,6 @@ currDate = currDate.toISOString().split('T')[0]
     fetchExhibitions();
     fetchFutureExhibits();
   }, []);
-
-  useEffect(() => {
-    filterTimes();
-  }, [date]);
 
   const fetchExhibitions = () => {
     fetch("http://localhost:3001/current-exhibits", {
@@ -174,13 +164,11 @@ currDate = currDate.toISOString().split('T')[0]
 
     if (numTickets === 0 && totalPrice === 0) {
       setTicketStatus("* Please select at least 1 ticket.");
-      console.log("ticket error");
       hasErrors = true;
     }
 
     if (option === "Special Exhibition" && chosenExhibit === "") {
       setExhibitStatus("* Please select an exhibition.");
-      console.log("exhibit error");
       hasErrors = true;
     }
     return hasErrors;
@@ -199,18 +187,6 @@ currDate = currDate.toISOString().split('T')[0]
       const hasErrors = validate();
 
       if (!hasErrors) {
-        console.log("isvalid");
-        console.log("Date", date);
-        console.log("Time", time);
-        console.log("parsed time", convertTo24HourFormat(time));
-        console.log("chosenExhibition", chosenExhibit);
-        console.log("child", numChild);
-        console.log("teen", numYouth);
-        console.log("adult", numAdult);
-        console.log("senior", numSenior);
-        console.log("total price", totalPrice);
-        console.log("option", option);
-        console.log("chosenExhibition", chosenExhibit);
 
         const ticketData = {
           Customer_ID: currentAuthID,
@@ -223,8 +199,6 @@ currDate = currDate.toISOString().split('T')[0]
           Num_Senior_Tickets: numSenior,
           Exhibition_Name: chosenExhibit,
         };
-
-        console.log("ticketData", ticketData);
 
         try {
           const response = await fetch("http://localhost:3001/tickets", {
@@ -242,19 +216,16 @@ currDate = currDate.toISOString().split('T')[0]
           const data = await response.json();
           console.log(data);
           if (data.message === "Tickets for this date and time are sold out.") {
-            // setStatus("Tickets for this date and time are sold out.");
             alert("Tickets for this date and time are sold out.");
           }
           if (data.message === "Requested quantity exceeds current stock") {
-            // setStatus("Requested quantity exceeds current stock");
             alert("Requested quantity exceeds current stock");
           } else {
-            // setStatus("Ticket successfully purchased!");
             alert("Ticket successfully purchased!");
             clearFields();
           }
         } catch (error) {
-            alert(error)
+          alert(error);
           console.log("There was an error fetching:", error);
         }
       }
@@ -278,34 +249,6 @@ currDate = currDate.toISOString().split('T')[0]
     setExhibitStatus("");
     setTicketStatus("");
   };
-  
-  console.log("cur time", curTime)
-  console.log("cur date", currDate)
-  console.log("date", date)
-
-  const filterTimes = () => {
-    console.log("filter time called")
-    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
-    console.log("CURRENT TIME IN FILTERTIMES", curTime)
-    if (date === currDate){
-        console.log("current day")
-        const filtered = times.filter(time => time > curTime);
-        setTimes(filtered);
-        console.log("if filtered times", times)
-    } else {
-        const reg = [    "10:00 AM",
-        "11:00 AM",
-        "12:00 PM",
-        "01:00 PM",
-        "02:00 PM",
-        "03:00 PM",
-        "04:00 PM",
-        "05:00 PM",]
-        setTimes(reg);
-        console.log("else filtered times", times)
-    }
-  }
-
 
   return (
     <div className="min-h-screen">
@@ -513,7 +456,6 @@ currDate = currDate.toISOString().split('T')[0]
                   <input
                     type="date"
                     value={date}
-                    defaultValue={startDate}
                     onChange={(e) => setDate(e.target.value)}
                     min={startDate}
                     max={endDate}
@@ -530,7 +472,6 @@ currDate = currDate.toISOString().split('T')[0]
                   <input
                     type="date"
                     value={date}
-                    defaultValue={date}
                     onChange={(e) => setDate(e.target.value)}
                     min={currDate}
                     max={endDate}
@@ -539,51 +480,51 @@ currDate = currDate.toISOString().split('T')[0]
                 </div>
               ) : null}
 
-              {option === "Permanent Collections" ?
-              <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
-                <div className="flex flex-row space-x-4">
-                  {times.map((number, index) => (
-                    <p
-                      key={index}
-                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
-                        time === number
-                          ? "bg-obsidian text-chalk"
-                          : "hover:bg-rose-100 hover:text-obsidian"
-                      }`}
-                      onClick={() => {
-                        setTime(number);
-                      }}
-                    >
-                      {number}
-                    </p>
-                  ))}
+              {option === "Permanent Collections" ? (
+                <div className="flex flex-col space-y-10 w-fit">
+                  <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                  <div className="flex flex-row space-x-4">
+                    {times.map((number, index) => (
+                      <p
+                        key={index}
+                        className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                          time === number
+                            ? "bg-obsidian text-chalk"
+                            : "hover:bg-rose-100 hover:text-obsidian"
+                        }`}
+                        onClick={() => {
+                          setTime(number);
+                        }}
+                      >
+                        {number}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div> : null }
+              ) : null}
 
-{option === "Special Exhibition" &&
-              chosenExhibit !== "" ?
-              <div className="flex flex-col space-y-10 w-fit">
-                <h2 className="font-fanwoodText text-5xl">3. Time</h2>
-                <div className="flex flex-row space-x-4">
-                  {times.map((number, index) => (
-                    <p
-                      key={index}
-                      className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
-                        time === number
-                          ? "bg-obsidian text-chalk"
-                          : "hover:bg-rose-100 hover:text-obsidian"
-                      }`}
-                      onClick={() => {
-                        setTime(number);
-                      }}
-                    >
-                      {number}
-                    </p>
-                  ))}
+              {option === "Special Exhibition" && chosenExhibit !== "" ? (
+                <div className="flex flex-col space-y-10 w-fit">
+                  <h2 className="font-fanwoodText text-5xl">3. Time</h2>
+                  <div className="flex flex-row space-x-4">
+                    {times.map((number, index) => (
+                      <p
+                        key={index}
+                        className={`rounded-md border border-obsidian w-fit py-2 px-6 ${
+                          time === number
+                            ? "bg-obsidian text-chalk"
+                            : "hover:bg-rose-100 hover:text-obsidian"
+                        }`}
+                        onClick={() => {
+                          setTime(number);
+                        }}
+                      >
+                        {number}
+                      </p>
+                    ))}
+                  </div>
                 </div>
-              </div>
-               : null}
+              ) : null}
 
               <div className="flex flex-row gap-x-24">
                 <div className="flex flex-col space-y-10 w-1/2 ">

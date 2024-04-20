@@ -13,7 +13,10 @@ export default function Home() {
   const [exhibitions, setExhibitions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchExhibitions();
+    setTimeout(() => {
+      fetchExhibitions();
+      setLoading(false);
+    }, 500);
   }, []);
 
   const fetchExhibitions = () => {
@@ -32,6 +35,8 @@ export default function Home() {
   };
 
   return (
+    <>
+      {!loading ? (
         <div className="min-h-screen">
           <HomeNavbar />
           <h1 className="absolute z-30 bottom-80 left-24 w-1/2  text-chalk font-fanwoodText italic text-8xl">
@@ -144,6 +149,9 @@ export default function Home() {
           <HomeStore />
           <Footer />
         </div>
-
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }
