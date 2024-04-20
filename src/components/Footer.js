@@ -28,7 +28,7 @@ export default function Footer() {
         <div className="flex flex-col gap-y-1 w-1/6">
           <Link to="/about" className="hover:underline underline-offset-4">About</Link>
           <Link to="/exhibitions" className="hover:underline underline-offset-4">Exhibitions</Link>
-          <Link to="/collections" className="hover:underline underline-offset-4">Collections</Link>
+          <Link to="/departments" className="hover:underline underline-offset-4">Curatorial Areas</Link>
           <Link to="/donate" className="hover:underline underline-offset-4">Donate</Link>
           <Link to="/tickets" className="hover:underline underline-offset-4">Get Tickets</Link>
           <Link to="/shop" className="hover:underline underline-offset-4">Shop</Link>

@@ -15,13 +15,20 @@ export default function Tickets() {
 
   const [showTimes, setShowTimes] = useState(false);
 
-  const currDate = new Date().toJSON().slice(0, 10);
+  let currDate = new Date();
+  const offset = currDate.getTimezoneOffset();
+  currDate = new Date(currDate.getTime() - (offset*60*1000))
+currDate = currDate.toISOString().split('T')[0]
+  console.log("currDate", currDate)
+
   const cur = new Date();
+  console.log("CURRRR", cur)
   const future = new Date(cur.setMonth(cur.getMonth() + 3));
   const futureFormatted = future.toJSON().slice(0, 10);
 
   const [curTime, setCurTime] = useState(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
 
+  console.log("curTime", curTime)
   const [date, setDate] = useState(currDate);
 
   const { currentAuthID, currentAuthRole } = useContext(AuthContext);
@@ -30,11 +37,11 @@ export default function Tickets() {
     "10:00 AM",
     "11:00 AM",
     "12:00 PM",
-    "1:00 PM",
-    "2:00 PM",
-    "3:00 PM",
-    "4:00 PM",
-    "5:00 PM",
+    "01:00 PM",
+    "02:00 PM",
+    "03:00 PM",
+    "04:00 PM",
+    "05:00 PM",
   ]);
 
   function convertTo24HourFormat(time12h) {
@@ -75,12 +82,10 @@ export default function Tickets() {
   useEffect(() => {
     fetchExhibitions();
     fetchFutureExhibits();
-    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
   }, []);
 
   useEffect(() => {
     filterTimes();
-    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
   }, [date]);
 
   const fetchExhibitions = () => {
@@ -279,22 +284,25 @@ export default function Tickets() {
   console.log("date", date)
 
   const filterTimes = () => {
+    console.log("filter time called")
+    setCurTime(new Date().toLocaleTimeString([], { hour: '2-digit', minute: "2-digit" }));
+    console.log("CURRENT TIME IN FILTERTIMES", curTime)
     if (date === currDate){
         console.log("current day")
         const filtered = times.filter(time => time > curTime);
         setTimes(filtered);
-        console.log(times)
+        console.log("if filtered times", times)
     } else {
         const reg = [    "10:00 AM",
         "11:00 AM",
         "12:00 PM",
-        "1:00 PM",
-        "2:00 PM",
-        "3:00 PM",
-        "4:00 PM",
-        "5:00 PM",]
+        "01:00 PM",
+        "02:00 PM",
+        "03:00 PM",
+        "04:00 PM",
+        "05:00 PM",]
         setTimes(reg);
-        console.log(times)
+        console.log("else filtered times", times)
     }
   }
 
