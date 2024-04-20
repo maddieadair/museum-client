@@ -6,28 +6,42 @@ Museum database project for COSC 3380, Dr. Uma Ramamurthy's course.
 Using the MySQL DBMS, NodeJS for backend, and React for frontend work.
 
 
+
 Installations:
-[\](https://nodejs.org/en/download/)](NodeJS)
-[\](https://react.dev/learn/installation)] (React)
+
+Node:
+(https://nodejs.org/en/download/)
+
+React
+(https://react.dev/learn/installation)
+
+
 
 
 Backend:
-[\](https://github.com/maddieadair/museum-server)](https://github.com/maddieadair/museum-server)
+https://github.com/maddieadair/museum-server
+
 Commands to run backend:
+
 Open terminal and run "npm start"
 
 
+
 Frontend:
-[\](https://github.com/maddieadair/museum-client)] https://github.com/maddieadair/museum-client
+https://github.com/maddieadair/museum-client
+
 *Make sure you are running backend first*
+
+
 Commands to run frontend:
+
 Open terminal and run "npm run start"
 
 
 
 
 ## User Roles:
-Director - Access to
+Director
 1. Username: MRoss@mfah.org
 2. Password: M68L04Ross01
 Manager
@@ -46,6 +60,7 @@ Customer
 
 ## Triggers
 15% discount applied to shopping cart after hitting $100
+
 Alert for when stock levels are low
 
 
@@ -59,8 +74,13 @@ Alert for when stock levels are low
 
 
 ## Authors
+
 Adair, Madeline X
+
 Engineer, Zeel
+
 Nguyen, Kenny
+
 Cotton, Chase E
+
 Mohammad, Shafinuddin J
